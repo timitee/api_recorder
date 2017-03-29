@@ -9,9 +9,9 @@ their own repo.
 
 There are currently 3 ghosts:
 
-decorators: contains api_recorder and api_automock.
-ioioio: contains pinpoint with useful os path tricks.
-stringy: contains btweex to find strings between strings.
+  - decorators: contains api_recorder and api_automock.
+  - ioioio: contains pinpoint with useful os path tricks.
+  - stringy: contains btweex to find strings between strings.
 
 
 Install
