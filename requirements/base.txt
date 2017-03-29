@@ -1,0 +1,7 @@
+demjson==2.2.4
+python-dateutil==2.5.3
+python-slugify==1.2.1
+redis==2.10.5
+six==1.10.0
+Sphinx==1.5.3
+Unidecode==0.4.19

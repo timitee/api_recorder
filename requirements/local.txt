@@ -1,0 +1,9 @@
+-r base.txt
+-e .
+pytest-cov
+pytest-flakes
+pytest-pep8
+pytest-redis
+pytest-sugar
+pytest-watch
+ipython
