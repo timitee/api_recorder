@@ -149,9 +149,9 @@ class ApiRecorderController(object):
         """Mocking is On or Off."""
         mock = self.acr_settings.get(self.APR_MOCKING)
         if mock:
-            return mock.decode('utf-8') == 'True'
+            return mock.decode('utf-8') 
         else:
-            return False
+            return self.MOCKING_OFF
 
 
     def fixjson(self, jay):
@@ -261,11 +261,11 @@ class ApiRecorderController(object):
 
     def start_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_MOCKING, MOCKING_ON)
+        self.acr_settings.set(self.APR_MOCKING, self.MOCKING_ON)
 
     def stop_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_MOCKING, MOCKING_OFF)
+        self.acr_settings.set(self.APR_MOCKING, self.MOCKING_OFF)
 
     def set(self, key, val):
         """Expose the redis set method."""
