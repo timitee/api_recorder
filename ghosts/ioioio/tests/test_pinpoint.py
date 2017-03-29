@@ -6,11 +6,19 @@ from ghosts.ioioio.pinpoint import *
 path_being_mapped = ['pyghosts', 'ghosts', 'ioioio', 'tests', 'test_pinpoint.py']
 
 
+
+def test_pinpoint_projectfile_fullpath():
+
+    testing_path = projectfile_fullpath(__file__)
+
+    assert testing_path.split(os.sep)[-5:] == path_being_mapped
+
+
 def test_pinpoint_projectfile_path():
 
     testing_path = projectfile_path(__file__)
 
-    assert testing_path.split(os.sep)[-5:] == path_being_mapped
+    assert testing_path.split(os.sep)[-4:] == path_being_mapped[:-1]
 
 
 def test_pinpoint_projectfile_filename_ext():

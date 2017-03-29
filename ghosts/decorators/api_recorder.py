@@ -66,16 +66,21 @@ working against for a client and personal project respectively.
 I already have all the python low level nodes or plugs into the various api
 methods - effectively a thin layer over 3rd party xml-rpc clients and flickrap
 to decorate and test the feasibility.
+
+ToDo: Make @api_automock decorator separate.
 """
 import copy
+import inspect
 import os
 import redis
-import inspect
-import demjson
-from slugify import slugify
+import pprint
+import json
 
-from ghosts.ioioio.pinpoint import projectfile_folder
+from slugify import slugify
+from ghosts.ioioio.pinpoint import project_path
 from ghosts.stringy.btweex import btweex
+
+pp = pprint.PrettyPrinter(indent=4)
 
 def make_path_not_exists(make_path):
     if not os.path.exists(make_path):
@@ -90,7 +95,7 @@ class ApiRecorderController(object):
 """
 \n
 {}
-    return \'{}\'
+    return {}
     # :endmock:
 
 """)
@@ -144,14 +149,14 @@ class ApiRecorderController(object):
         """"""
         mock = self.acr_settings.get(self.APR_MOCKING)
         if mock:
-            return bool(mock.decode('utf-8'))
+            return mock.decode('utf-8') == 'True'
         else:
             return False
 
 
     def fixjson(self, jay):
         """"""
-        fix = demjson.decode(jay)
+        fix = json.decode(jay)
         return fix
 
 
@@ -178,11 +183,11 @@ class ApiRecorderController(object):
 
         recording = val.get('recording')
 
-        scenarios_path = os.path.join(projectfile_folder(__file__), 'tests', 'scenarios')
-        make_path_not_exists(scenarios_path)
+        mocks_path = os.path.join(project_path(), 'automocks')
+        make_path_not_exists(mocks_path)
 
         module_name = 'mock_{}.py'.format(self.scenario)
-        module_path = os.path.join(scenarios_path, module_name)
+        module_path = os.path.join(mocks_path, module_name)
 
         method_name = 'def mock_{}__{}__{}__{}():'.format(
             val.get('module_path').replace('module_path_', ''),
@@ -191,7 +196,7 @@ class ApiRecorderController(object):
             ''.join(val.get('vals')),
         )
 
-        mock_def = self.mock_format.format(method_name, recording)
+        mock_def = self.mock_format.format(method_name, pp.pformat(recording))
 
         if not os.path.exists(module_path):
 
@@ -217,14 +222,15 @@ class ApiRecorderController(object):
 
                 mocks += mock_def
 
-            print('=================')
-            print(mocks)
-            print('=================')
-
             with open(module_path, "w") as mock_file:
                 mock_file.write(mocks)
 
         return mock_def
+
+
+    def fixjson(self, s):
+        s = json.loads(json.dumps(eval(s)))
+        return s
 
 
     def process_recording(self, _recording):
@@ -234,7 +240,7 @@ class ApiRecorderController(object):
         TODO: Write a processor for each api you work with - and wire it in.
         """
         if _recording:
-            _recording = self.fixjson(_recording.decode('utf-8'))
+            _recording = self.fixjson(_recording)
 
         return _recording
 
@@ -260,7 +266,6 @@ class ApiRecorderController(object):
     def stop_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
         self.acr_settings.set(self.APR_MOCKING, False)
-
 
     def set(self, key, val):
         """Expose the redis set method."""

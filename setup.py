@@ -26,7 +26,7 @@ setup(
                 'ghosts',
                 'ghosts.decorators',
                 'ghosts.decorators.tests',
-                'ghosts.decorators.scenarios',
+                'ghosts.decorators.tests.scenarios',
                 'ghosts.ioioio',
                 'ghosts.ioioio.tests',
                 'ghosts.stringy',

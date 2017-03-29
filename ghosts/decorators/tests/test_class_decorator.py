@@ -11,6 +11,7 @@ from ghosts.decorators.tests.scenario import (
 
 scenario_name = 'test_class_decorator'
 
+
 def test_service_when_off():
 
     # Flush the api db

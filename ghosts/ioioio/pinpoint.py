@@ -8,45 +8,49 @@ def _is_yaml_folder(known_path):
     return os.path.exists(os.path.join(known_path, 'setup.yaml'))
 
 
-def projectfile():
-    """Example: Done run this...!!! __file__ is *this* file. You must pass the
-    file you want to pinpoint. """
-
-    return __file__
-
-
-def projectfile_path(project_file):
+def projectfile_fullpath(project_file):
     """Expects __file__."""
 
     return os.path.realpath(project_file)
 
 
+def projectfile_path(project_file):
+    """Expects __file__."""
+
+    _projectfile_filepath = projectfile_fullpath(project_file)
+
+    return os.path.split(_projectfile_filepath)[0]
+
+
 def projectfile_filename_ext(project_file):
     """The filename and file extension."""
 
-    _known_path = projectfile_path(project_file)
+    _known_path = projectfile_fullpath(project_file)
+
     return os.path.split(_known_path)[1]
 
 
 def projectfile_filename(project_file):
     """The name of the file without extension."""
 
-    _known_path = projectfile_filename_ext(project_file)
-    return os.path.splitext(_known_path)[0]
+    _filename_ext = projectfile_filename_ext(project_file)
+
+    return os.path.splitext(_filename_ext)[0]
 
 
 def projectfile_ext(project_file):
     """The file extension."""
 
-    _known_path = projectfile_filename_ext(project_file)
-    return os.path.splitext(_known_path)[1]
+    _filename_ext = projectfile_filename_ext(project_file)
+
+    return os.path.splitext(_filename_ext)[1]
 
 
 def projectfile_folder(project_file):
     """The direct folder of __file__."""
 
     _projectfile_folder = projectfile_path(project_file)
-    return os.path.split(_projectfile_folder)[0]
+    return _projectfile_folder
 
 
 def projectfile_apppath(project_file):
@@ -72,3 +76,9 @@ def projectfile_projectpath(project_file):
 
     _app_path = projectfile_apppath(project_file)
     return os.path.split(_app_path)[0]
+
+
+def project_path():
+    """The python project folder whatever you are using."""
+
+    return os.getcwd()
