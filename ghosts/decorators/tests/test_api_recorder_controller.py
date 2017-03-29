@@ -32,10 +32,10 @@ def test_start_mocking():
     # Turn the fake API off and test it's off
     acr_remote = ApiRecorderController(scenario_name)
     acr_remote.start_mocking()
-    assert acr_remote.mocks == True
+    assert acr_remote.mocks == ApiRecorderController.MOCKING_ON
 
 def test_stop_mocking():
     # Turn the fake API off and test it's off
     acr_remote = ApiRecorderController(scenario_name)
     acr_remote.stop_mocking()
-    assert acr_remote.mocks == False
+    assert acr_remote.mocks == ApiRecorderController.MOCKING_OFF

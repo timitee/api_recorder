@@ -90,14 +90,12 @@ def make_path_not_exists(make_path):
 class ApiRecorderController(object):
     """Control what happens to methods which use the @api_recorder decorator."""
 
-    mock_format = (
-"""
-\n
-{}
-    return {}
-    # :endmock:
-
-""")
+    mock_format = (''
+                    '\n'
+                    '{}'
+                    '    return {}'
+                    '    # :endmock:'
+                    '\n')
 
     APR_MOCKING = 'acr.settings.mocking'
     APR_SCENARIO = 'acr.settings.scenario'
@@ -105,8 +103,11 @@ class ApiRecorderController(object):
     APR_POWER = 'acr.settings.power'
     POWER_OFF = 'RecorderOff'
     POWER_ON = 'RecorderOn'
+    MOCKING_OFF = 'MockingOff'
+    MOCKING_ON = 'MockingOn'
     RECORDING = 'Recording'
     PLAYBACK = 'PlayBack'
+    """All the above are database keys to various settings."""
 
     def __init__(self, scenario):
         """"""
@@ -117,7 +118,7 @@ class ApiRecorderController(object):
 
     @property
     def scenario(self):
-        """"""
+        """The name of the recording sceranio."""
         scenario = self.acr_settings.get(self.APR_SCENARIO)
         if scenario:
             return scenario.decode('utf-8')
@@ -126,7 +127,7 @@ class ApiRecorderController(object):
 
     @property
     def run_mode(self):
-        """"""
+        """Recording or Playback."""
         status = self.acr_settings.get(self.APR_RUNMODE)
         if status:
             return status.decode('utf-8')
@@ -135,7 +136,7 @@ class ApiRecorderController(object):
 
     @property
     def power(self):
-        """"""
+        """The decorator does nothing when the power is Off."""
         power = self.acr_settings.get(self.APR_POWER)
         if power:
             return power.decode('utf-8')
@@ -145,7 +146,7 @@ class ApiRecorderController(object):
 
     @property
     def mocks(self):
-        """"""
+        """Mocking is On or Off."""
         mock = self.acr_settings.get(self.APR_MOCKING)
         if mock:
             return mock.decode('utf-8') == 'True'
@@ -260,11 +261,11 @@ class ApiRecorderController(object):
 
     def start_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_MOCKING, True)
+        self.acr_settings.set(self.APR_MOCKING, MOCKING_ON)
 
     def stop_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_MOCKING, False)
+        self.acr_settings.set(self.APR_MOCKING, MOCKING_OFF)
 
     def set(self, key, val):
         """Expose the redis set method."""
