@@ -1,5 +1,17 @@
-ghosts
+pyghosts
 ****
+
+In remembrance of "12ghosts" (a handy utility suite of Windows shortcuts - which
+I loved), pyghost similarly collects my python shortcuts to common tasks.
+
+pyghosts is both a convenient collection of useful functions which aren't worth
+their own repo.
+
+There are currently 3 ghosts:
+
+decorators: contains api_recorder and api_automock.
+ioioio: contains pinpoint with useful os path tricks.
+stringy: contains btweex to find strings between strings.
 
 
 Install
@@ -29,16 +41,12 @@ Usage
 
 ::
 
-  from ghosts.stringy.btweex import btweex
+  from pyghosts.ghosts.stringy.btweex import btweex
 
-  stweex = btweex('<p><b>Hello world</b>. I am <b>btweex</b>. Who the hell are you?</p>', '<p>', '</p>')
+  stweex = btweex('<p>I am btweex. Where are you?</p>', '<p>', '</p>')
   print(stweex)
-  >> <b>Hello world</b>. I am <b>btweex</b>. Who the hell are you?
 
-## Samples
-
-See the model folder for ready to use column definitions and models which can
-also be used as a base to create your own.
+  >> 'I am btweex. Where are you?'
 
 Release
 =======
