@@ -6,7 +6,7 @@ record, into a database, the return value(s) keyed against the method's identity
 and the parameters. You know, like a VCR for python functions, except no one
 knows what a VCR is. In this way you could write light api wrappers to consume a
 live api and record the returning json responses. These stored responses can
-then be playedback in tests or when you don't have access to the api.
+then be played back in tests or when you don't have access to the api.
 
 - Decorate your api wrappers.
     - Write your tests; making all the calls you want to test at least once.
@@ -21,42 +21,41 @@ then be playedback in tests or when you don't have access to the api.
     - Reconnect and rerecord any time.
     - Package and archive your recordings. < TODO:
 
-- Remove the decorators and run your tests against the real api.
-
 **Usage**
 
 ::
-from ghosts.ioioio.pinpoint import projectfile_folder
-from ghosts.decorators.api_recorder import ApiRecorderController, api_recorder
 
-acr_remote = ApiRecorderController('Scenario Name')
+    from ghosts.ioioio.pinpoint import projectfile_folder
+    from ghosts.decorators.api_recorder import ApiRecorderController, api_recorder
 
-@api_recorder
-def worthy(important):
-    return important
+    acr_remote = ApiRecorderController('Scenario Name')
 
-acr_remote.start_recording()
-acr_remote.start_mocking()
+    @api_recorder
+    def worthy(important):
+        return important
 
-being_recorded = worthy('I wrote this program didn\'t I!')
-being_recorded = worthy('I did!')
-being_recorded = worthy('Me!')
+    acr_remote.start_recording()
+    acr_remote.start_mocking()
 
-start_playingback()
+    being_recorded = worthy('I wrote this program didn\'t I!')
+    being_recorded = worthy('I did!')
+    being_recorded = worthy('Me!')
 
-listening_to_playback = worthy('I wrote this program didn\'t I!')
+    start_playingback()
 
-assert listening_to_playback == being_recorded
+    listening_to_playback = worthy('Me!')
+
+    assert listening_to_playback == being_recorded
 
 
 This last assertion might seem obvious, but after calling `start_recording`
 @api_recorder stores the return value of the method before passing it on as
 normal.
 
-When `start_playingback` the @api_recorder decorator simply maps the same
-variables + the signature of the method to retrieve (remember if you like) the
-last lot of data the method returned. Keyed against an api method this would let
-you run tests against a set of known responses.
+After calling  `start_playingback` the @api_recorder decorator simply maps the
+same variables + the signature of the method to retrieve (remember, if you like)
+the last lot of data the method returned. Keyed against an api method this would
+let you run tests against a set of known responses.
 
 Technically it could be made to handle any serialable method return, but what
 would be the point of recording an local method - except to see whether it
@@ -67,7 +66,7 @@ I already have all the python low level nodes or plugs into the various api
 methods - effectively a thin layer over 3rd party xml-rpc clients and flickrap
 to decorate and test the feasibility.
 
-ToDo: Make @api_automock decorator separate.
+TODO: Make @api_automock decorator separate.
 """
 import copy
 import inspect
