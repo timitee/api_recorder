@@ -149,7 +149,7 @@ class ApiRecorderController(object):
         """Mocking is On or Off."""
         mock = self.acr_settings.get(self.APR_MOCKING)
         if mock:
-            return mock.decode('utf-8') 
+            return mock.decode('utf-8')
         else:
             return self.MOCKING_OFF
 
@@ -244,6 +244,7 @@ class ApiRecorderController(object):
 
         return _recording
 
+
     def recorder_off(self):
         """Turn the fake API off and test it's Off."""
         self.acr_settings.set(self.APR_POWER, self.POWER_OFF)
@@ -267,23 +268,29 @@ class ApiRecorderController(object):
         """Turn the fake API On and test for PlayBack mode."""
         self.acr_settings.set(self.APR_MOCKING, self.MOCKING_OFF)
 
+
     def set(self, key, val):
         """Expose the redis set method."""
 
         if self.mocks:
+            """Create a mock object with the current data."""
+
             self.build_mock(key, copy.deepcopy(val))
 
         return self.acr.set(key, val)
 
 
     def get_package(self, key):
-        """Expose the redis get method"""
+        """Returns the entire package we saved which contains metadata
+        plus the recording."""
 
         package = self.process_recording(self.acr.get(key))
         return package
 
+
     def get(self, key):
-        """Expose the redis get method"""
+        """Handler for the redis get method, which isolates and returns only the
+        recorded data from the saved package."""
 
         package = self.get_package(key)
         return package.get('recording', None) if package else None
@@ -318,13 +325,15 @@ def api_recorder(func):
         """Building a unique key for this call from all it's meta
         data + its parameters."""
 
-        _module_path = set_ident('module_path', func.__module__) # ghosts.decorators.api_recorder
-        _class_class = '' # "<class>"
-        _class_name = '' # ApiRecorderController
-        _method_class = set_ident('method_class', func.__class__.__name__) # "class function"
-        _method_name = set_ident('method_name', func.__name__) # recorder_off
+        _module_path = set_ident('module_path', func.__module__)
+        _class_class = ''
+        _class_name = ''
+        _method_class = set_ident('method_class', func.__class__.__name__)
+        _method_name = set_ident('method_name', func.__name__)
 
         vals = []
+        """Keep the param values handy."""
+
         for arg in args:
 
             if 'object at ' in str(arg):
@@ -371,19 +380,21 @@ def api_recorder(func):
             _recording = func(*args, **kwargs)
             """Run the function as normal"""
 
-            package = {
-                'recording': _recording,
-                'ident_key': ident_key,
-                'vals': vals,
-                'module_path': _module_path,
-                'class_class': _class_class,
-                'class_name': _class_name,
-                'method_class': _method_class,
-                'method_name': _method_name,
-            }
-
             if acr_remote.power == ApiRecorderController.POWER_ON:
                 """Recording mode: store it."""
+
+
+                package = {
+                    'recording': _recording,
+                    'ident_key': ident_key,
+                    'vals': vals,
+                    'module_path': _module_path,
+                    'class_class': _class_class,
+                    'class_name': _class_name,
+                    'method_class': _method_class,
+                    'method_name': _method_name,
+                }
+
                 acr_remote.set(ident_key, package)
 
         return _recording
