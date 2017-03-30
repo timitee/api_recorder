@@ -317,6 +317,15 @@ class ApiRecorderController(object):
             f.write(json_text)
 
 
+    def scenario_exists(self, scenario=None):
+        """"""
+
+        if not scenario:
+            scenario = self.scenario
+
+        return os.path.exists('automocks/redis_{}.json'.format(scenario))
+
+
     def set(self, key, package, scenario=None):
         """Expose the redis set method."""
 

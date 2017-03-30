@@ -1,0 +1,6 @@
+{
+  "scenarios_saving_load": {
+    "type": "string",
+    "value": "{'8c4885cae2bb6e2e69437ceab0210e3c': {'module_path': 'module_path_ghosts_decorators_tests_scenario', 'ident_key': '8c4885cae2bb6e2e69437ceab0210e3c', 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)', 'method_name': 'method_name_decorated_super', 'method_class': 'method_class_function', 'class_name': 'class_name_ApiSuperClassDecorated', 'vals': ['str_hello_api_who_am_i'], 'class_class': 'class_class_class_type'}}"
+  }
+}
