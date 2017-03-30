@@ -58,7 +58,6 @@ def test_service_when_off():
     acr_remote.flush_scenario()
 
 
-
 def test_start_recording():
 
     # Flush the api db
@@ -88,7 +87,6 @@ def test_start_recording():
 
     acr_remote.recorder_off()
     acr_remote.flush_scenario()
-
 
 
 def test_start_playingback_on():

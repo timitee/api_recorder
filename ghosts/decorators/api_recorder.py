@@ -154,96 +154,6 @@ class ApiRecorderController(object):
             return self.MOCKING_OFF
 
 
-    def fixjson(self, jay):
-        """"""
-        fix = json.decode(jay)
-        return fix
-
-
-    def scenario_keys(self):
-        """"""
-        return self.acr.keys()
-
-
-    def flush_scenario(self):
-        """"""
-        return self.acr.flushdb()
-
-
-    def mocks_scenario(self):
-
-        kys = self.scenario_keys()
-        for key, val in kys:
-            self.build_mock(key, val)
-        pass
-
-
-    def build_mock(self, key, val):
-        """Build a Mock object."""
-
-        recording = val.get('recording')
-
-        mocks_path = os.path.join(project_path(), 'automocks')
-        make_path_not_exists(mocks_path)
-
-        module_name = 'mock_{}.py'.format(self.scenario)
-        module_path = os.path.join(mocks_path, module_name)
-
-        method_name = 'def mock_{}__{}__{}__{}():'.format(
-            val.get('module_path').replace('module_path_', ''),
-            val.get('class_name').replace('class_name_', ''),
-            val.get('method_name').replace('method_name_', ''),
-            ''.join(val.get('vals')),
-        )
-
-        mock_def = self.mock_format.format(method_name, pp.pformat(recording))
-
-        if not os.path.exists(module_path):
-
-            with open(module_path, "w") as mock_file:
-
-                mock_file.write('# -*- encoding: utf-8 -*-')
-                mock_file.write('')
-                mock_file.write(mock_def)
-
-        else:
-
-            with open(module_path, 'r') as mock_file:
-                mocks = mock_file.read()
-
-            if mock_def in mocks:
-                return mock_def
-
-            if method_name in mocks:
-                mock_exists = btweex(mocks, method_name, '# :endmock:', True)
-                mocks.replace(mock_exists, mock_def)
-
-            else:
-
-                mocks += mock_def
-
-            with open(module_path, "w") as mock_file:
-                mock_file.write(mocks)
-
-        return mock_def
-
-
-    def fixjson(self, s):
-        s = json.loads(json.dumps(eval(s)))
-        return s
-
-
-    def process_recording(self, _recording):
-        """We may eventually need an entire suite of processors in and out - but for
-        now this works with Flickr API.
-
-        TODO: Write a processor for each api you work with - and wire it in.
-        """
-        if _recording:
-            _recording = self.fixjson(_recording)
-
-        return _recording
-
 
     def recorder_off(self):
         """Turn the fake API off and test it's Off."""
@@ -267,6 +177,103 @@ class ApiRecorderController(object):
     def stop_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
         self.acr_settings.set(self.APR_MOCKING, self.MOCKING_OFF)
+
+
+    def build_mock(self, key, val):
+        """Build a Mock object."""
+
+        recording = val.get('recording')
+
+        mocks_path = os.path.join(project_path(), 'automocks')
+        make_path_not_exists(mocks_path)
+        """Putting all mocks into an automocks folder - root project."""
+
+        module_name = 'mock_{}.py'.format(self.scenario)
+        module_path = os.path.join(mocks_path, module_name)
+
+        method_name = 'def mock_{}__{}__{}__{}():'.format(
+            val.get('module_path').replace('module_path_', ''),
+            val.get('class_name').replace('class_name_', ''),
+            val.get('method_name').replace('method_name_', ''),
+            ''.join(val.get('vals')),
+        )
+        """Unique-ish method name for the mock."""
+
+        mock_def = self.mock_format.format(
+                                method_name,
+                                pp.pformat(recording)
+                                )
+        """Pretty printed mock def."""
+
+        if not os.path.exists(module_path):
+            """No cxisting mocks file. Write new."""
+
+            with open(module_path, "w") as mock_file:
+
+                mock_file.write('# -*- encoding: utf-8 -*-')
+                mock_file.write('')
+                mock_file.write(mock_def)
+
+        else:
+
+            with open(module_path, 'r') as mock_file:
+                mocks = mock_file.read()
+            """Existing mocks file."""
+
+            if mock_def in mocks:
+                """Check for same definition. Return if unchanged."""
+                return mock_def
+
+            if method_name in mocks:
+                """Check for same method name. Replace is present."""
+
+                mock_exists = btweex(mocks, method_name, '# :endmock:', True)
+                mocks.replace(mock_exists, mock_def)
+
+            else:
+
+                mocks += mock_def
+
+            with open(module_path, "w") as mock_file:
+                mock_file.write(mocks)
+                """New mocks file."""
+
+        return mock_def
+
+
+    def fixjson(self, s):
+        s = json.loads(json.dumps(eval(s)))
+        return s
+
+
+    def process_recording(self, _recording):
+        """We may eventually need an entire suite of processors in and out - but for
+        now this works with Flickr API.
+
+        TODO: Write a processor for each api you work with - and wire it in.
+        """
+        if _recording:
+            _recording = self.fixjson(_recording)
+
+        return _recording
+
+
+    def scenario_keys(self):
+        """"""
+        return self.acr.keys()
+
+
+    def flush_scenario(self):
+        """"""
+        return self.acr.flushdb()
+
+
+    def mocks_scenario(self):
+
+        kys = self.scenario_keys()
+        for key, val in kys:
+            self.build_mock(key, val)
+        pass
 
 
     def set(self, key, val):
