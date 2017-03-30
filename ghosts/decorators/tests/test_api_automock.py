@@ -49,5 +49,5 @@ def test_making_mocks():
     assert scenario_val in mocks
     """Does our mock file have this def?"""
 
-    acr_remote.stop_mocking()
     acr_remote.recorder_off()
+    acr_remote.save_scenario()

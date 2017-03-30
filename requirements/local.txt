@@ -6,7 +6,5 @@ pytest-pep8
 pytest-redis
 pytest-sugar
 pytest-watch
-ipython
-
-
 redis-dump-load
+ipython

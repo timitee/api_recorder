@@ -93,6 +93,7 @@ import redis
 import pprint
 import json
 import redisdl
+import hashlib
 
 from slugify import slugify
 from ghosts.ioioio.pinpoint import project_path
@@ -216,11 +217,12 @@ class ApiRecorderController(object):
         module_name = 'mock_{}.py'.format(self.scenario)
         module_path = os.path.join(mocks_path, module_name)
 
-        method_name = 'def mock_{}__{}__{}__{}():'.format(
+        method_name = 'def mock_{}__{}__{}__{}__{}():'.format(
             val.get('module_path').replace('module_path_', ''),
             val.get('class_name').replace('class_name_', ''),
             val.get('method_name').replace('method_name_', ''),
             ''.join(val.get('vals')),
+            val.get('ident_key'),
         )
         """Unique-ish method name for the mock."""
 
@@ -376,13 +378,14 @@ def api_recorder(func):
         ident = ident.replace('-', '_')
         ident = ident.replace('__', '_')
         ident = ident.replace('__', '_')
-        return str(ident)[:50] # not too big
+        return str(ident) #[:80] # not too big - hashing... big as you like.
 
     def func_wrapper(*args, **kwargs):
 
         idents = []
         """Building a unique key for this call from all it's meta
         data + its parameters."""
+
 
         _module_path = set_ident('module_path', func.__module__)
         _class_class = ''
@@ -429,10 +432,24 @@ def api_recorder(func):
 
         ident_key = '__'.join(idents)
 
+
+        ident_key_counter = acr_remote.acr.get('counter_{}'.format(ident_key))
+        if not ident_key_counter:
+            ident_key_counter = acr_remote.acr.incr('counter_{}'.format(ident_key))
+        else:
+            ident_key_counter = acr_remote.acr.set('counter_{}'.format(ident_key), 1)
+
+        ident_key_counted = '{}__count_{}'.format(ident_key, ident_key_counter)
+
+        hash1 = hashlib.md5(ident_key.encode())
+        ident_key_hash = hash1.hexdigest()
+
+        choose_key = ident_key_hash
+
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
 
-            _recording = acr_remote.get(ident_key)
+            _recording = acr_remote.get(choose_key)
 
         else:
 
@@ -445,7 +462,7 @@ def api_recorder(func):
 
                 package = {
                     'recording': _recording,
-                    'ident_key': ident_key,
+                    'ident_key': choose_key,
                     'vals': vals,
                     'module_path': _module_path,
                     'class_class': _class_class,
@@ -454,7 +471,7 @@ def api_recorder(func):
                     'method_name': _method_name,
                 }
 
-                acr_remote.set(ident_key, package)
+                acr_remote.set(choose_key, package)
 
         return _recording
         """Return value."""

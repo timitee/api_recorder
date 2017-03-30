@@ -1,6 +1,6 @@
 {
   "api_recorder_scenario1": {
     "type": "string",
-    "value": "{'module_path_ghosts_decorators_tests_scenario__class_class_class_type__class_name_ApiSuperClassDecorated__method_class_function__method_name_decorated_super__arg_class_class_type__arg_name_str__arg_val_hello_api_who_am_i': {'vals': ['str_hello_api_who_am_i'], 'method_name': 'method_name_decorated_super', 'ident_key': 'module_path_ghosts_decorators_tests_scenario__class_class_class_type__class_name_ApiSuperClassDecorated__method_class_function__method_name_decorated_super__arg_class_class_type__arg_name_str__arg_val_hello_api_who_am_i', 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)', 'method_class': 'method_class_function', 'class_class': 'class_class_class_type', 'class_name': 'class_name_ApiSuperClassDecorated', 'module_path': 'module_path_ghosts_decorators_tests_scenario'}}"
+    "value": "{'8c4885cae2bb6e2e69437ceab0210e3c': {'class_class': 'class_class_class_type', 'ident_key': '8c4885cae2bb6e2e69437ceab0210e3c', 'class_name': 'class_name_ApiSuperClassDecorated', 'vals': ['str_hello_api_who_am_i'], 'method_name': 'method_name_decorated_super', 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)', 'method_class': 'method_class_function'}}"
   }
 }
