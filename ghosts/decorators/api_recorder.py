@@ -25,27 +25,45 @@ then be played back in tests or when you don't have access to the api.
 
 ::
 
-    from ghosts.ioioio.pinpoint import projectfile_folder
-    from ghosts.decorators.api_recorder import ApiRecorderController, api_recorder
+from ghosts.ioioio.pinpoint import projectfile_folder
+from ghosts.decorators.api_recorder import ApiRecorderController, api_recorder
 
-    acr_remote = ApiRecorderController('Scenario Name')
+acr_remote = ApiRecorderController('ScenarioName1')
 
-    @api_recorder
-    def worthy(important):
-        return important
+@api_recorder
+def worthy(important):
+    return important
 
-    acr_remote.start_recording()
-    acr_remote.start_mocking()
+acr_remote.start_recording()
+acr_remote.start_mocking()
 
-    being_recorded = worthy('I wrote this program didn\'t I!')
-    being_recorded = worthy('I did!')
-    being_recorded = worthy('Me!')
+being_recorded = worthy('I wrote this program didn\'t I!')
+being_recorded = worthy('I did!')
+being_recorded = worthy('Me!')
 
-    start_playingback()
+acr_remote.start_playingback()
 
-    listening_to_playback = worthy('Me!')
+listening_to_playback = worthy('Me!')
 
-    assert listening_to_playback == being_recorded
+
+acr_remote = ApiRecorderController('ScenarioName2')
+
+@api_recorder
+def worthy(important):
+    return important
+
+acr_remote.start_recording()
+acr_remote.start_mocking()
+
+being_recorded = worthy('I wrote this program didn\'t I!')
+being_recorded = worthy('I did!')
+being_recorded = worthy('Me!')
+
+acr_remote.start_playingback()
+
+listening_to_playback = worthy('Me!')
+
+listening_to_playback == being_recorded
 
 
 This last assertion might seem obvious, but after calling `start_recording`
@@ -88,6 +106,7 @@ def make_path_not_exists(make_path):
     open(os.path.join(make_path, '__init__.py'), 'w')
     return make_path
 
+
 class ApiRecorderController(object):
     """Control what happens to methods which use the @api_recorder decorator."""
 
@@ -112,10 +131,13 @@ class ApiRecorderController(object):
     PLAYBACK = 'PlayBack'
     """All the above are database keys to various settings."""
 
+    db_num = 10
+    settings_db = 11
+
     def __init__(self, scenario):
         """"""
-        self.acr = redis.StrictRedis(host='localhost', port=6379, db=10)
-        self.acr_settings = redis.StrictRedis(host='localhost', port=6379, db=11)
+        self.acr = redis.StrictRedis(host='localhost', port=6379, db=self.db_num)
+        self.acr_settings = redis.StrictRedis(host='localhost', port=6379, db=self.settings_db)
         self.acr_settings.set(self.APR_SCENARIO, scenario)
 
 
@@ -126,7 +148,7 @@ class ApiRecorderController(object):
         if scenario:
             return scenario.decode('utf-8')
         else:
-            return ''
+            return 'root'
 
     @property
     def run_mode(self):
@@ -249,7 +271,7 @@ class ApiRecorderController(object):
         return s
 
 
-    def process_recording(self, _recording):
+    def process_packages(self, _recording):
         """We may eventually need an entire suite of processors in and out - but for
         now this works with Flickr API.
 
@@ -261,45 +283,74 @@ class ApiRecorderController(object):
         return _recording
 
 
-    def scenario_keys(self):
-        """"""
-        return self.acr.keys()
-
-
-    def flush_scenario(self):
+    def flush_scenario(self, scenario=None):
         """"""
 
-        with open('automocks/scenario_{}.json'.format(self.scenario or 'api_recorder'), 'w') as f:
-            redisdl.dump(f, encoding='iso-8859-1', pretty=True)
+        if not scenario:
+            scenario = self.scenario
 
-        return self.acr.flushdb()
-
-
-    def mocks_scenario(self):
-
-        kys = self.scenario_keys()
-        for key, val in kys:
-            self.build_mock(key, val)
-        pass
+        return self.acr.set(scenario, {})
 
 
-    def set(self, key, val):
+    def load_scenario(self, scenario=None):
+        """"""
+
+        if not scenario:
+            scenario = self.scenario
+
+        with open('automocks/redis_{}.json'.format(scenario), 'r') as f:
+            json_text = f.read()
+
+        redisdl.loads(json_text, db=self.db_num)
+
+    def save_scenario(self, scenario=None):
+        """"""
+
+        if not scenario:
+            scenario = self.scenario
+
+        json_text = redisdl.dumps(encoding='iso-8859-1', pretty=True, db=self.db_num, keys=scenario)
+
+        with open('automocks/redis_{}.json'.format(scenario), 'w') as f:
+            f.write(json_text)
+
+
+    def set(self, key, package, scenario=None):
         """Expose the redis set method."""
 
+        if not scenario:
+            scenario = self.scenario
+
         if self.mocks:
-            """Create a mock object with the current data."""
+            """Create a mock object with the current data package."""
 
-            self.build_mock(key, copy.deepcopy(val))
+            self.build_mock(key, copy.deepcopy(package))
 
-        return self.acr.set(key, val)
+        print('#scenario#', scenario)
+
+        scenario_packages = self.acr.get(scenario) or {}
+        scenario_packages = self.process_packages(scenario_packages)
+
+        scenario_packages[key] = package
 
 
-    def get_package(self, key):
+        print('#scenario_packages#', scenario_packages)
+        scenario_packages
+
+        return self.acr.set(scenario, scenario_packages)
+
+
+    def get_package(self, key, scenario=None):
         """Returns the entire package we saved which contains metadata
         plus the recording."""
 
-        package = self.process_recording(self.acr.get(key))
-        return package
+        if not scenario:
+            scenario = self.scenario
+
+        scenario_packages = self.acr.get(scenario) or {}
+        scenario_packages = self.process_packages(scenario_packages)
+
+        return scenario_packages.get(key, None) if scenario_packages else None
 
 
     def get(self, key):

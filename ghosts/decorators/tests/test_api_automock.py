@@ -15,7 +15,6 @@ def test_making_mocks():
 
     # Flush the api db
     acr_remote.flush_scenario()
-
     acr_remote.start_recording()
     acr_remote.start_mocking()
 
@@ -50,5 +49,5 @@ def test_making_mocks():
     assert scenario_val in mocks
     """Does our mock file have this def?"""
 
+    acr_remote.stop_mocking()
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()

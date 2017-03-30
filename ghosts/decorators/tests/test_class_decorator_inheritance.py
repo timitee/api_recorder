@@ -31,7 +31,6 @@ def test_service_when_off():
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
 
 
 def test_start_recording():
@@ -52,7 +51,6 @@ def test_start_recording():
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
 
 
 def test_start_playingback_on():
@@ -80,7 +78,6 @@ def test_start_playingback_on():
     method calls which haven't be made, does it return "none". """
 
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
 
 
 def test_record_playback():
@@ -104,4 +101,3 @@ def test_record_playback():
     assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
 
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()

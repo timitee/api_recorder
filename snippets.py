@@ -1,4 +1,11 @@
 import os
-import sys
+import pytest
 
-print(os.path.dirname(sys.modules['__main__'].__file__))
+from ghosts.decorators.api_recorder import ApiRecorderController
+from ghosts.decorators.tests.scenario import (
+    ApiSuperClassDecorated,
+    scenario_val,
+    api_response,
+)
+
+scenario_name = 'test_class_decorator'

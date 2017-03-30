@@ -53,10 +53,7 @@ def test_service_when_off():
         playback isn't getting it's tapes mixed up.
         """
 
-
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
-
 
 def test_start_recording():
 
@@ -86,7 +83,6 @@ def test_start_recording():
         """
 
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
 
 
 def test_start_playingback_on():
@@ -114,9 +110,7 @@ def test_start_playingback_on():
         """Answers the question: When the recorder is attempting to play back
         method calls which haven't be made, does it return "none". """
 
-
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
 
 
 def test_uniqueness_of_very_similar_classes():
@@ -185,6 +179,4 @@ def test_uniqueness_of_very_similar_classes():
         assert m.undecorated_m('something different') == api_response.format(c.__module__, c.__name__, 'undecorated_m', 'something different')
         """Passing means the decorator returned something different after all."""
 
-
     acr_remote.recorder_off()
-    acr_remote.flush_scenario()
