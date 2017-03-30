@@ -111,8 +111,8 @@ class ApiRecorderController(object):
 
     def __init__(self, scenario):
         """"""
-        self.acr = redis.StrictRedis(host='localhost', port=6379, db=0)
-        self.acr_settings = redis.StrictRedis(host='localhost', port=6379, db=1)
+        self.acr = redis.StrictRedis(host='localhost', port=6379, db=10)
+        self.acr_settings = redis.StrictRedis(host='localhost', port=6379, db=11)
         self.acr_settings.set(self.APR_SCENARIO, scenario)
 
 
