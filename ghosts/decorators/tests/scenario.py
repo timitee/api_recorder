@@ -9,23 +9,31 @@ class ApiMarshall(object):
 
     @api_recorder
     def decorated_m(self, val):
-        return api_response.format(self.__module__,'ApiMarshall', 'm1', val)
+        return api_response.format(self.__module__,'ApiMarshall', 'decorated_m', val)
 
     def undecorated_m(self, val):
-        return api_response.format(self.__module__,'ApiMarshall', 'm2', val)
+        return api_response.format(self.__module__,'ApiMarshall', 'undecorated_m', val)
 
 
 class BpiMarshall(object):
 
     @api_recorder
     def decorated_m(self, val):
-        return api_response.format(self.__module__,'BpiMarshall', 'm1', val)
+        return api_response.format(self.__module__,'BpiMarshall', 'decorated_m', val)
 
     def undecorated_m(self, val):
-        return api_response.format(self.__module__,'BpiMarshall', 'm2', val)
+        return api_response.format(self.__module__,'BpiMarshall', 'undecorated_m', val)
+
 
 @api_class_recorder(api_recorder)
-class ApiClassDecorated(object):
+class ApiSuperClassDecorated(object):
 
-    def decorated_m(self, val):
-        return api_response.format(self.__module__,'ApiClassDecorated', 'm1', val)
+    def decorated_super(self, val):
+        return api_response.format(self.__module__,'ApiSuperClassDecorated', 'decorated_super', val)
+
+
+@api_class_recorder(api_recorder)
+class ApiSubClassDecorated(ApiSuperClassDecorated):
+
+    def decorated_sub(self, val):
+        return api_response.format(self.__module__,'ApiSubClassDecorated', 'decorated_sub', val)

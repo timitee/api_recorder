@@ -93,7 +93,9 @@ class ApiRecorderController(object):
     mock_format = (''
                     '\n'
                     '{}'
+                    '\n'
                     '    return {}'
+                    '\n'
                     '    # :endmock:'
                     '\n')
 
