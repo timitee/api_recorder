@@ -71,7 +71,7 @@ def test_api_recorder_scenarios_saving():
         api_recorder_scenario1 = f.read()
 
     acr_remote.flush_scenario()
-    
+
     acr_remote.start_playingback()
 
     assert m.decorated_super(scenario_val) == None

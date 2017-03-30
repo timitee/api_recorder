@@ -326,16 +326,10 @@ class ApiRecorderController(object):
 
             self.build_mock(key, copy.deepcopy(package))
 
-        print('#scenario#', scenario)
-
         scenario_packages = self.acr.get(scenario) or {}
         scenario_packages = self.process_packages(scenario_packages)
 
         scenario_packages[key] = package
-
-
-        print('#scenario_packages#', scenario_packages)
-        scenario_packages
 
         return self.acr.set(scenario, scenario_packages)
 
