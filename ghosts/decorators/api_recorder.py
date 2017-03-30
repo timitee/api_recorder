@@ -74,6 +74,7 @@ import os
 import redis
 import pprint
 import json
+import redisdl
 
 from slugify import slugify
 from ghosts.ioioio.pinpoint import project_path
@@ -267,6 +268,10 @@ class ApiRecorderController(object):
 
     def flush_scenario(self):
         """"""
+
+        with open('automocks/scenario_{}.json'.format(self.scenario or 'api_recorder'), 'w') as f:
+            redisdl.dump(f, encoding='iso-8859-1', pretty=True)
+
         return self.acr.flushdb()
 
 
