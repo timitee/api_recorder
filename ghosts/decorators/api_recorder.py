@@ -91,6 +91,7 @@ TODO: Make @api_automock decorator separate.
 import logging
 logger = logging.getLogger(__name__)
 
+import collections
 import copy
 import inspect
 import os
@@ -412,6 +413,12 @@ def api_recorder(func):
 
         for arg in args:
 
+            if isinstance(arg, list):
+                arg.sort()
+
+            if isinstance(arg, dict):
+                arg = collections.OrderedDict(sorted(arg.items()))
+
             if 'object at ' in str(arg):
                 """The "object at " value is the method's `self`. The value has
                 an instance guid - and we don't want it in our key. Playback
@@ -428,7 +435,7 @@ def api_recorder(func):
                 arg_class = arg.__class__.__class__
 
                 vclass = set_ident('arg_class', arg_class)
-                vname set_ident('arg_name', arg_name)
+                vname = set_ident('arg_name', arg_name)
                 vval = set_ident('arg_val', arg_val)
 
                 idents.append('{}_{}_{}'.format(vclass, vname, vval))
@@ -437,8 +444,17 @@ def api_recorder(func):
 
         # Use the kwargs in the key
         for key, val in kwargs.items():
+
+            if isinstance(val, list):
+                val.sort()
+
+            if isinstance(val, dict):
+                val = collections.OrderedDict(sorted(val.items()))
+
             """Use all the kwargs."""
             idents.append('kwarg_{}_{}'.format(key, val))
+            vals.append('kwarg_{}_{}'.format(key, val))
+
 
         idents.sort()
         vals.sort()
@@ -473,6 +489,7 @@ def api_recorder(func):
         choose_key = ident_key_hash
 
         print('choose_key:', choose_key)
+        
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
