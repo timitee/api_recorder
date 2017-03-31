@@ -86,6 +86,11 @@ to decorate and test the feasibility.
 
 TODO: Make @api_automock decorator separate.
 """
+
+
+import logging
+logger = logging.getLogger(__name__)
+
 import copy
 import inspect
 import os
@@ -454,6 +459,8 @@ def api_recorder(func):
         ident_key_hash = hash1.hexdigest()
 
         choose_key = ident_key_hash
+
+        logging.error('choose_key:[{}] ident_key:[{}]'.format(choose_key, ident_key))
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""

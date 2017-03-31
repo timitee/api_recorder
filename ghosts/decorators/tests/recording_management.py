@@ -29,7 +29,7 @@ def load_scenario(scenario_name):
     acr_remote.start_playingback()
 
 
-def end_scenario(scenario_name):
+def unload_scenario(scenario_name):
     """Recorder off. Flush this scenario."""
     acr_remote = ApiRecorderController(scenario_name)
     acr_remote.recorder_off()
