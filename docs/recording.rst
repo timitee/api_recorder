@@ -134,7 +134,9 @@ To:
 
 ::
 
-  def test_marshall_register_users(can_overwrite):
+  def test_marshall_register_users():
+
+... removing the "can_overwrite" parameter.
 
 Don't change!
 
