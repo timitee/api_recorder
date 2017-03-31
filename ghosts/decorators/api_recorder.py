@@ -402,8 +402,8 @@ def api_recorder(func):
 
 
         _module_path = set_ident('module_path', func.__module__)
-        _class_class = ''
-        _class_name = ''
+        _class_class = '' #get later but put in this order
+        _class_name = '' #get later but put in this order
         _method_class = set_ident('method_class', func.__class__.__name__)
         _method_name = set_ident('method_name', func.__name__)
 
@@ -427,24 +427,26 @@ def api_recorder(func):
                 arg_name = arg.__class__.__name__
                 arg_class = arg.__class__.__class__
 
-                idents.append(set_ident('arg_class', arg_class))
-                idents.append(set_ident('arg_name', arg_name))
-                idents.append(set_ident('arg_val', arg_val))
+                vclass = set_ident('arg_class', arg_class)
+                vname set_ident('arg_name', arg_name)
+                vval = set_ident('arg_val', arg_val)
 
+                idents.append('{}_{}_{}'.format(vclass, vname, vval))
                 vals.append(set_ident(arg_name, arg_val))
 
 
         # Use the kwargs in the key
         for key, val in kwargs.items():
             """Use all the kwargs."""
-            idents.append('{}_{}'.format(key, val))
-
-        print()
+            idents.append('kwarg_{}_{}'.format(key, val))
 
         idents.sort()
         vals.sort()
-        vals.append('__sorted_true')
 
+        vals.append('__sorted_true')
+        idents.append('__sorted_true')
+
+        #put in order of ancestors
         idents.insert(0, _method_name)
         idents.insert(0, _method_class)
         idents.insert(0, _class_name)
@@ -452,6 +454,9 @@ def api_recorder(func):
         idents.insert(0, _module_path)
 
         ident_key = '__'.join(idents)
+
+        print('vals: ', '__'.join(vals))
+        print('ident_key: ', ident_key)
 
 
         ident_key_counter = acr_remote.acr.get('counter_{}'.format(ident_key))
@@ -467,7 +472,7 @@ def api_recorder(func):
 
         choose_key = ident_key_hash
 
-
+        print('choose_key:', choose_key)
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
