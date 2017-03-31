@@ -227,7 +227,7 @@ class ApiRecorderController(object):
             val.get('module_path').replace('module_path_', ''),
             val.get('class_name').replace('class_name_', ''),
             val.get('method_name').replace('method_name_', ''),
-            '_^_'.join(val.get('vals')),
+            '__'.join(val.get('vals')),
             val.get('ident_key'),
         )
         """Unique-ish method name for the mock."""
@@ -459,9 +459,6 @@ def api_recorder(func):
         idents.sort()
         vals.sort()
 
-        vals.append('__sorted_true')
-        idents.append('__sorted_true')
-
         #put in order of ancestors
         idents.insert(0, _method_name)
         idents.insert(0, _method_class)
@@ -470,10 +467,6 @@ def api_recorder(func):
         idents.insert(0, _module_path)
 
         ident_key = '__'.join(idents)
-
-        print('vals: ', '__'.join(vals))
-        print('ident_key: ', ident_key)
-
 
         ident_key_counter = acr_remote.acr.get('counter_{}'.format(ident_key))
         if not ident_key_counter:
@@ -489,7 +482,6 @@ def api_recorder(func):
         choose_key = ident_key_hash
 
         print('choose_key:', choose_key)
-        
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
