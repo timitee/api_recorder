@@ -41,16 +41,13 @@ until the method is released from playback.
   def record_marshall_register_users(can_overwrite):
 
     if not can_overwrite:
-        """Check if there is a saved recording."""
         if scenario_exists(scenario_name):
-            """There is! Ooppps... back up slowly.... """
             return
 
     start_recording_scenario(scenario_name)
     """The data of methods decorated by the @api_recorder will be recorded."""
 
     # Call any of the methods decorated by the @api_recorder here
-
 
 
     # Finish recording data for your tests, then ...
@@ -67,18 +64,22 @@ until the method is released from playback.
 
 **Example of Recording.**
 
-from ghosts.decorators.tests.recording_management import (
-    start_recording_scenario,
-    end_recording_scenario,
-    scenario_exists,
-    start_healing_scenario,
-    restart_recording_scenario,
-)
+::
 
-def record_marshall_register_users(can_overwrite):
+  from ghosts.decorators.tests.recording_management import (
+      start_recording_scenario,
+      end_recording_scenario,
+      scenario_exists,
+      start_healing_scenario,
+      restart_recording_scenario,
+  )
+
+  def record_marshall_register_users(can_overwrite):
 
     if not can_overwrite:
+        """Check if there is a saved recording."""
         if scenario_exists(scenario_name):
+            """There is! Ooppps... back up slowly.... """
             return
 
     start_recording_scenario(scenario_name)
@@ -171,17 +172,18 @@ Ignore the rest for now. At the bottom of the method change:
 To
 
 ::
+
     unload_scenario(scenario_name)
     """Effectively: eject the cassette.
 
 Checklist:
 
-1) Change "recording_" in method name to "test_"
-2) Leave the scenario_name.
-3) Remove "overwrite" protection.
-4) Change "start_recording_scenario" to "load_scenario"
-5) Leave the rest for now as resources for a test.
-4) Change "end_recording_scenario" to "unload_scenario" as the last
+  1) Change "recording_" in method name to "test_"
+  2) Leave the scenario_name.
+  3) Remove "overwrite" protection.
+  4) Change "start_recording_scenario" to "load_scenario".
+  5) Leave the rest for now as resources for a test.
+  6) Change "end_recording_scenario" to "unload_scenario" as the last.
 
 
 
@@ -210,6 +212,8 @@ For a start, Anywhere it says "Recording:" in the recording method above is
 likely to be something whose return value you will want to test stays the same
 while you are developing.
 
+So just change "Recording:" to "Testing", run the same command, then test it.
+
 ::
 
   import pytest #etc
@@ -223,7 +227,6 @@ while you are developing.
     scenario_name = 'record_marshall_change_passwords'
     load_scenario(scenario_name)
 
-
     regee = list_of_fake_db_registrees()[0]
     """Just test one customer."""
 
@@ -233,13 +236,13 @@ while you are developing.
                             regee['name'], regee['address'],
                             regee['postCode'], regee['countryCode']
                             regee['password_1st'])
-    """Test: .create()."""
+    """Testing: .create()."""
 
     assert new_customer_id == regee['id']
     """Does the id returned by the method, match the id known."""
 
     marshall.check_password(regee['email'], regee['password_1st'])
-    """Test: .check_password()."""
+    """Testing: .check_password()."""
 
     assert marshall.customer_id == regee['id']
     """The customer can log in."""
