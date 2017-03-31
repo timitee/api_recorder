@@ -438,6 +438,8 @@ def api_recorder(func):
             """Use all the kwargs."""
             idents.append('{}_{}'.format(key, val))
 
+        idents.sort()
+
         idents.insert(0, _method_name)
         idents.insert(0, _method_class)
         idents.insert(0, _class_name)
