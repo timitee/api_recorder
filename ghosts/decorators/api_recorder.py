@@ -226,7 +226,7 @@ class ApiRecorderController(object):
             val.get('module_path').replace('module_path_', ''),
             val.get('class_name').replace('class_name_', ''),
             val.get('method_name').replace('method_name_', ''),
-            ''.join(val.get('vals')),
+            '_'.join(val.get('vals')),
             val.get('ident_key'),
         )
         """Unique-ish method name for the mock."""
@@ -430,6 +430,7 @@ def api_recorder(func):
                 idents.append(set_ident('arg_class', arg_class))
                 idents.append(set_ident('arg_name', arg_name))
                 idents.append(set_ident('arg_val', arg_val))
+
                 vals.append(set_ident(arg_name, arg_val))
 
 
@@ -438,7 +439,10 @@ def api_recorder(func):
             """Use all the kwargs."""
             idents.append('{}_{}'.format(key, val))
 
+        print()
+
         idents.sort()
+        vals.sort()
 
         idents.insert(0, _method_name)
         idents.insert(0, _method_class)
