@@ -1,0 +1,6 @@
+{
+  "api_recorder_scenario1": {
+    "type": "string",
+    "value": "{'375d2f8c1787938529523abb4e550f1e': {'class_class': 'class_class_class_type', 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)', 'vals': ['str_hello_api_who_am_i'], 'method_class': 'method_class_function', 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'class_name': 'class_name_ApiSuperClassDecorated', 'ident_key': '375d2f8c1787938529523abb4e550f1e', 'method_name': 'method_name_decorated_super'}}"
+  }
+}

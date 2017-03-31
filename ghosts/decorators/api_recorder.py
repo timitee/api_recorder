@@ -186,29 +186,32 @@ class ApiRecorderController(object):
             return self.MOCKING_OFF
 
 
+    def scene_key(self, key):
+        return key #TODO: record synchronpusly'{}__{}'.format(self.scenario, key)
+
 
     def recorder_off(self):
         """Turn the fake API off and test it's Off."""
-        self.acr_settings.set(self.APR_POWER, self.POWER_OFF)
-        self.acr_settings.set(self.APR_RUNMODE, self.RECORDING)
+        self.acr_settings.set(self.scene_key(self.APR_POWER), self.POWER_OFF)
+        self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.RECORDING)
 
     def start_recording(self):
         """Turn the fake API On and test it's not in Recording mode."""
-        self.acr_settings.set(self.APR_POWER, self.POWER_ON)
-        self.acr_settings.set(self.APR_RUNMODE, self.RECORDING)
+        self.acr_settings.set(self.scene_key(self.APR_POWER), self.POWER_ON)
+        self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.RECORDING)
 
     def start_playingback(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_POWER, self.POWER_ON)
-        self.acr_settings.set(self.APR_RUNMODE, self.PLAYBACK)
+        self.acr_settings.set(self.scene_key(self.APR_POWER), self.POWER_ON)
+        self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.PLAYBACK)
 
     def start_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_MOCKING, self.MOCKING_ON)
+        self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_ON)
 
     def stop_mocking(self):
         """Turn the fake API On and test for PlayBack mode."""
-        self.acr_settings.set(self.APR_MOCKING, self.MOCKING_OFF)
+        self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_OFF)
 
 
     def build_mock(self, key, val):
@@ -481,7 +484,7 @@ def api_recorder(func):
 
         choose_key = ident_key_hash
 
-        print('choose_key:', choose_key)
+        print(_method_name, ':', choose_key)
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""

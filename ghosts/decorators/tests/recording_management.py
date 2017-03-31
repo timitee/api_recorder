@@ -16,6 +16,18 @@ def end_recording_scenario(scenario_name):
     acr_remote.save_scenario()
 
 
+def pause_recording_scenario(scenario_name):
+    """Flush old recording for the scenario. Start a new recording session."""
+    acr_remote = ApiRecorderController(scenario_name)
+    acr_remote.recorder_off()
+
+
+def restart_recording_scenario(scenario_name):
+    """Flush old recording for the scenario. Start a new recording session."""
+    acr_remote = ApiRecorderController(scenario_name)
+    acr_remote.start_recording()
+
+
 def scenario_exists(scenario_name):
     """Check for recorded data for this scenario."""
     acr_remote = ApiRecorderController(scenario_name)
