@@ -39,7 +39,6 @@ venv-*
 
 # dev
 .cache
-automocks
 logfile
 logfile.*
 media
