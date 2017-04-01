@@ -30,29 +30,38 @@ until the method is released from playback.
 
 ::
 
+
   from ghosts.decorators.tests.recording_management import (
+      # recording
       start_recording_scenario,
-      end_and_save_scenario,
-      scenario_exists,
+      pause_recording_scenario,
       start_healing_scenario,
       restart_recording_scenario,
+      end_and_save_scenario,
+      # load and playback
+      scenario_exists,
+      load_scenario,
+      pause_playback_scenario,
+      restart_playback_scenario,
+      unload_scenario,
   )
+
+  site_name = settings.site_name
 
   def record_marshall_register_users(can_overwrite):
 
     if not can_overwrite:
-        if scenario_exists(scenario_name):
+        if scenario_exists(site_name, scenario_name):
             return
 
-    start_recording_scenario(scenario_name)
+    start_recording_scenario(site_name, scenario_name)
     """The data of methods decorated by the @api_recorder will be recorded."""
 
     # Call any of the methods decorated by the @api_recorder here
 
-
     # Finish recording data for your tests, then ...
 
-    end_and_save_scenario(scenario_name)
+    end_and_save_scenario(site_name, scenario_name)
     """
     All the recordings will be packaged and saved into:
 
@@ -74,15 +83,17 @@ until the method is released from playback.
       restart_recording_scenario,
   )
 
+  site_name = settings.site_name
+
   def record_marshall_register_users(can_overwrite):
 
     if not can_overwrite:
         """Check if there is a saved recording."""
-        if scenario_exists(scenario_name):
+        if scenario_exists(site_name, scenario_name):
             """There is! Ooppps... back up slowly.... """
             return
 
-    start_recording_scenario(scenario_name)
+    start_recording_scenario(site_name, scenario_name)
 
     """Now we start recording some data."""
     for regee in list_of_fake_db_registrees():
@@ -106,7 +117,7 @@ until the method is released from playback.
         marshall.save_all(customer_dict)
         """Recording: .save()."""
 
-        start_healing_scenario(scenario_name)
+        start_healing_scenario(site_name, scenario_name)
         """Any methods decorated by the @api_recorder will now act normally, but
         the recorder will pause. We don't want this included in the recording.
         """
@@ -114,12 +125,10 @@ until the method is released from playback.
         """Clean up. This may not always be a good idea. Especially if you
         intend to record more against this customer."""
 
-        restart_recording_scenario(scenario_name)
+        restart_recording_scenario(site_name, scenario_name)
         """Recording will resume. We are in a loop remember :)"""
 
-
-
-    end_and_save_scenario(scenario_name)
+    end_and_save_scenario(site_name, scenario_name)
 
 
 ***Use a Recording as the template for a Test.***
@@ -150,32 +159,32 @@ Remove:
 ::
 
   if not can_overwrite:
-      if scenario_exists(scenario_name):
+      if scenario_exists(site_name, scenario_name):
           return
 
 Change:
 
 ::
 
-  start_recording_scenario(scenario_name)
+  start_recording_scenario(site_name, scenario_name)
 
 To:
 
 ::
 
-  load_scenario(scenario_name)
+  load_scenario(site_name, scenario_name)
 
 Ignore the rest for now. At the bottom of the method change:
 
 ::
 
-    end_and_save_scenario(scenario_name)
+    end_and_save_scenario(site_name, scenario_name)
 
 To
 
 ::
 
-    unload_scenario(scenario_name)
+    unload_scenario(site_name, scenario_name)
     """Effectively: eject the cassette.
 
 Checklist:
@@ -198,14 +207,16 @@ Checklist:
       unload_scenario,
   )
 
-  def test_marshall_register_users(can_overwrite):
+  site_name = settings.site_name
+
+  def test_marshall_register_users():
 
     scenario_name = 'record_marshall_change_passwords'
-    load_scenario(scenario_name)
+    load_scenario(site_name, scenario_name)
 
     # Start writing your tests here against the recorded data.
 
-    unload_scenario(scenario_name)
+    unload_scenario(site_name, scenario_name)
 
 
 **Example of Test.**
@@ -224,10 +235,12 @@ So just change "Recording:" to "Testing", run the same command, then test it.
       unload_scenario,
   )
 
+  site_name = settings.site_name
+
   def test_marshall_register_users(can_overwrite):
 
     scenario_name = 'record_marshall_change_passwords'
-    load_scenario(scenario_name)
+    load_scenario(site_name, scenario_name)
 
     regee = list_of_fake_db_registrees()[0]
     """Just test one customer."""
@@ -237,16 +250,16 @@ So just change "Recording:" to "Testing", run the same command, then test it.
     new_customer_id = marshall.create(
                             regee['name'], regee['address'],
                             regee['postCode'], regee['countryCode']
-                            regee['password_1st'])
+                            regee['password'])
     """Testing: .create()."""
 
     assert new_customer_id == regee['id']
     """Does the id returned by the method, match the id known."""
 
-    marshall.check_password(regee['email'], regee['password_1st'])
+    marshall.check_password(regee['email'], regee['password'])
     """Testing: .check_password()."""
 
     assert marshall.customer_id == regee['id']
     """The customer can log in."""
 
-    unload_scenario(scenario_name)
+    unload_scenario(site_name, scenario_name)

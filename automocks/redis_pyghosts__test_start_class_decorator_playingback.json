@@ -1,6 +1,6 @@
 {
   "pyghosts__test_start_class_decorator_playingback": {
     "type": "string",
-    "value": "{'a33186ef4fbb8ae7887ece7eb962abf5': {'method_class': 'method_class_function', 'method_name': 'method_name_decorated_super', 'vals': ['str_hello_api_who_am_i'], 'call_sig': 'a33186ef4fbb8ae7887ece7eb962abf5', 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'class_class': 'class_class_class_type', 'call_incre': 1, 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)', 'class_name': 'class_name_ApiSuperClassDecorated'}}"
+    "value": "{'a33186ef4fbb8ae7887ece7eb962abf5': {'call_incre': 1, 'method_class': 'method_class_function', 'call_sig': 'a33186ef4fbb8ae7887ece7eb962abf5', 'vals': ['str_hello_api_who_am_i'], 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'method_name': 'method_name_decorated_super', 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)', 'class_name': 'class_name_ApiSuperClassDecorated', 'class_class': 'class_class_class_type'}}"
   }
 }

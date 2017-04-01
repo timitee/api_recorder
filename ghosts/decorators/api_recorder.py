@@ -300,6 +300,11 @@ def api_recorder(func):
 
     def func_wrapper(*args, **kwargs):
 
+        if acr_remote.power == ApiRecorderController.POWER_OFF:
+            """Recording mode off: return it."""
+            return func(*args, **kwargs)
+            """Run the function as normal"""
+
         clues = []
         """Building a unique key for this call from all it's meta
         data + its parameters."""
@@ -394,28 +399,25 @@ def api_recorder(func):
             _recording = acr_remote.get(call_signature_key)
 
         else:
+            """Recording."""
 
             _recording = func(*args, **kwargs)
             """Run the function as normal"""
 
-            if acr_remote.power == ApiRecorderController.POWER_ON:
-                """Recording mode: store it."""
+            package = {
+                'recording': _recording,
+                'call_sig': call_sig,
+                'call_incre': call_incre,
+                'call_sig': call_signature_key,
+                'vals': _vals,
+                'module_path': module_path_,
+                'class_class': class_class_,
+                'class_name': class_name_,
+                'method_class': method_class_,
+                'method_name': method_name_,
+            }
 
-
-                package = {
-                    'recording': _recording,
-                    'call_sig': call_sig,
-                    'call_incre': call_incre,
-                    'call_sig': call_signature_key,
-                    'vals': _vals,
-                    'module_path': module_path_,
-                    'class_class': class_class_,
-                    'class_name': class_name_,
-                    'method_class': method_class_,
-                    'method_name': method_name_,
-                }
-
-                acr_remote.set(call_signature_key, package)
+            acr_remote.set(call_signature_key, package)
 
         return _recording
         """Return value."""
