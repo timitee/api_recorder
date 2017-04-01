@@ -57,11 +57,13 @@ class ApiRecorderController(object):
 
     db_num = 10
     settings_db = 11
+    counter_db = 12
 
     def __init__(self, scenario):
         """"""
         self.acr = redis.StrictRedis(host='localhost', port=6379, db=self.db_num)
         self.acr_settings = redis.StrictRedis(host='localhost', port=6379, db=self.settings_db)
+        self.acr_counter = redis.StrictRedis(host='localhost', port=6379, db=self.counter_db)
         self.acr_settings.set(self.APR_SCENARIO, scenario)
 
 
@@ -113,12 +115,14 @@ class ApiRecorderController(object):
         self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.RECORDING)
 
     def start_recording(self):
+        self.acr_counter.flushdb()
         """Turn the fake API On and test it's not in Recording mode."""
         self.acr_settings.set(self.scene_key(self.APR_POWER), self.POWER_ON)
         self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.RECORDING)
 
     def start_playingback(self):
         """Turn the fake API On and test for PlayBack mode."""
+        self.acr_counter.flushdb()
         self.acr_settings.set(self.scene_key(self.APR_POWER), self.POWER_ON)
         self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.PLAYBACK)
 
@@ -148,7 +152,7 @@ class ApiRecorderController(object):
             val.get('class_name').replace('class_name_', ''),
             val.get('method_name').replace('method_name_', ''),
             '__'.join(val.get('vals')),
-            val.get('ident_key'),
+            val.get('call_sig'),
         )
         """Unique-ish method name for the mock."""
 
@@ -317,19 +321,19 @@ def api_recorder(func):
 
     def func_wrapper(*args, **kwargs):
 
-        idents = []
+        clues = []
         """Building a unique key for this call from all it's meta
         data + its parameters."""
 
 
-        _module_path = set_ident('module_path', func.__module__)
-        _class_class = '' #get later but put in this order
-        _class_name = '' #get later but put in this order
-        _method_class = set_ident('method_class', func.__class__.__name__)
-        _method_name = set_ident('method_name', func.__name__)
+        module_path_ = set_ident('module_path', func.__module__)
+        class_class_ = '' #get later but put in this order
+        class_name_ = '' #get later but put in this order
+        method_class_ = set_ident('method_class', func.__class__.__name__)
+        method_name_ = set_ident('method_name', func.__name__)
 
-        vals = []
-        """Keep the param values handy."""
+        _vals = []
+        """Keep the param values handy and add to the meta."""
 
         for arg in args:
 
@@ -344,8 +348,8 @@ def api_recorder(func):
                 an instance guid - and we don't want it in our key. Playback
                 should return the same value for any instance."""
 
-                _class_name = set_ident('class_name', arg.__class__.__name__)
-                _class_class = set_ident('class_class', arg.__class__.__class__)
+                class_name_ = set_ident('class_name', arg.__class__.__name__)
+                class_class_ = set_ident('class_class', arg.__class__.__class__)
 
             else:
                 """Use any other parameter in the key."""
@@ -358,8 +362,8 @@ def api_recorder(func):
                 vname = set_ident('arg_name', arg_name)
                 vval = set_ident('arg_val', arg_val)
 
-                idents.append('{}_{}_{}'.format(vclass, vname, vval))
-                vals.append(set_ident(arg_name, arg_val))
+                clues.append('{}_{}_{}'.format(vclass, vname, vval))
+                _vals.append(set_ident(arg_name, arg_val))
 
 
         # Use the kwargs in the key
@@ -372,41 +376,43 @@ def api_recorder(func):
                 val = collections.OrderedDict(sorted(val.items()))
 
             """Use all the kwargs."""
-            idents.append('kwarg_{}_{}'.format(key, val))
-            vals.append('kwarg_{}_{}'.format(key, val))
+            clues.append('kwarg_{}_{}'.format(key, val))
+            _vals.append('kwarg_{}_{}'.format(key, val))
 
 
-        idents.sort()
-        vals.sort()
+        clues.sort()
+        _vals.sort()
 
-        #put in order of ancestors
-        idents.insert(0, _method_name)
-        idents.insert(0, _method_class)
-        idents.insert(0, _class_name)
-        idents.insert(0, _class_class)
-        idents.insert(0, _module_path)
+        # Put in order of ancestors.
+        clues.insert(0, method_name_)
+        clues.insert(0, method_class_)
+        clues.insert(0, class_name_)
+        clues.insert(0, class_class_)
+        clues.insert(0, module_path_)
 
-        ident_key = '__'.join(idents)
+        call_sig = '__'.join(clues)
+        #_key_hex = call_sig.hexdigest()
+        _key_md5 = hashlib.md5(call_sig.encode())
+        _key_md5_hex = _key_md5.hexdigest()
 
-        ident_key_counter = acr_remote.acr.get('counter_{}'.format(ident_key))
-        if not ident_key_counter:
-            ident_key_counter = acr_remote.acr.incr('counter_{}'.format(ident_key))
-        else:
-            ident_key_counter = acr_remote.acr.set('counter_{}'.format(ident_key), 1)
+        call_incre = acr_remote.acr_counter.incr(_key_md5_hex)
+        _incre_hex = '{}__{}'.format(call_sig, call_incre)
+        _incre_md5 = hashlib.md5(_incre_hex.encode())
+        _incre_md5_hex = _incre_md5.hexdigest()
 
-        ident_key_counted = '{}__count_{}'.format(ident_key, ident_key_counter)
+        _call_md5 = hashlib.md5(
+                            _incre_md5_hex.encode()
+                            ) # or: _key_md5_hex
+        """Change what you want to hash here."""
 
-        hash1 = hashlib.md5(ident_key.encode())
-        ident_key_hash = hash1.hexdigest()
+        call_signature_key = _call_md5.hexdigest()
 
-        choose_key = ident_key_hash
-
-        print(_method_name, ':', choose_key)
+        print(method_name_, ':', call_signature_key)
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
 
-            _recording = acr_remote.get(choose_key)
+            _recording = acr_remote.get(call_signature_key)
 
         else:
 
@@ -419,16 +425,18 @@ def api_recorder(func):
 
                 package = {
                     'recording': _recording,
-                    'ident_key': choose_key,
-                    'vals': vals,
-                    'module_path': _module_path,
-                    'class_class': _class_class,
-                    'class_name': _class_name,
-                    'method_class': _method_class,
-                    'method_name': _method_name,
+                    'call_sig': call_sig,
+                    'call_incre': call_incre,
+                    'call_sig': call_signature_key,
+                    'vals': _vals,
+                    'module_path': module_path_,
+                    'class_class': class_class_,
+                    'class_name': class_name_,
+                    'method_class': method_class_,
+                    'method_name': method_name_,
                 }
 
-                acr_remote.set(choose_key, package)
+                acr_remote.set(call_signature_key, package)
 
         return _recording
         """Return value."""

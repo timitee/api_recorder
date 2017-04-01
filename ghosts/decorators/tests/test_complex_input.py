@@ -6,7 +6,14 @@ from ghosts.decorators.tests.recording_management import (
     start_recording_scenario,
     end_recording_scenario,
     scenario_exists,
+    start_healing_scenario,
+    restart_recording_scenario,
+    load_scenario,
+    unload_scenario,
+    restart_playback_scenario,
+    pause_playback_scenario,
 )
+
 
 
 from ghosts.decorators.api_recorder import api_recorder, ApiRecorderController
@@ -25,10 +32,6 @@ def dictionary_input(contact):
 
 def test_dictionary_input():
     scenario_name = 'test_dictionary_input'
-
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.acr.flushdb()
 
     start_recording_scenario(scenario_name)
 
@@ -55,18 +58,17 @@ def test_dictionary_input():
     cc1 = dictionary_input(contact_c)
 
     end_recording_scenario(scenario_name)
-
-    acr_remote.acr.flushdb()
-
-    acr_remote.start_playingback()
+    unload_scenario(scenario_name)
 
     ca2 = dictionary_input(contact_a)
     cb2 = dictionary_input(contact_b)
     cc2 = dictionary_input(contact_c)
 
-    assert ca2 == None
+    restart_playback_scenario(scenario_name)
 
-    acr_remote.load_scenario(scenario_name)
+    assert dictionary_input(contact_a) != ca2
+
+    load_scenario(scenario_name)
 
     ca3 = dictionary_input(contact_a)
     cb3 = dictionary_input(contact_b)
@@ -76,7 +78,8 @@ def test_dictionary_input():
     assert cb3 == cb1
     assert cc3 == cc1
 
-    acr_remote.recorder_off()
+    unload_scenario(scenario_name)
+    end_recording_scenario(scenario_name)
 
 
 
@@ -88,10 +91,6 @@ def what_can_beat(x, y, a='Ants', b='Bears'):
 def test_complex_input():
     scenario_name = 'test_complex_input'
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.acr.flushdb()
-
     start_recording_scenario(scenario_name)
 
     dog1 = what_can_beat(14, 3, a='Dogs', b='Dinosaurs')
@@ -100,10 +99,9 @@ def test_complex_input():
     ant1 = what_can_beat(10000, 13, a='Ants', b='Pigs')
 
     end_recording_scenario(scenario_name)
+    unload_scenario(scenario_name)
 
-    acr_remote.acr.flushdb()
-
-    acr_remote.start_playingback()
+    restart_playback_scenario(scenario_name)
 
     dog2 = what_can_beat(14, 3, a='Dogs', b='Dinosaurs')
     cat2 = what_can_beat(1, 13, a='Cats', b='Mice')
@@ -112,7 +110,7 @@ def test_complex_input():
 
     assert dog2 == None
 
-    acr_remote.load_scenario(scenario_name)
+    load_scenario(scenario_name)
 
     dog3 = what_can_beat(14, 3, a='Dogs', b='Dinosaurs')
     cat3 = what_can_beat(1, 13, a='Cats', b='Mice')
@@ -139,4 +137,4 @@ def test_complex_input():
     assert not cow4 == cow1
     assert not ant4 == ant1
 
-    acr_remote.recorder_off()
+    unload_scenario(scenario_name)

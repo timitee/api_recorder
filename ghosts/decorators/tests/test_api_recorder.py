@@ -162,6 +162,8 @@ def test_uniqueness_of_very_similar_classes():
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
         m.decorated_m('something different')
+        m.decorated_m('something different')
+        m.decorated_m('something different')
         m.undecorated_m('something different')
         """Already tested; but this time we record something different."""
 
