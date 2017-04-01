@@ -1,0 +1,6 @@
+{
+  "pyghosts__api_recorder_scenario3": {
+    "type": "string",
+    "value": "{'a33186ef4fbb8ae7887ece7eb962abf5': {'method_name': 'method_name_decorated_super', 'call_sig': 'a33186ef4fbb8ae7887ece7eb962abf5', 'vals': ['str_hello_api_who_am_i'], 'class_class': 'class_class_class_type', 'call_incre': 1, 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'method_class': 'method_class_function', 'class_name': 'class_name_ApiSuperClassDecorated', 'recording': 'ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello Api! Who am I?)'}}"
+  }
+}

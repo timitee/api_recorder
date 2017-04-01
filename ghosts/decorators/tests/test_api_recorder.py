@@ -3,16 +3,26 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import projectfile_folder
-from ghosts.decorators.api_recorder import ApiRecorderController
+from ghosts.decorators.tests.recording_management import (
+    start_recording_scenario,
+    pause_recording_scenario,
+    start_healing_scenario,
+    restart_recording_scenario,
+    end_and_save_scenario,
+    scenario_exists,
+    load_scenario,
+    pause_playback_scenario,
+    restart_playback_scenario,
+    unload_scenario,
+)
 
-scenario_name = 'test_api_recorder'
+site_name = 'pyghosts'
 
 
 def test_service_when_off():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_service_when_off'
+    end_and_save_scenario(site_name, scenario_name)
 
     from ghosts.decorators.tests.scenario import (
                                                     ApiMarshall,
@@ -21,7 +31,6 @@ def test_service_when_off():
                                                     scenario_val,
                                                     )
 
-    acr_remote.recorder_off()
 
     for c in [ApiMarshall, BpiMarshall]:
 
@@ -53,14 +62,11 @@ def test_service_when_off():
         playback isn't getting it's tapes mixed up.
         """
 
-    acr_remote.recorder_off()
-
 
 def test_start_recording():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_start_recording'
+    start_recording_scenario(site_name, scenario_name)
 
     from ghosts.decorators.tests.scenario import (
                                                     ApiMarshall,
@@ -69,7 +75,6 @@ def test_start_recording():
                                                     scenario_val,
                                                     )
 
-    acr_remote.start_recording()
 
     for c in [ApiMarshall, BpiMarshall]:
 
@@ -83,14 +88,13 @@ def test_start_recording():
         NB: We always test a decorated function against an undecorated one.
         """
 
-    acr_remote.recorder_off()
+    end_and_save_scenario(site_name, scenario_name)
 
 
 def test_start_playingback_on():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_start_playingback_on'
+    start_recording_scenario(site_name, scenario_name)
 
     from ghosts.decorators.tests.scenario import (
                                                     ApiMarshall,
@@ -99,8 +103,10 @@ def test_start_playingback_on():
                                                     scenario_val,
                                                     )
 
-    acr_remote.start_playingback()
+    end_and_save_scenario(site_name, scenario_name)
 
+
+    load_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
 
@@ -111,14 +117,13 @@ def test_start_playingback_on():
         """Answers the question: When the recorder is attempting to play back
         method calls which haven't be made, does it return "none". """
 
-    acr_remote.recorder_off()
+    unload_scenario(site_name, scenario_name)
 
 
 def test_uniqueness_of_very_similar_classes():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_uniqueness_of_very_similar_classes'
+    start_recording_scenario(site_name, scenario_name)
 
     """First we use the ApiMarshall and BpiMarshall from ghosts."""
     from ghosts.decorators.tests.scenario import (
@@ -128,8 +133,6 @@ def test_uniqueness_of_very_similar_classes():
                                                     scenario_val,
                                                     )
 
-    acr_remote.start_recording()
-
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
         m.decorated_m(scenario_val)
@@ -137,7 +140,9 @@ def test_uniqueness_of_very_similar_classes():
         """We've already tested this, just need to record again."""
 
 
-    acr_remote.start_playingback()
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
@@ -155,9 +160,11 @@ def test_uniqueness_of_very_similar_classes():
         assert m.decorated_m(scenario_val) == None
         assert m.undecorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """Passing means the decorator has spotted the difference between the
-        two "decorated_m" methods in different apps."""
+        two "decorated_m" methods in different apps - not playedback decorated."""
 
-    acr_remote.start_recording()
+    unload_scenario(site_name, scenario_name)
+
+    start_recording_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
@@ -167,7 +174,9 @@ def test_uniqueness_of_very_similar_classes():
         m.undecorated_m('something different')
         """Already tested; but this time we record something different."""
 
-    acr_remote.start_playingback()
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
@@ -182,4 +191,4 @@ def test_uniqueness_of_very_similar_classes():
         assert m.undecorated_m('something different') == api_response.format(c.__module__, c.__name__, 'undecorated_m', 'something different')
         """Passing means the decorator returned something different after all."""
 
-    acr_remote.recorder_off()
+    unload_scenario(site_name, scenario_name)

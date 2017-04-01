@@ -59,12 +59,12 @@ class ApiRecorderController(object):
     settings_db = 11
     counter_db = 12
 
-    def __init__(self, scenario):
+    def __init__(self, site_name, scenario_name):
         """"""
         self.acr = redis.StrictRedis(host='localhost', port=6379, db=self.db_num)
         self.acr_settings = redis.StrictRedis(host='localhost', port=6379, db=self.settings_db)
         self.acr_counter = redis.StrictRedis(host='localhost', port=6379, db=self.counter_db)
-        self.acr_settings.set(self.APR_SCENARIO, scenario)
+        self.acr_settings.set(self.APR_SCENARIO, '{}__{}'.format(site_name, scenario_name))
 
 
     @property
@@ -215,74 +215,53 @@ class ApiRecorderController(object):
         return _recording
 
 
-    def flush_scenario(self, scenario=None):
+    def flush_scenario(self):
         """"""
 
-        if not scenario:
-            scenario = self.scenario
-
-        return self.acr.set(scenario, {})
-
-
-    def load_scenario(self, scenario=None):
+    def load_scenario(self):
         """"""
 
-        if not scenario:
-            scenario = self.scenario
-
-        with open('automocks/redis_{}.json'.format(scenario), 'r') as f:
+        with open('automocks/redis_{}.json'.format(self.scenario), 'r') as f:
             json_text = f.read()
 
         redisdl.loads(json_text, db=self.db_num)
 
-    def save_scenario(self, scenario=None):
+    def save_scenario(self):
         """"""
 
-        if not scenario:
-            scenario = self.scenario
+        json_text = redisdl.dumps(encoding='iso-8859-1', pretty=True, db=self.db_num, keys=self.scenario)
 
-        json_text = redisdl.dumps(encoding='iso-8859-1', pretty=True, db=self.db_num, keys=scenario)
-
-        with open('automocks/redis_{}.json'.format(scenario), 'w') as f:
+        with open('automocks/redis_{}.json'.format(self.scenario), 'w') as f:
             f.write(json_text)
 
 
-    def scenario_exists(self, scenario=None):
+    def scenario_exists(self):
         """"""
 
-        if not scenario:
-            scenario = self.scenario
-
-        return os.path.exists('automocks/redis_{}.json'.format(scenario))
+        return os.path.exists('automocks/redis_{}.json'.format(self.scenario))
 
 
-    def set(self, key, package, scenario=None):
+    def set(self, key, package):
         """Expose the redis set method."""
-
-        if not scenario:
-            scenario = self.scenario
 
         if self.mocks:
             """Create a mock object with the current data package."""
 
             self.build_mock(key, copy.deepcopy(package))
 
-        scenario_packages = self.acr.get(scenario) or {}
+        scenario_packages = self.acr.get(self.scenario) or {}
         scenario_packages = self.process_packages(scenario_packages)
 
         scenario_packages[key] = package
 
-        return self.acr.set(scenario, scenario_packages)
+        return self.acr.set(self.scenario, scenario_packages)
 
 
-    def get_package(self, key, scenario=None):
+    def get_package(self, key):
         """Returns the entire package we saved which contains metadata
         plus the recording."""
 
-        if not scenario:
-            scenario = self.scenario
-
-        scenario_packages = self.acr.get(scenario) or {}
+        scenario_packages = self.acr.get(self.scenario) or {}
         scenario_packages = self.process_packages(scenario_packages)
 
         return scenario_packages.get(key, None) if scenario_packages else None
@@ -296,7 +275,7 @@ class ApiRecorderController(object):
         return package.get('recording', None) if package else None
 
 
-acr_remote = ApiRecorderController('root')
+acr_remote = ApiRecorderController('pyghosts', 'root')
 
 
 def api_recorder(func):

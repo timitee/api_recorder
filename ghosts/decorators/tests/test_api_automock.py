@@ -3,20 +3,27 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import project_path
-from ghosts.decorators.api_recorder import ApiRecorderController
+from ghosts.decorators.tests.recording_management import (
+    start_recording_scenario,
+    pause_recording_scenario,
+    start_healing_scenario,
+    restart_recording_scenario,
+    end_and_save_scenario,
+    scenario_exists,
+    load_scenario,
+    pause_playback_scenario,
+    restart_playback_scenario,
+    unload_scenario,
+)
 
-scenario_name = 'test_api_mocking'
+site_name = 'pyghosts'
+
 
 
 def test_making_mocks():
 
-    acr_remote = ApiRecorderController(scenario_name)
-    assert acr_remote.scenario == scenario_name
-
-    # Flush the api db
-    acr_remote.flush_scenario()
-    acr_remote.start_recording()
-    acr_remote.start_mocking()
+    scenario_name = 'test_making_mocks'
+    start_recording_scenario(site_name, scenario_name)
 
     """Use the ApiMarshall and BpiMarshall from ghosts."""
     from ghosts.decorators.tests.scenario import (
@@ -32,8 +39,11 @@ def test_making_mocks():
         m.undecorated_m(scenario_val)
         """We've already tested this, just need to record again."""
 
+    end_and_save_scenario(site_name, scenario_name)
+
+
     mocks_path = os.path.join(project_path(), 'automocks')
-    module_name = 'mock_{}.py'.format(scenario_name)
+    module_name = 'mock_{}__{}.py'.format(site_name, scenario_name)
     mock_file = os.path.join(mocks_path, module_name)
 
     assert os.path.exists(mock_file)
@@ -42,12 +52,8 @@ def test_making_mocks():
     with open(mock_file, '+r') as mock_file:
         mocks = mock_file.read()
 
-
     assert 'ApiMarshall' in mocks
     assert 'BpiMarshall' in mocks
     assert 'decorated_m' in mocks
     assert scenario_val in mocks
     """Does our mock file have this def?"""
-
-    acr_remote.recorder_off()
-    acr_remote.save_scenario()

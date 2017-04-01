@@ -2,87 +2,93 @@
 import os
 import pytest
 
-from ghosts.decorators.api_recorder import ApiRecorderController
+from ghosts.decorators.tests.recording_management import (
+    start_recording_scenario,
+    pause_recording_scenario,
+    start_healing_scenario,
+    restart_recording_scenario,
+    end_and_save_scenario,
+    scenario_exists,
+    load_scenario,
+    pause_playback_scenario,
+    restart_playback_scenario,
+    unload_scenario,
+)
 from ghosts.decorators.tests.scenario import (
     ApiSuperClassDecorated,
     scenario_val,
     api_response,
 )
 
+site_name = 'pyghosts'
 scenario_name = 'test_class_decorator'
 
 
-def test_service_when_off():
+def test_class_decorator_when_off():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_class_decorator_when_off'
+    start_recording_scenario(site_name, scenario_name)
+
     m = ApiSuperClassDecorated()
     c = ApiSuperClassDecorated
 
-    acr_remote.recorder_off()
+    end_and_save_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
-    acr_remote.recorder_off()
 
+def test_class_decorator_recording():
 
-def test_start_recording():
+    scenario_name = 'test_class_decorator_recording'
+    start_recording_scenario(site_name, scenario_name)
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
     m = ApiSuperClassDecorated()
     c = ApiSuperClassDecorated
-
-    acr_remote.start_recording()
 
     assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
-    acr_remote.recorder_off()
+    end_and_save_scenario(site_name, scenario_name)
 
 
-def test_start_playingback_on():
+def test_start_class_decorator_playingback():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_start_class_decorator_playingback'
+    start_recording_scenario(site_name, scenario_name)
+
     m = ApiSuperClassDecorated()
     c = ApiSuperClassDecorated
 
-    acr_remote.start_playingback()
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == None
     """Answers the question: When the recorder is attempting to play back
     method calls which haven't be made, does it return "none". """
 
-    acr_remote.start_playingback()
-
-    assert m.decorated_super(scenario_val) == None
-    """Answers the question: When the recorder is attempting to play back
-    method calls which haven't be made, does it return "none". """
-
-    acr_remote.recorder_off()
+    unload_scenario(site_name, scenario_name)
 
 
 def test_record_playback():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_start_class_decorator_playingback'
+    start_recording_scenario(site_name, scenario_name)
+
     m = ApiSuperClassDecorated()
     c = ApiSuperClassDecorated
 
-    acr_remote.start_recording()
+    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    """Recorded: ..."""
+
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    """Playedback: ..."""
 
-    acr_remote.start_playingback()
-
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
-
-    acr_remote.recorder_off()
+    unload_scenario(site_name, scenario_name)

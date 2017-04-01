@@ -32,7 +32,7 @@ until the method is released from playback.
 
   from ghosts.decorators.tests.recording_management import (
       start_recording_scenario,
-      end_recording_scenario,
+      end_and_save_scenario,
       scenario_exists,
       start_healing_scenario,
       restart_recording_scenario,
@@ -52,7 +52,7 @@ until the method is released from playback.
 
     # Finish recording data for your tests, then ...
 
-    end_recording_scenario(scenario_name)
+    end_and_save_scenario(scenario_name)
     """
     All the recordings will be packaged and saved into:
 
@@ -68,7 +68,7 @@ until the method is released from playback.
 
   from ghosts.decorators.tests.recording_management import (
       start_recording_scenario,
-      end_recording_scenario,
+      end_and_save_scenario,
       scenario_exists,
       start_healing_scenario,
       restart_recording_scenario,
@@ -119,7 +119,7 @@ until the method is released from playback.
 
 
 
-    end_recording_scenario(scenario_name)
+    end_and_save_scenario(scenario_name)
 
 
 ***Use a Recording as the template for a Test.***
@@ -169,7 +169,7 @@ Ignore the rest for now. At the bottom of the method change:
 
 ::
 
-    end_recording_scenario(scenario_name)
+    end_and_save_scenario(scenario_name)
 
 To
 
@@ -185,7 +185,7 @@ Checklist:
   3) Remove "overwrite" protection.
   4) Change "start_recording_scenario" to "load_scenario".
   5) Leave the rest for now as resources for a test.
-  6) Change "end_recording_scenario" to "unload_scenario" as the last.
+  6) Change "end_and_save_scenario" to "unload_scenario" as the last.
 
 
 

@@ -1,6 +1,0 @@
-{
-  "test_api_mocking": {
-    "type": "string",
-    "value": "{'65eefb82a99bce57a607642b649f7ff9': {'call_sig': '65eefb82a99bce57a607642b649f7ff9', 'method_class': 'method_class_function', 'recording': 'ghosts.decorators.tests.scenario.BpiMarshall.decorated_m(Hello Api! Who am I?)', 'method_name': 'method_name_decorated_m', 'class_class': 'class_class_class_type', 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'class_name': 'class_name_BpiMarshall', 'vals': ['str_hello_api_who_am_i'], 'call_incre': 1}, 'f85ea9459bbc1d7da37da6cd0a09da57': {'call_sig': 'f85ea9459bbc1d7da37da6cd0a09da57', 'method_class': 'method_class_function', 'recording': 'ghosts.decorators.tests.scenario.ApiMarshall.decorated_m(Hello Api! Who am I?)', 'vals': ['str_hello_api_who_am_i'], 'method_name': 'method_name_decorated_m', 'class_class': 'class_class_class_type', 'module_path': 'module_path_ghosts_decorators_tests_scenario', 'class_name': 'class_name_ApiMarshall', 'call_incre': 1}}"
-  }
-}

@@ -2,7 +2,19 @@
 import os
 import pytest
 
-from ghosts.decorators.api_recorder import ApiRecorderController
+
+from ghosts.decorators.tests.recording_management import (
+    start_recording_scenario,
+    pause_recording_scenario,
+    start_healing_scenario,
+    restart_recording_scenario,
+    end_and_save_scenario,
+    scenario_exists,
+    load_scenario,
+    pause_playback_scenario,
+    restart_playback_scenario,
+    unload_scenario,
+)
 from ghosts.decorators.tests.scenario import (
     ApiSuperClassDecorated,
     ApiSubClassDecorated,
@@ -10,94 +22,87 @@ from ghosts.decorators.tests.scenario import (
     api_response,
 )
 
-scenario_name = 'test_class_inherit'
-
+site_name = 'pyghosts'
 
 def test_service_when_off():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_service_when_off'
+    start_recording_scenario(site_name, scenario_name)
+
     super_class = ApiSuperClassDecorated()
     super_type = ApiSuperClassDecorated
     sub_class = ApiSubClassDecorated()
     sub_type = ApiSubClassDecorated
 
-    acr_remote.recorder_off()
+    end_and_save_scenario(site_name, scenario_name)
 
     assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
     assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
-
-    acr_remote.recorder_off()
 
 
 def test_start_recording():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_start_recording'
+    start_recording_scenario(site_name, scenario_name)
+
     super_class = ApiSuperClassDecorated()
     super_type = ApiSuperClassDecorated
     sub_class = ApiSubClassDecorated()
     sub_type = ApiSubClassDecorated
-
-    acr_remote.start_recording()
 
     assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
     assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
-    acr_remote.recorder_off()
+    end_and_save_scenario(site_name, scenario_name)
 
 
 def test_start_playingback_on():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_start_playingback_on'
+    start_recording_scenario(site_name, scenario_name)
+
     super_class = ApiSuperClassDecorated()
     super_type = ApiSuperClassDecorated
     sub_class = ApiSubClassDecorated()
     sub_type = ApiSubClassDecorated
 
-    acr_remote.start_playingback()
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
 
     assert sub_class.decorated_sub(scenario_val) == None
     assert super_class.decorated_super(scenario_val) == None
     """Answers the question: When the recorder is attempting to play back
     method calls which haven't be made, does it return "none". """
 
-    acr_remote.start_playingback()
-
-    assert sub_class.decorated_sub(scenario_val) == None
-    assert super_class.decorated_super(scenario_val) == None
-    """Answers the question: When the recorder is attempting to play back
-    method calls which haven't be made, does it return "none". """
-
-    acr_remote.recorder_off()
+    unload_scenario(site_name, scenario_name)
 
 
 def test_record_playback():
 
-    # Flush the api db
-    acr_remote = ApiRecorderController(scenario_name)
-    acr_remote.flush_scenario()
+    scenario_name = 'test_record_playback'
+    start_recording_scenario(site_name, scenario_name)
+
     super_class = ApiSuperClassDecorated()
     super_type = ApiSuperClassDecorated
     sub_class = ApiSubClassDecorated()
     sub_type = ApiSubClassDecorated
 
-    acr_remote.start_recording()
 
     assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
     assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
+    """Recording... """
 
-    acr_remote.start_playingback()
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
 
     assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
     assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
+    """Plays back correctly. """
 
-    acr_remote.recorder_off()
+    unload_scenario(site_name, scenario_name)
