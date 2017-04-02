@@ -55,6 +55,7 @@ def strongest_animal(animals_list):
 def test_parameters_as_lists():
 
     scenario_name = 'test_parameters_as_lists'
+
     start_recording_scenario(site_name, scenario_name)
 
     rec_winner1, rec_details1 = strongest_animal(['Cats'])
@@ -97,13 +98,20 @@ def test_parameters_as_lists():
 
     unload_scenario(site_name, scenario_name)
 
+
+
+
+def test_recall_from_different_order():
+
+    scenario_name = 'test_recall_from_different_order'
+
     start_recording_scenario(site_name, scenario_name)
 
     rec_sort2_winner4, rec_sort2_details4 = strongest_animal(['Dogs', 'Pigs', 'Cats', 'Rats', 'Mice'])
     """Recording: Change the starting order 2."""
 
-    assert rec_sort2_winner4 == plyb1_sort1_winner3
-    assert rec_sort2_details4['report']['Dogs'] > plyb1_sort1_details3['report']['Cats']
+    assert rec_sort2_winner4 == 'Pigs'
+    assert rec_sort2_details4['report']['Rats'] > rec_sort2_details4['report']['Mice']
     """When not playing back, the order of the list makes no difference."""
 
     end_and_save_scenario(site_name, scenario_name)
@@ -111,7 +119,7 @@ def test_parameters_as_lists():
     load_scenario(site_name, scenario_name)
 
     plyb_sort3_winner5, plyb_sort3_details5 = strongest_animal(['Rats', 'Dogs', 'Pigs', 'Mice', 'Cats'])
-    """Testing Playback of: Same as above - different starting order 3."""
+    """Testing Playback of: Same as above - different starting order 4."""
 
     assert plyb_sort3_winner5 == rec_sort2_winner4
     assert plyb_sort3_details5['report']['Dogs'] > rec_sort2_details4['report']['Cats']

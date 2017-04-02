@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
-def mock_ghosts_api_recorder_tests_test_parameters_as_lists____strongest_animal__list_cats__5a8efcb3faef4efebce4847c3c70ea63():
-    return ('Cats', {'winner_strength': 9, 'report': {'Cats': 9}, 'winner': 'Cats'})
+def mock_ghosts_api_recorder_tests_test_parameters_as_lists____strongest_animal__2valsset2__dlistyfy_list_Cats__83b7f53b90a33ef0773975fad4a8fe1c():
+    return ('Cats', {'report': {'Cats': 9}, 'winner': 'Cats', 'winner_strength': 9})
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_parameters_as_lists____strongest_animal__list_aliens_dinosaurs_dogs__916cc4aed1fd814a69709a50c3edcfc7():
-    return ('Aliens', {'winner_strength': 81, 'report': {'Dinosaurs': 64, 'Dogs': 16, 'Aliens': 81}, 'winner': 'Aliens'})
+def mock_ghosts_api_recorder_tests_test_parameters_as_lists____strongest_animal__2valsset2__dlistyfy_list_Aliens_Dinosaurs_Dogs__3222aa3dbf3d666a8f4ad62c03eb6fb0():
+    return ('Aliens', {'report': {'Dinosaurs': 64, 'Aliens': 81, 'Dogs': 16}, 'winner': 'Aliens', 'winner_strength': 81})
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_parameters_as_lists____strongest_animal__list_cats_dogs_mice_pigs_rats__34cebd47c0472464db85b9f55ad724bd():
-    return ('Pigs', {'winner_strength': 25, 'report': {'Pigs': 25, 'Rats': 4, 'Dogs': 16, 'Mice': 1, 'Cats': 9}, 'winner': 'Pigs'})
+def mock_ghosts_api_recorder_tests_test_parameters_as_lists____strongest_animal__2valsset2__dlistyfy_list_Cats_Dogs_Mice_Pigs_Rats__9d7b640ad8f06f21f43d598585768a86():
+    return ('Pigs', {'report': {'Cats': 9, 'Rats': 4, 'Mice': 1, 'Dogs': 16, 'Pigs': 25}, 'winner': 'Pigs', 'winner_strength': 25})
     # :endmock:

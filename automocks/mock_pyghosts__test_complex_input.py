@@ -1,68 +1,60 @@
 # -*- encoding: utf-8 -*-
-def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__int_3__int_8__kwarg_a_Dogs__kwarg_b_Dinosaurs__b2129b87afcd3405df32fd9c3c6ec93d():
-    return ('Dinosaurs', 'Dogs', {'winner_strength': 64, 'loser': 'Dogs', 'winner_combined_strength': 64, 'loser_strength': 16, 'loser_combined_strength': 16, 'winner': 'Dinosaurs'})
-    # :endmock:
-
-def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__int_1__int_13__kwarg_a_Cats__kwarg_b_Mice__fd1ed5c7218527bf8c66071aefcad091():
-    return ('Cats', 'Mice', {'winner_strength': 9, 'loser': 'Mice', 'winner_combined_strength': 9, 'loser_strength': 4, 'loser_combined_strength': 4, 'winner': 'Cats'})
-    # :endmock:
-
-def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__int_100000__int_13__kwarg_a_Ants__kwarg_b_Pigs__237a6f585bbdf2dcbec9b7c0f92f9e4f():
-    return ('Pigs', 'Ants', {'winner_strength': 25, 'loser': 'Ants', 'winner_combined_strength': 25, 'loser_strength': 1, 'loser_combined_strength': 1, 'winner': 'Pigs'})
-    # :endmock:
-
-def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__int_1__int_13__kwarg_a_Cats__kwarg_b_Rats__bc97b8f71708ac16cdee060148cca36f():
-    return ('Rats', 'Cats', {'loser_combined_strength': 9, 'winner_strength': 4, 'loser': 'Cats', 'winner': 'Rats', 'loser_strength': 9, 'winner_combined_strength': 52})
-    # :endmock:
-
-def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__int_1000000__int_13__kwarg_a_Mice__kwarg_b_Bears__754fdc78101f618522d99dba7979aef1():
-    return ('Mice', 'Bears', {'loser_combined_strength': 637, 'winner_strength': 1, 'loser': 'Bears', 'winner': 'Mice', 'loser_strength': 49, 'winner_combined_strength': 1000000})
-    # :endmock:
-
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_14__int_3__kwarg_a_Dogs__kwarg_b_Dinosaurs__aa87cf409242edec2d0f156a70ef26ae():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_14__int_3__kwarg_a_Dogs__kwarg_b_Dinosaurs__dff864289e1590b08bbd6d5cbed4dc0a():
     return 14 Dogs can beat 3 Dinosaurs
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_1__int_13__kwarg_a_Cats__kwarg_b_Mice__e13c66d23be66c0fdff696affa5abce7():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_1__int_13__kwarg_a_Cats__kwarg_b_Mice__4757322b6f0bb55034c1ef6c873b2314():
     return 1 Cats can beat 13 Mice
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_13__int_20__kwarg_a_Cows__kwarg_b_Mice__8cd770b22f8cbcba98a69d4cffc7a00b():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_13__int_20__kwarg_a_Cows__kwarg_b_Mice__d8096a9c72b6f16e8aaf932ee4ce95e6():
     return 20 Cows can beat 13 Mice
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_10000__int_13__kwarg_a_Ants__kwarg_b_Pigs__351626052b35f78f6a4131ce4f7da430():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_10000__int_13__kwarg_a_Ants__kwarg_b_Pigs__99d1ebf1bb11f5f5c67b25611bb079fb():
     return 10000 Ants can beat 13 Pigs
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_15__int_4__kwarg_a_Dogs__kwarg_b_Dinosaurs__37f4beb0841d0a5154acb8d471ae1d6a():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_15__int_4__kwarg_a_Dogs__kwarg_b_Dinosaurs__ae202bb40610c70dc3f174d2e484b6ff():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_2__int_7__kwarg_a_Cats__kwarg_b_Mice__e28ba681fdcc641ea7ff92db6cd493ee():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_2__int_7__kwarg_a_Cats__kwarg_b_Mice__180d7b57f37c84c4f3b35911ea90df1e():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_10__int_7__kwarg_a_Cows__kwarg_b_Mice__1f5249cf6d288803a3142640634faabe():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_10__int_7__kwarg_a_Cows__kwarg_b_Mice__c745477b4a630754ee56ed69f18a5c97():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_7__int_99999__kwarg_a_Ants__kwarg_b_Pigs__130d86f91b428d379774542472984bd2():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_7__int_99999__kwarg_a_Ants__kwarg_b_Pigs__006db300366468f8545db6da9cf1db51():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_14__int_3__kwarg_a_Dinosaurs__kwarg_b_Dogs__51b2ea0b46a0ce61c741443f46c12567():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_14__int_3__kwarg_a_Dinosaurs__kwarg_b_Dogs__afdc319c2b50c0712393690181251087():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_1__int_13__kwarg_a_Mice__kwarg_b_Cats__d13941ca016dd8885892cb3314238b13():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_1__int_13__kwarg_a_Mice__kwarg_b_Cats__4db6d320f9f2ab00d781e013504a28c0():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_13__int_20__kwarg_a_Mice__kwarg_b_Cows__11ee3cf907741ef2676551f5db1ea17f():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_13__int_20__kwarg_a_Mice__kwarg_b_Cows__0a817198a850b56c76a896a7cd0c3602():
     return None
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__int_10000__int_13__kwarg_a_Pigs__kwarg_b_Ants__44d49b2c4aa7018e51c36d4236ac4a53():
+def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset2__int_10000__int_13__kwarg_a_Pigs__kwarg_b_Ants__2b0926ae421f4a9f3090c3ce5237fb50():
     return None
+    # :endmock:
+
+def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__2valsset2__int_3__int_8__kwarg_a_Dogs__kwarg_b_Dinosaurs__ea433a168c9213bbc06b4f1336a2a784():
+    return ('Dinosaurs', 'Dogs', {'loser_strength': 16, 'winner_combined_strength': 192, 'winner': 'Dinosaurs', 'loser': 'Dogs', 'loser_combined_strength': 128, 'winner_strength': 64})
+    # :endmock:
+
+def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__2valsset2__int_1__int_13__kwarg_a_Cats__kwarg_b_Rats__5a3a583e41b869ba84d32c4a4806990e():
+    return ('Rats', 'Cats', {'loser_strength': 9, 'winner_combined_strength': 52, 'winner': 'Rats', 'loser': 'Cats', 'loser_combined_strength': 9, 'winner_strength': 4})
+    # :endmock:
+
+def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__2valsset2__int_1000000__int_13__kwarg_a_Mice__kwarg_b_Bears__b88bda7030b6dcc80cc4b303d2b6921c():
+    return ('Mice', 'Bears', {'loser_strength': 49, 'winner_combined_strength': 1000000, 'winner': 'Mice', 'loser': 'Bears', 'loser_combined_strength': 637, 'winner_strength': 1})
     # :endmock:

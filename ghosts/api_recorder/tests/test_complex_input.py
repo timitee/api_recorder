@@ -29,28 +29,34 @@ def dictionary_input(contact):
     return contact['id']
 
 
+@api_recorder
+def dictionary_list_input(contact_list, x):
+    return contact_list[x]['id']
+
+
+contact_a = {
+    'id': 1,
+    'name': 'Ant',
+    'sex': 'Male'
+}
+
+contact_b = {
+    'id': 2,
+    'name': 'Bear',
+    'sex': 'Female'
+}
+
+contact_c = {
+    'id': 3,
+    'name': 'Cat',
+    'sex': 'Female'
+}
+
+
 def test_dictionary_input():
 
     scenario_name = 'test_dictionary_input'
     start_recording_scenario(site_name, scenario_name)
-
-    contact_a = {
-        'id': 1,
-        'name': 'Ant',
-        'sex': 'Male'
-    }
-
-    contact_b = {
-        'id': 2,
-        'name': 'Bear',
-        'sex': 'Female'
-    }
-
-    contact_c = {
-        'id': 3,
-        'name': 'Cat',
-        'sex': 'Female'
-    }
 
     ca1 = dictionary_input(contact_a)
     cb1 = dictionary_input(contact_b)
@@ -81,6 +87,40 @@ def test_dictionary_input():
 
     assert ca3 == ca1
     """ca1 was recorded and restored."""
+
+    unload_scenario(site_name, scenario_name)
+
+
+def test_dictionary_list_input():
+
+    scenario_name = 'test_dictionary_list_input'
+    start_recording_scenario(site_name, scenario_name)
+
+    contact_list = [contact_a, contact_b, contact_c]
+
+    ca1 = dictionary_list_input(contact_list, 0)
+
+    end_and_save_scenario(site_name, scenario_name)
+
+    load_scenario(site_name, scenario_name)
+
+    ca2 = dictionary_list_input(contact_list, 0)
+
+    assert ca2 == ca1
+    """ca2 was recorded."""
+
+    contact_list = [contact_b, contact_a, contact_c]
+    ca3 = dictionary_list_input(contact_list, 0)
+    """ca2 was recovered with items in another order."""
+
+    assert not ca3 == ca1
+    """ca2 was recovered but it's in another index."""
+
+    ca4 = dictionary_list_input(contact_list, 1)
+    """ca2 was recovered with items in another order."""
+
+    assert not ca4 == ca1
+    """ca2 was recovered but it's in another index."""
 
     unload_scenario(site_name, scenario_name)
 

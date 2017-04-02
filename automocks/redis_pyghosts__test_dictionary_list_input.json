@@ -1,0 +1,6 @@
+{
+  "pyghosts__test_dictionary_list_input": {
+    "type": "string",
+    "value": "{'f6ce01cfc236fb4ff857b7943a66ab39': {'method_class': 'method_class_function', 'vals': ['2valsset2', 'c', 'd', 'i', 'int_0', 'n', 'o', 't'], 'class_class': '', 'method_name': 'method_name_dictionary_list_input', 'recording': 1, 'module_path': 'module_path_ghosts_api_recorder_tests_test_complex_input', 'call_sig': 'f6ce01cfc236fb4ff857b7943a66ab39', 'class_name': '', 'call_incre': 1}}"
+  }
+}

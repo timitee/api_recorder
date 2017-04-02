@@ -151,8 +151,6 @@ class ApiRecorderController(object):
         )
         """Unique-ish method name for the mock."""
 
-        print(method_name)
-
         if self.pretty_print:
             pp_recording = pp.pformat(recording)
         else:
@@ -285,6 +283,3 @@ class ApiRecorderController(object):
             self.build_mock(key, copy.deepcopy(package))
 
         return recording
-
-
-        self.build_mock(key, copy.deepcopy(package))

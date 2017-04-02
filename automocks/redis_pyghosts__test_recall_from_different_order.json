@@ -1,0 +1,6 @@
+{
+  "pyghosts__test_recall_from_different_order": {
+    "type": "string",
+    "value": "{'9d7b640ad8f06f21f43d598585768a86': {'method_class': 'method_class_function', 'vals': ['2valsset2', 'dlistyfy_list_Cats_Dogs_Mice_Pigs_Rats'], 'class_class': '', 'method_name': 'method_name_strongest_animal', 'recording': ('Pigs', {'report': {'Cats': 9, 'Rats': 4, 'Dogs': 16, 'Mice': 1, 'Pigs': 25}, 'winner': 'Pigs', 'winner_strength': 25}), 'module_path': 'module_path_ghosts_api_recorder_tests_test_parameters_as_lists', 'call_sig': '9d7b640ad8f06f21f43d598585768a86', 'class_name': '', 'call_incre': 1}}"
+  }
+}

@@ -10,25 +10,68 @@ from ghosts.api_recorder.api_controller import ApiRecorderController
 
 acr_remote = ApiRecorderController('pyghosts', 'root', False)
 
+def dlistyfy(this_list):
+    """Return a list as a settable list of strings."""
+
+    arg_name = this_list.__class__.__name__
+
+    if this_list:
+
+        try:
+
+            this_list = sorted(this_list)
+
+            _dlistyfy = set_ident('dlistyfy_{}'.format(arg_name), '_'.join(this_list))
+            """The sorted list as a key."""
+
+            return set([_dlistyfy])
+
+        except Exception as ex:
+            """Sorting a List of Dicts error."""
+
+            if len(this_list) > 0:
+
+                ddictions = set('ddiction')
+                for poss_dict in this_list:
+                    if isinstance(poss_dict, dict):
+                        ddictions.union(ddiction(poss_dict, arg_name))
+                return ddictions
+
+            else:
+                return set([set_ident('dlistyfy_{}'.format(arg_name), 'blank')])
+
+    """Return a placeholder for the arg."""
+    return set([set_ident('dlistyfy_{}'.format(arg_name), 'blank')])
+
+
+def ddiction(this_dictionary, arg_name):
+    ddictions = set('ddiction')
+    for k, v in this_dictionary.items():
+        zub_key_ident = set_ident('{}_{}'.format(arg_name, k), v)
+        ddictions.add(zub_key_ident)
+    return ddictions
+
+
+def set_ident(val_type, val):
+
+    ident = '{}_{}'.format(val_type, val)
+    ident = ident.replace('>', '')
+    ident = ident.replace('<', '')
+    ident = ident.replace(')', '')
+    ident = ident.replace('(', '')
+    ident = ident.replace('\,', '')
+    ident = ident.replace('\'', '')
+    ident = ident.replace('\"', '')
+    ident = ident.replace(' ', '_')
+    ident = ident.replace('.', '_')
+    ident = ident.replace('-', '_')
+    ident = ident.replace('__', '_')
+    ident = ident.replace('__', '_')
+    return str(ident) #[:80] # not too big - hashing... big as you like.
+
+
 def api_recorder(func):
     """Record/Playback a method output keyed to input."""
-
-    def set_ident(val_type, val):
-
-        ident = '{}_{}'.format(val_type, val)
-        ident = ident.replace('>', '')
-        ident = ident.replace('<', '')
-        ident = ident.replace(')', '')
-        ident = ident.replace('(', '')
-        ident = ident.replace('\,', '')
-        ident = ident.replace('\'', '')
-        ident = ident.replace('\"', '')
-        ident = ident.replace(' ', '_')
-        ident = ident.replace('.', '_')
-        ident = ident.replace('-', '_')
-        ident = ident.replace('__', '_')
-        ident = ident.replace('__', '_')
-        return str(ident) #[:80] # not too big - hashing... big as you like.
 
     def func_wrapper(*args, **kwargs):
 
@@ -37,7 +80,7 @@ def api_recorder(func):
             return func(*args, **kwargs)
             """Run the function as normal"""
 
-        clues = []
+        clues = set(['1clueset1'])
         """Building a unique key for this call from all it's meta
         data + its parameters."""
 
@@ -47,27 +90,32 @@ def api_recorder(func):
         method_class_ = set_ident('method_class', func.__class__.__name__)
         method_name_ = set_ident('method_name', func.__name__)
 
-        _vals = []
+        _vals = set(['2valsset2'])
+
         """Keep the param values handy and add to the meta."""
 
         for arg in args:
 
             if isinstance(arg, list):
-                try:
-                    arg = sorted(arg)
-                except:
-                    if len(arg) > 0:
-                        for dct in arg:
-                            if isinstance(dct, dict):
-                                for k, v in dct.items():
-                                    sub_key_ident = set_ident(k, v)
-                                    if not sub_key_ident in clues:
-                                        clues.append(sub_key_ident)
 
-            if isinstance(arg, dict):
-                arg = collections.OrderedDict(sorted(arg.items()))
+                list_set = dlistyfy(arg)
+                clues = clues.union(list_set)
 
-            if 'object at ' in str(arg):
+                _vals = _vals.union(list_set)
+                """Keep in handy as val."""
+
+
+            elif isinstance(arg, dict):
+
+
+                dict_set = ddiction(arg, 'dict')
+                clues = clues.union(dict_set)
+
+                _vals = _vals.union(dict_set)
+                """Keep in handy as val."""
+
+
+            elif 'object at ' in str(arg):
                 """Important: Playback should return the same value for any
                 instance. The "object at " value is the method's `self`. The
                 value has an instance guid - and we don't want it in our key.
@@ -77,6 +125,7 @@ def api_recorder(func):
                 class_class_ = set_ident('class_class', arg.__class__.__class__)
 
             else:
+
                 """Use any other parameter in the key."""
 
                 arg_val = slugify(str(arg))
@@ -87,26 +136,42 @@ def api_recorder(func):
                 vname = set_ident('arg_name', arg_name)
                 vval = set_ident('arg_val', arg_val)
 
-                clues.append('{}_{}_{}'.format(vclass, vname, vval))
-                _vals.append(set_ident(arg_name, arg_val))
+                clues.add('{}_{}_{}'.format(vclass, vname, vval))
+
+                _vals.add(set_ident(arg_name, arg_val))
+                """Keep in handy as val."""
 
 
         # Use the kwargs in the key
         for key, val in kwargs.items():
 
             if isinstance(val, list):
-                val = sorted(val)
 
-            if isinstance(val, dict):
-                val = collections.OrderedDict(sorted(val.items()))
+                list_as_set = dlistyfy(val)
 
-            """Use all the kwargs."""
-            clues.append('kwarg_{}_{}'.format(key, val))
-            _vals.append('kwarg_{}_{}'.format(key, val))
+                clues = clues.union(list_as_set)
+
+            elif isinstance(val, dict):
+
+                dict_as_set = ddiction(val, 'kwargdict')
+
+                clues = clues.union(dict_as_set)
+
+            else:
+                """Use all the kwargs."""
+
+                zwarg = set_ident('kwarg_{}'.format(key), val)
+                clues.add(zwarg)
+
+                _vals.add(zwarg)
+                """Keep in handy as val."""
 
 
-        clues = sorted(clues)
-        _vals = sorted(_vals)
+
+        if clues:
+            clues = sorted(clues)
+        if _vals:
+            _vals = sorted(_vals)
 
         # Put in order of ancestors.
         clues.insert(0, method_name_)
@@ -139,7 +204,7 @@ def api_recorder(func):
             'call_sig': call_sig,
             'call_incre': call_incre,
             'call_sig': call_signature_key,
-            'vals': _vals,
+            'vals': [] if not _vals else list(_vals),
             'module_path': module_path_,
             'class_class': class_class_,
             'class_name': class_name_,

@@ -1,40 +1,80 @@
 # -*- encoding: utf-8 -*-
-def mock_ghosts_api_recorder_tests_scenario__ApiMarshall__decorated_m__str_iseeyoughost__538e7776fd7cfe9a6e407550797236f5():
-    return {'cls': 'ApiMarshall', 'mod': 'ghosts.api_recorder.tests.scenario', 'mtd': 'decorated_m', 'val': 'ISeeYouGhost!'}
+def mock_ghosts_api_recorder_tests_scenario__ApiMarshall__decorated_m____77b96fc6637b08d012fba2b93a2c68ec():
+    return {'cls': 'ApiMarshall', 'mod': 'ghosts.api_recorder.tests.scenario', 'val': 'ISeeYouGhost!', 'mtd': 'decorated_m'}
     # :endmock:
 
-def mock_ghosts_api_recorder_tests_scenario__BpiMarshall__decorated_m__str_iseeyoughost__08f3adac545cb94df81e4ad56dab365a():
-    return {'cls': 'BpiMarshall', 'mod': 'ghosts.api_recorder.tests.scenario', 'mtd': 'decorated_m', 'val': 'ISeeYouGhost!'}
+def mock_ghosts_api_recorder_tests_scenario__BpiMarshall__decorated_m____2243a72e863578637f65c36f2d474d37():
+    return {'cls': 'BpiMarshall', 'mod': 'ghosts.api_recorder.tests.scenario', 'val': 'ISeeYouGhost!', 'mtd': 'decorated_m'}
     # :endmock:
 
-def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__str_something_different__26233abc77f8fba75273750633e4b87f():
-    return {'cls': 'ApiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
-    # :endmock:
-
-def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__str_something_different__3e4e6bd80356557db4812733e609c1d0():
-    return {'cls': 'ApiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
-    # :endmock:
-
-def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__str_something_different__49965ceb113b1dbd892f9964e07efd78():
-    return {'cls': 'ApiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
-    # :endmock:
-
-def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_something_different__6eda64ed66d30da1f821e961ade82ce8():
-    return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
-    # :endmock:
-
-def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_something_different__42f975bc6c2a1dd5e7e574d6b1c3e420():
-    return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
-    # :endmock:
-
-def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_something_different__398065137542692a16af15987b0e0a88():
-    return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
-    # :endmock:
-
-def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__str_iseeyoughost__29f866609bcc9bda67cbf5afe1103676():
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m____44cd96f936ad4408194263184b3b7dab():
     return None
     # :endmock:
 
-def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_iseeyoughost__c45d18d8ca6ac53364f02c4c84e9c622():
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m____3156702122450c0382a3e4ad37c69ed6():
     return None
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m____2188bc7917c7030a54833aaa710187c6():
+    return {'cls': 'ApiMarshall', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'mtd': 'decorated_m'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m____2e74ec5a6341a0b180cdcc0aa3b9ac4e():
+    return {'cls': 'ApiMarshall', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'mtd': 'decorated_m'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m____7a9f71e0fd1786471e445226605ae29d():
+    return {'cls': 'ApiMarshall', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'mtd': 'decorated_m'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m____1bbad56cd518378ec10faa99ac6e9040():
+    return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'mtd': 'decorated_m'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m____9c7578238e54b392f043b32296c6a2a7():
+    return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'mtd': 'decorated_m'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m____2a80b1f232a02b157efbe6b4139b0337():
+    return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'mtd': 'decorated_m'}
+    # :endmock:
+
+def mock_ghosts_api_recorder_tests_scenario__ApiMarshall__decorated_m__2valsset2__str_iseeyoughost__77b96fc6637b08d012fba2b93a2c68ec():
+    return {'mtd': 'decorated_m', 'mod': 'ghosts.api_recorder.tests.scenario', 'val': 'ISeeYouGhost!', 'cls': 'ApiMarshall'}
+    # :endmock:
+
+def mock_ghosts_api_recorder_tests_scenario__BpiMarshall__decorated_m__2valsset2__str_iseeyoughost__2243a72e863578637f65c36f2d474d37():
+    return {'mtd': 'decorated_m', 'mod': 'ghosts.api_recorder.tests.scenario', 'val': 'ISeeYouGhost!', 'cls': 'BpiMarshall'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__2valsset2__str_iseeyoughost__44cd96f936ad4408194263184b3b7dab():
+    return None
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__2valsset2__str_iseeyoughost__3156702122450c0382a3e4ad37c69ed6():
+    return None
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__2valsset2__str_something_different__2188bc7917c7030a54833aaa710187c6():
+    return {'mtd': 'decorated_m', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'cls': 'ApiMarshall'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__2valsset2__str_something_different__2e74ec5a6341a0b180cdcc0aa3b9ac4e():
+    return {'mtd': 'decorated_m', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'cls': 'ApiMarshall'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__2valsset2__str_something_different__7a9f71e0fd1786471e445226605ae29d():
+    return {'mtd': 'decorated_m', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'cls': 'ApiMarshall'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__2valsset2__str_something_different__1bbad56cd518378ec10faa99ac6e9040():
+    return {'mtd': 'decorated_m', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'cls': 'BpiMarshall'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__2valsset2__str_something_different__9c7578238e54b392f043b32296c6a2a7():
+    return {'mtd': 'decorated_m', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'cls': 'BpiMarshall'}
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__2valsset2__str_something_different__2a80b1f232a02b157efbe6b4139b0337():
+    return {'mtd': 'decorated_m', 'mod': 'example_ghosts.tests.scenario', 'val': 'something different', 'cls': 'BpiMarshall'}
     # :endmock:
