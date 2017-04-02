@@ -1,6 +1,0 @@
-{
-  "pyghosts__test_making_mocks": {
-    "type": "string",
-    "value": "{'08f3adac545cb94df81e4ad56dab365a': {'vals': ['str_iseeyoughost'], 'method_class': 'method_class_function', 'class_class': 'class_class_class_type', 'call_incre': 1, 'recording': {'cls': 'BpiMarshall', 'mtd': 'decorated_m', 'val': 'ISeeYouGhost!', 'mod': 'ghosts.api_recorder.tests.scenario'}, 'class_name': 'class_name_BpiMarshall', 'call_sig': '08f3adac545cb94df81e4ad56dab365a', 'module_path': 'module_path_ghosts_api_recorder_tests_scenario', 'method_name': 'method_name_decorated_m'}, '538e7776fd7cfe9a6e407550797236f5': {'vals': ['str_iseeyoughost'], 'method_class': 'method_class_function', 'class_class': 'class_class_class_type', 'call_incre': 1, 'recording': {'cls': 'ApiMarshall', 'mtd': 'decorated_m', 'val': 'ISeeYouGhost!', 'mod': 'ghosts.api_recorder.tests.scenario'}, 'class_name': 'class_name_ApiMarshall', 'call_sig': '538e7776fd7cfe9a6e407550797236f5', 'module_path': 'module_path_ghosts_api_recorder_tests_scenario', 'method_name': 'method_name_decorated_m'}}"
-  }
-}

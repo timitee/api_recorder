@@ -71,6 +71,18 @@ until the method is released from playback.
                   redis_<scenario_name>.py
     """
 
+**Pre-Recording Checklist.**
+
+  1) If it fails, will anything need rolling back to ensure the integrity of
+  starting data for other tests. Recordings must be "ghost-like" - leave little to
+  no evidence.
+  2) Each recording has a descriptive and unique file system safe name.
+  3) Each recording starts.
+  4) Each recording saves (unless testing the steps).
+  5) There are recording steps enough to cover all your tests. If you
+  load(x)-->change(x)-->save(x)-->load(x) then you must record the second
+  load(x). Playback will deliver identical signature calls in sequence.
+
 
 **Example of Recording.**
 
@@ -95,6 +107,7 @@ until the method is released from playback.
             return
 
     start_recording_scenario(site_name, scenario_name)
+
 
     """Now we start recording some data."""
     for regee in list_of_fake_db_registrees():
@@ -130,7 +143,9 @@ until the method is released from playback.
         """Recording will resume. We are in a loop remember :)"""
 
     end_and_save_scenario(site_name, scenario_name)
-
+    """**A piece of advice:** Run the recording with this line commented out
+    when you debug. Nothing will be saved to need deleting.
+    """
 
 ***Use a Recording as the template for a Test.***
 

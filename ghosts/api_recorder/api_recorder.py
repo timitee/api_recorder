@@ -54,7 +54,7 @@ def api_recorder(func):
         for arg in args:
 
             if isinstance(arg, list):
-                arg.sort()
+                arg = sorted(arg)
 
             if isinstance(arg, dict):
                 arg = collections.OrderedDict(sorted(arg.items()))
@@ -86,7 +86,7 @@ def api_recorder(func):
         for key, val in kwargs.items():
 
             if isinstance(val, list):
-                val.sort()
+                val = sorted(val)
 
             if isinstance(val, dict):
                 val = collections.OrderedDict(sorted(val.items()))
@@ -96,8 +96,8 @@ def api_recorder(func):
             _vals.append('kwarg_{}_{}'.format(key, val))
 
 
-        clues.sort()
-        _vals.sort()
+        clues = sorted(clues)
+        _vals = sorted(_vals)
 
         # Put in order of ancestors.
         clues.insert(0, method_name_)

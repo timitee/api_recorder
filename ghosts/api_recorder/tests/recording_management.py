@@ -26,8 +26,9 @@ def end_and_save_scenario(site_name, scenario_name, pretty_print=False):
     acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
     acr_remote.recorder_off()
     acr_remote.save_scenario()
+    # if input('Good. {}:{} saved. Continue with next scenario? [*/n]'.format(site_name, scenario_name)) == 'n':
+    #     return
     acr_remote.acr.flushdb()
-
 
 def load_scenario(site_name, scenario_name, pretty_print=False):
     """Load a previously recorded data for this scenario. Start playback."""
