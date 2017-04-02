@@ -1,0 +1,6 @@
+{
+  "pyghosts__test_dictionary_input": {
+    "type": "string",
+    "value": "{'b3f1c9e9c51a383c187452c48878fa5a': {'method_class': 'method_class_function', 'class_name': '', 'class_class': '', 'vals': ['OrderedDict_ordereddict_id_1_name_ant_sex_male'], 'call_incre': 1, 'module_path': 'module_path_ghosts_api_recorder_tests_test_complex_input', 'method_name': 'method_name_dictionary_input', 'recording': 1, 'call_sig': 'b3f1c9e9c51a383c187452c48878fa5a'}, '2c0b57267a0bdfc1ee0e09e02e681347': {'method_class': 'method_class_function', 'class_name': '', 'class_class': '', 'vals': ['OrderedDict_ordereddict_id_3_name_cat_sex_female'], 'call_incre': 1, 'module_path': 'module_path_ghosts_api_recorder_tests_test_complex_input', 'method_name': 'method_name_dictionary_input', 'recording': 3, 'call_sig': '2c0b57267a0bdfc1ee0e09e02e681347'}, 'b89720eaea9ea5238a59bc01d6e22b0f': {'method_class': 'method_class_function', 'class_name': '', 'class_class': '', 'vals': ['OrderedDict_ordereddict_id_2_name_bear_sex_female'], 'call_incre': 1, 'module_path': 'module_path_ghosts_api_recorder_tests_test_complex_input', 'method_name': 'method_name_dictionary_input', 'recording': 2, 'call_sig': 'b89720eaea9ea5238a59bc01d6e22b0f'}}"
+  }
+}

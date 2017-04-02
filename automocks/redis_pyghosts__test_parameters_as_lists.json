@@ -1,6 +1,6 @@
 {
   "pyghosts__test_parameters_as_lists": {
     "type": "string",
-    "value": "{'34cebd47c0472464db85b9f55ad724bd': {'call_incre': 1, 'method_name': 'method_name_strongest_animal', 'class_class': '', 'class_name': '', 'call_sig': '34cebd47c0472464db85b9f55ad724bd', 'vals': ['list_cats_dogs_mice_pigs_rats'], 'method_class': 'method_class_function', 'module_path': 'module_path_ghosts_api_recorder_tests_test_parameters_as_lists', 'recording': ('Pigs', {'winner': 'Pigs', 'winner_strength': 25, 'report': {'Cats': 9, 'Dogs': 16, 'Mice': 1, 'Pigs': 25, 'Rats': 4}})}}"
+    "value": "{'34cebd47c0472464db85b9f55ad724bd': {'method_class': 'method_class_function', 'class_name': '', 'class_class': '', 'vals': ['list_cats_dogs_mice_pigs_rats'], 'call_incre': 1, 'module_path': 'module_path_ghosts_api_recorder_tests_test_parameters_as_lists', 'method_name': 'method_name_strongest_animal', 'recording': ('Pigs', {'report': {'Dogs': 16, 'Pigs': 25, 'Cats': 9, 'Rats': 4, 'Mice': 1}, 'winner': 'Pigs', 'winner_strength': 25}), 'call_sig': '34cebd47c0472464db85b9f55ad724bd'}}"
   }
 }
