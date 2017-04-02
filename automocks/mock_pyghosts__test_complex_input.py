@@ -48,13 +48,13 @@ def mock_ghosts_api_recorder_tests_test_complex_input____what_can_beat__2valsset
     # :endmock:
 
 def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__2valsset2__int_3__int_8__kwarg_a_Dogs__kwarg_b_Dinosaurs__ea433a168c9213bbc06b4f1336a2a784():
-    return ('Dinosaurs', 'Dogs', {'loser_strength': 16, 'winner_combined_strength': 192, 'winner': 'Dinosaurs', 'loser': 'Dogs', 'loser_combined_strength': 128, 'winner_strength': 64})
+    return ('Dinosaurs', 'Dogs', {'winner_combined_strength': 192, 'loser': 'Dogs', 'loser_strength': 16, 'winner': 'Dinosaurs', 'winner_strength': 64, 'loser_combined_strength': 128})
     # :endmock:
 
 def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__2valsset2__int_1__int_13__kwarg_a_Cats__kwarg_b_Rats__5a3a583e41b869ba84d32c4a4806990e():
-    return ('Rats', 'Cats', {'loser_strength': 9, 'winner_combined_strength': 52, 'winner': 'Rats', 'loser': 'Cats', 'loser_combined_strength': 9, 'winner_strength': 4})
+    return ('Rats', 'Cats', {'winner_combined_strength': 52, 'loser': 'Cats', 'loser_strength': 9, 'winner': 'Rats', 'winner_strength': 4, 'loser_combined_strength': 9})
     # :endmock:
 
 def mock_ghosts_api_recorder_tests_test_multival_return____winner_between__2valsset2__int_1000000__int_13__kwarg_a_Mice__kwarg_b_Bears__b88bda7030b6dcc80cc4b303d2b6921c():
-    return ('Mice', 'Bears', {'loser_strength': 49, 'winner_combined_strength': 1000000, 'winner': 'Mice', 'loser': 'Bears', 'loser_combined_strength': 637, 'winner_strength': 1})
+    return ('Mice', 'Bears', {'winner_combined_strength': 1000000, 'loser': 'Bears', 'loser_strength': 49, 'winner': 'Mice', 'winner_strength': 1, 'loser_combined_strength': 637})
     # :endmock:

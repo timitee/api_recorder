@@ -31,7 +31,7 @@ def dlistyfy(this_list):
 
             if len(this_list) > 0:
 
-                ddictions = set('ddiction')
+                ddictions = set(['ddiction'])
                 for poss_dict in this_list:
                     if isinstance(poss_dict, dict):
                         ddictions.union(ddiction(poss_dict, arg_name))
@@ -45,7 +45,7 @@ def dlistyfy(this_list):
 
 
 def ddiction(this_dictionary, arg_name):
-    ddictions = set('ddiction')
+    ddictions = set(['ddiction'])
     for k, v in this_dictionary.items():
         zub_key_ident = set_ident('{}_{}'.format(arg_name, k), v)
         ddictions.add(zub_key_ident)
