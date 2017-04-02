@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-def mock_ghosts_decorators_tests_scenario__ApiSuperClassDecorated__decorated_super__str_hello_api_who_am_i__a33186ef4fbb8ae7887ece7eb962abf5():
-    return ('ghosts.decorators.tests.scenario.ApiSuperClassDecorated.decorated_super(Hello '
- 'Api! Who am I?)')
+def mock_ghosts_api_recorder_tests_scenario__ApiSuperClassDecorated__decorated_super__str_iseeyoughost__63f99742248a28d23632c49df12279bc():
+    return {'mod': 'ghosts.api_recorder.tests.scenario', 'mtd': 'decorated_super', 'val': 'ISeeYouGhost!', 'cls': 'ApiSuperClassDecorated'}
     # :endmock:

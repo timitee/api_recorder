@@ -2,7 +2,7 @@
 import os
 import pytest
 
-from ghosts.decorators.api_recorder import ApiRecorderController
+from ghosts.api_recorder.api_controller import ApiRecorderController
 
 site_name = 'pyghosts'
 scenario_name = 'test_api_recorder_controller'

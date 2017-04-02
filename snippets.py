@@ -1,8 +1,8 @@
 import os
 import pytest
 
-from ghosts.decorators.api_recorder import ApiRecorderController
-from ghosts.decorators.tests.scenario import (
+from ghosts.api_recorder.api_controller import ApiRecorderController
+from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
     scenario_val,
     api_response,

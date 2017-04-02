@@ -3,7 +3,7 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import projectfile_folder
-from ghosts.decorators.tests.recording_management import (
+from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -24,7 +24,7 @@ def test_service_when_off():
     scenario_name = 'test_service_when_off'
     end_and_save_scenario(site_name, scenario_name)
 
-    from ghosts.decorators.tests.scenario import (
+    from ghosts.api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -36,8 +36,8 @@ def test_service_when_off():
 
         m = c()
 
-        assert m.decorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_m', scenario_val)
-        assert m.undecorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
+        assert m.decorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_m', scenario_val)
+        assert m.undecorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """Has the decorator interfered with it's normal behaviour? i.e. (from
         above) Are we "passing it on as normal"?
 
@@ -68,7 +68,7 @@ def test_start_recording():
     scenario_name = 'test_start_recording'
     start_recording_scenario(site_name, scenario_name)
 
-    from ghosts.decorators.tests.scenario import (
+    from ghosts.api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -80,8 +80,8 @@ def test_start_recording():
 
         m = c()
 
-        assert m.decorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_m', scenario_val)
-        assert m.undecorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
+        assert m.decorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_m', scenario_val)
+        assert m.undecorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """When the recorder is recording, does it interfere with the return
         value?
 
@@ -96,7 +96,7 @@ def test_start_playingback_on():
     scenario_name = 'test_start_playingback_on'
     start_recording_scenario(site_name, scenario_name)
 
-    from ghosts.decorators.tests.scenario import (
+    from ghosts.api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -113,7 +113,7 @@ def test_start_playingback_on():
         m = c()
 
         assert m.decorated_m(scenario_val) == None
-        assert m.undecorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
+        assert m.undecorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """Answers the question: When the recorder is attempting to play back
         method calls which haven't be made, does it return "none". """
 
@@ -126,7 +126,7 @@ def test_uniqueness_of_very_similar_classes():
     start_recording_scenario(site_name, scenario_name)
 
     """First we use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.decorators.tests.scenario import (
+    from ghosts.api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -146,8 +146,8 @@ def test_uniqueness_of_very_similar_classes():
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
-        assert m.decorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_m', scenario_val)
-        assert m.undecorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
+        assert m.decorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_m', scenario_val)
+        assert m.undecorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """This is the first time we've tested playing back a value."""
 
 
@@ -158,7 +158,7 @@ def test_uniqueness_of_very_similar_classes():
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
         assert m.decorated_m(scenario_val) == None
-        assert m.undecorated_m(scenario_val) == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
+        assert m.undecorated_m(scenario_val) == api_response(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """Passing means the decorator has spotted the difference between the
         two "decorated_m" methods in different apps - not playedback decorated."""
 
@@ -180,15 +180,15 @@ def test_uniqueness_of_very_similar_classes():
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
-        assert not m.decorated_m('something different') == api_response.format(c.__module__, c.__name__, 'decorated_m', scenario_val)
-        assert not m.undecorated_m('something different') == api_response.format(c.__module__, c.__name__, 'undecorated_m', scenario_val)
+        assert not m.decorated_m('something different') == api_response(c.__module__, c.__name__, 'decorated_m', scenario_val)
+        assert not m.undecorated_m('something different') == api_response(c.__module__, c.__name__, 'undecorated_m', scenario_val)
         """Passing means the decorator hasn't playedback the last "decorated_m"
         value in the other module."""
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
-        assert m.decorated_m('something different') == api_response.format(c.__module__, c.__name__, 'decorated_m', 'something different')
-        assert m.undecorated_m('something different') == api_response.format(c.__module__, c.__name__, 'undecorated_m', 'something different')
+        assert m.decorated_m('something different') == api_response(c.__module__, c.__name__, 'decorated_m', 'something different')
+        assert m.undecorated_m('something different') == api_response(c.__module__, c.__name__, 'undecorated_m', 'something different')
         """Passing means the decorator returned something different after all."""
 
     unload_scenario(site_name, scenario_name)

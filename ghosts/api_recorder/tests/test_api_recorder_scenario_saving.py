@@ -3,7 +3,7 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import project_path
-from ghosts.decorators.tests.recording_management import (
+from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -15,7 +15,7 @@ from ghosts.decorators.tests.recording_management import (
     restart_playback_scenario,
     unload_scenario,
 )
-from ghosts.decorators.tests.scenario import (
+from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
     ApiSubClassDecorated,
     scenario_val,
@@ -33,13 +33,13 @@ def test_api_recorder_scenario_switching():
 
     start_recording_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
 
     end_and_save_scenario(site_name, scenario_name)
 
     load_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Scenario 1 playsback value."""
 
     unload_scenario(site_name, scenario_name)
@@ -61,7 +61,7 @@ def test_api_recorder_scenario_switching():
     scenario_name = 'test_api_recorder_scenario_switching1'
     load_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Scenario 1 continues to playsback value."""
 
     unload_scenario(site_name, scenario_name)
@@ -116,14 +116,14 @@ def test_api_recorder_scenarios_saving_load():
 
     start_recording_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Recorded value."""
 
     end_and_save_scenario(site_name, scenario_name)
 
     load_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Restored value."""
 
     unload_scenario(site_name, scenario_name)
@@ -135,7 +135,7 @@ def test_api_recorder_scenarios_saving_load():
 
     load_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Recordign restored."""
 
     unload_scenario(site_name, scenario_name)

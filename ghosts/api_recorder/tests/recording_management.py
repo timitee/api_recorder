@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from ghosts.decorators.api_recorder import ApiRecorderController
+from ghosts.api_recorder.api_controller import ApiRecorderController
 
 
 def start_recording_scenario(site_name, scenario_name):

@@ -2,7 +2,7 @@
 import os
 import pytest
 
-from ghosts.decorators.tests.recording_management import (
+from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -14,7 +14,7 @@ from ghosts.decorators.tests.recording_management import (
     restart_playback_scenario,
     unload_scenario,
 )
-from ghosts.decorators.tests.scenario import (
+from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
     scenario_val,
     api_response,
@@ -34,7 +34,7 @@ def test_class_decorator_when_off():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
@@ -47,7 +47,7 @@ def test_class_decorator_recording():
     m = ApiSuperClassDecorated()
     c = ApiSuperClassDecorated
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
@@ -81,14 +81,14 @@ def test_record_playback():
     m = ApiSuperClassDecorated()
     c = ApiSuperClassDecorated
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Recorded: ..."""
 
     end_and_save_scenario(site_name, scenario_name)
 
     load_scenario(site_name, scenario_name)
 
-    assert m.decorated_super(scenario_val) == api_response.format(c.__module__, c.__name__, 'decorated_super', scenario_val)
+    assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Playedback: ..."""
 
     unload_scenario(site_name, scenario_name)

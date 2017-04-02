@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-from ghosts.decorators.tests.recording_management import (
+from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -15,7 +15,7 @@ from ghosts.decorators.tests.recording_management import (
     restart_playback_scenario,
     unload_scenario,
 )
-from ghosts.decorators.tests.scenario import (
+from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
     ApiSubClassDecorated,
     scenario_val,
@@ -36,8 +36,8 @@ def test_service_when_off():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
-    assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
+    assert sub_class.decorated_sub(scenario_val) == api_response(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
+    assert super_class.decorated_super(scenario_val) == api_response(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
@@ -52,8 +52,8 @@ def test_start_recording():
     sub_class = ApiSubClassDecorated()
     sub_type = ApiSubClassDecorated
 
-    assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
-    assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
+    assert sub_class.decorated_sub(scenario_val) == api_response(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
+    assert super_class.decorated_super(scenario_val) == api_response(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
     """Answers the question: Has the decorator interfered with it's normal
     behaviour? i.e. (from above) Are we "passing it on as normal"?"""
 
@@ -93,16 +93,16 @@ def test_record_playback():
     sub_type = ApiSubClassDecorated
 
 
-    assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
-    assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
+    assert sub_class.decorated_sub(scenario_val) == api_response(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
+    assert super_class.decorated_super(scenario_val) == api_response(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
     """Recording... """
 
     end_and_save_scenario(site_name, scenario_name)
 
     load_scenario(site_name, scenario_name)
 
-    assert sub_class.decorated_sub(scenario_val) == api_response.format(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
-    assert super_class.decorated_super(scenario_val) == api_response.format(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
+    assert sub_class.decorated_sub(scenario_val) == api_response(sub_type.__module__, sub_type.__name__, 'decorated_sub', scenario_val)
+    assert super_class.decorated_super(scenario_val) == api_response(super_type.__module__, super_type.__name__, 'decorated_super', scenario_val)
     """Plays back correctly. """
 
     unload_scenario(site_name, scenario_name)

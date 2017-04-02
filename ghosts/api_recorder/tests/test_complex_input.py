@@ -2,8 +2,8 @@
 import os
 import pytest
 
-from ghosts.decorators.api_recorder import api_recorder
-from ghosts.decorators.tests.recording_management import (
+from ghosts.api_recorder.api_recorder import api_recorder
+from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -15,7 +15,7 @@ from ghosts.decorators.tests.recording_management import (
     restart_playback_scenario,
     unload_scenario,
 )
-from ghosts.decorators.tests.scenario import (
+from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
     scenario_val,
     api_response,

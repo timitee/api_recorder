@@ -3,7 +3,7 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import project_path
-from ghosts.decorators.tests.recording_management import (
+from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -19,14 +19,13 @@ from ghosts.decorators.tests.recording_management import (
 site_name = 'pyghosts'
 
 
-
 def test_making_mocks():
 
     scenario_name = 'test_making_mocks'
     start_recording_scenario(site_name, scenario_name)
 
     """Use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.decorators.tests.scenario import (
+    from ghosts.api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
