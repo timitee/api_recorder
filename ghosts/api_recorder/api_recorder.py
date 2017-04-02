@@ -54,7 +54,10 @@ def api_recorder(func):
         for arg in args:
 
             if isinstance(arg, list):
-                arg = sorted(arg)
+                try:
+                    arg = sorted(arg)
+                except:
+                    pass
 
             if isinstance(arg, dict):
                 arg = collections.OrderedDict(sorted(arg.items()))
