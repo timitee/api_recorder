@@ -6,8 +6,9 @@ Usage
 
 Like Tests, the goal of Recordings is to make them self-contained units.
 Especially if you are recording transactions with a live api (not recommended
-unless readonly). That means cleaning up the recording, if possible. It won't
-always be possible - but in 99 percent of those occasions it won't matter.
+unless readonly). That means cleaning up after yourself after the recording, if
+possible. It won't always be possible - but in 99 percent of those occasions it
+won't matter.
 
 During development you'll be calling those transacations anyway (although you
 could you use the recording in a view :-)  Trashing the database with junk test
@@ -195,7 +196,6 @@ Checklist:
   4) Change "start_recording_scenario" to "load_scenario".
   5) Leave the rest for now as resources for a test.
   6) Change "end_and_save_scenario" to "unload_scenario" as the last.
-
 
 
 **Skeleton of a Test.**
