@@ -41,7 +41,6 @@ def api_recorder(func):
         """Building a unique key for this call from all it's meta
         data + its parameters."""
 
-
         module_path_ = set_ident('module_path', func.__module__)
         class_class_ = '' #get later but put in this order
         class_name_ = '' #get later but put in this order
@@ -57,15 +56,22 @@ def api_recorder(func):
                 try:
                     arg = sorted(arg)
                 except:
-                    pass
+                    if len(arg) > 0:
+                        for dct in arg:
+                            if isinstance(dct, dict):
+                                for k, v in dct.items():
+                                    sub_key_ident = set_ident(k, v)
+                                    if not sub_key_ident in clues:
+                                        clues.append(sub_key_ident)
 
             if isinstance(arg, dict):
                 arg = collections.OrderedDict(sorted(arg.items()))
 
             if 'object at ' in str(arg):
-                """The "object at " value is the method's `self`. The value has
-                an instance guid - and we don't want it in our key. Playback
-                should return the same value for any instance."""
+                """Important: Playback should return the same value for any
+                instance. The "object at " value is the method's `self`. The
+                value has an instance guid - and we don't want it in our key.
+                """
 
                 class_name_ = set_ident('class_name', arg.__class__.__name__)
                 class_class_ = set_ident('class_class', arg.__class__.__class__)
@@ -128,9 +134,23 @@ def api_recorder(func):
 
         print(method_name_, ':', call_signature_key)
 
+        package = {
+            'recording': None,
+            'call_sig': call_sig,
+            'call_incre': call_incre,
+            'call_sig': call_signature_key,
+            'vals': _vals,
+            'module_path': module_path_,
+            'class_class': class_class_,
+            'class_name': class_name_,
+            'method_class': method_class_,
+            'method_name': method_name_,
+        }
+
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
 
+            acr_remote.mock(call_signature_key, package)
             _recording = acr_remote.get(call_signature_key)
 
         else:
@@ -139,18 +159,7 @@ def api_recorder(func):
             _recording = func(*args, **kwargs)
             """Run the function as normal"""
 
-            package = {
-                'recording': _recording,
-                'call_sig': call_sig,
-                'call_incre': call_incre,
-                'call_sig': call_signature_key,
-                'vals': _vals,
-                'module_path': module_path_,
-                'class_class': class_class_,
-                'class_name': class_name_,
-                'method_class': method_class_,
-                'method_name': method_name_,
-            }
+            package['recording'] = _recording
 
             acr_remote.set(call_signature_key, package)
 

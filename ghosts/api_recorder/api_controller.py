@@ -151,6 +151,8 @@ class ApiRecorderController(object):
         )
         """Unique-ish method name for the mock."""
 
+        print(method_name)
+
         if self.pretty_print:
             pp_recording = pp.pformat(recording)
         else:
@@ -240,6 +242,10 @@ class ApiRecorderController(object):
 
         return os.path.exists('automocks/redis_{}.json'.format(self.scenario))
 
+    def mock(self, key, package):
+
+        self.build_mock(key, copy.deepcopy(package))
+
 
     def set(self, key, package):
         """Expose the redis set method."""
@@ -247,7 +253,7 @@ class ApiRecorderController(object):
         if self.mocks:
             """Create a mock object with the current data package."""
 
-            self.build_mock(key, copy.deepcopy(package))
+            self.mock(key, package)
 
         scenario_packages = self.acr.get(self.scenario) or {}
         scenario_packages = self.process_packages(scenario_packages)
@@ -272,4 +278,13 @@ class ApiRecorderController(object):
         recorded data from the saved package."""
 
         package = self.get_package(key)
-        return package.get('recording', None) if package else None
+
+        recording = package.get('recording', None) if package else None
+
+        if recording:
+            self.build_mock(key, copy.deepcopy(package))
+
+        return recording
+
+
+        self.build_mock(key, copy.deepcopy(package))

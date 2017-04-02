@@ -30,3 +30,11 @@ def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_something_
 def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_something_different__398065137542692a16af15987b0e0a88():
     return {'cls': 'BpiMarshall', 'mod': 'example_ghosts.tests.scenario', 'mtd': 'decorated_m', 'val': 'something different'}
     # :endmock:
+
+def mock_example_ghosts_tests_scenario__ApiMarshall__decorated_m__str_iseeyoughost__29f866609bcc9bda67cbf5afe1103676():
+    return None
+    # :endmock:
+
+def mock_example_ghosts_tests_scenario__BpiMarshall__decorated_m__str_iseeyoughost__c45d18d8ca6ac53364f02c4c84e9c622():
+    return None
+    # :endmock:

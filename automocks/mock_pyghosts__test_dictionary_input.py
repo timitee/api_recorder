@@ -10,3 +10,7 @@ def mock_ghosts_api_recorder_tests_test_complex_input____dictionary_input__Order
 def mock_ghosts_api_recorder_tests_test_complex_input____dictionary_input__OrderedDict_ordereddict_id_3_name_cat_sex_female__2c0b57267a0bdfc1ee0e09e02e681347():
     return 3
     # :endmock:
+
+def mock_ghosts_api_recorder_tests_test_complex_input____dictionary_input__OrderedDict_ordereddict_id_1_name_ant_sex_male__1680be00ae4d763a0eefcc269cb1976e():
+    return None
+    # :endmock:
