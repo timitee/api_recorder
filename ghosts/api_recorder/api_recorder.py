@@ -215,7 +215,8 @@ def api_recorder(func):
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
 
-            acr_remote.mock(call_signature_key, package)
+            # acr_remote.build_mock_if_safe(call_signature_key, package)
+            
             _recording = acr_remote.get(call_signature_key)
 
         else:

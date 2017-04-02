@@ -52,6 +52,15 @@ def unload_scenario(site_name, scenario_name, pretty_print=False):
     acr_remote.acr.flushdb()
 
 
+def start_mocking(site_name, scenario_name, pretty_print=False):
+    """Check for recorded data for this scenario."""
+    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
+    return acr_remote.start_mocking()
+
+def stop_mocking(site_name, scenario_name, pretty_print=False):
+    """Check for recorded data for this scenario."""
+    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
+    return acr_remote.stop_mocking()
 
 
 def scenario_exists(site_name, scenario_name, pretty_print=False):

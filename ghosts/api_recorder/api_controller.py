@@ -61,7 +61,6 @@ class ApiRecorderController(object):
         self.acr_settings.set(self.APR_SCENARIO, '{}__{}'.format(site_name, scenario_name))
         self.pretty_print = pretty_print
 
-
     @property
     def scenario(self):
         """The name of the recording sceranio."""
@@ -93,9 +92,9 @@ class ApiRecorderController(object):
     @property
     def mocks(self):
         """Mocking is On or Off."""
-        mock = self.acr_settings.get(self.APR_MOCKING)
-        if mock:
-            return mock.decode('utf-8')
+        mocking_on = self.acr_settings.get(self.APR_MOCKING)
+        if mocking_on:
+            return mocking_on.decode('utf-8')
         else:
             return self.MOCKING_OFF
 
@@ -129,18 +128,14 @@ class ApiRecorderController(object):
         """Turn the fake API On and test for PlayBack mode."""
         self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_OFF)
 
+    def build_mock_if_safe(self, key, package):
+        if not self.mocks == self.MOCKING_OFF:
+            self.build_mock(key, copy.deepcopy(package))
 
-    def build_mock(self, key, val):
-        """Build a Mock object."""
+    def see_mock(self, key, val):
+        """Returns a python Mock object of the data recorded."""
 
         recording = val.get('recording')
-
-        mocks_path = os.path.join(project_path(), 'automocks')
-        make_path_not_exists(mocks_path)
-        """Putting all mocks into an automocks folder - root project."""
-
-        module_name = 'mock_{}.py'.format(self.scenario)
-        module_path = os.path.join(mocks_path, module_name)
 
         method_name = 'def mock_{}__{}__{}__{}__{}():'.format(
             val.get('module_path').replace('module_path_', ''),
@@ -149,18 +144,49 @@ class ApiRecorderController(object):
             '__'.join(val.get('vals')),
             val.get('call_sig'),
         )
-        """Unique-ish method name for the mock."""
+        """And informative method name HASH appended for the Mock."""
 
         if self.pretty_print:
             pp_recording = pp.pformat(recording)
+            """Pretty printed Mock def."""
         else:
             pp_recording = recording
+
 
         mock_def = self.mock_format.format(
                                 method_name,
                                 pp_recording
                                 )
-        """Pretty printed mock def."""
+
+        return mock_def, method_name
+
+
+    def build_mock(self, key, val):
+        """Save a Mock object into the <mock_site_scenario_name>.py file. It will
+overwrite any Mocks it finds with "identical" signatures. These will almost
+certainly be the for the same call in the same recording sequence, say:
+
+during recording:
+    callorder(callX1, call_A1, callX3)
+
+during playback:
+    callorder(replay_A1, replayX1, replayX3)
+
+replayX1 will get callX1's data
+replayX3 will get callX3's data
+
+Flaw?: Call order during playback the same. Test will pass. I think that's
+right. The data is simply there to support the tests.
+"""
+
+        mock_def, method_name = self.see_mock(key, val)
+
+        mocks_path = os.path.join(project_path(), 'automocks')
+        make_path_not_exists(mocks_path)
+        """Putting all mocks into an automocks folder - root project."""
+
+        module_name = 'mock_{}.py'.format(self.scenario)
+        module_path = os.path.join(mocks_path, module_name)
 
         if not os.path.exists(module_path):
             """No cxisting mocks file. Write new."""
@@ -231,6 +257,10 @@ class ApiRecorderController(object):
 
         json_text = redisdl.dumps(encoding='iso-8859-1', pretty=True, db=self.db_num, keys=self.scenario)
 
+        mocks_path = os.path.join(project_path(), 'automocks')
+        make_path_not_exists(mocks_path)
+        """Putting all dbs into an automocks folder - root project."""
+
         with open('automocks/redis_{}.json'.format(self.scenario), 'w') as f:
             f.write(json_text)
 
@@ -240,18 +270,10 @@ class ApiRecorderController(object):
 
         return os.path.exists('automocks/redis_{}.json'.format(self.scenario))
 
-    def mock(self, key, package):
-
-        self.build_mock(key, copy.deepcopy(package))
-
-
     def set(self, key, package):
         """Expose the redis set method."""
 
-        if self.mocks:
-            """Create a mock object with the current data package."""
-
-            self.mock(key, package)
+        self.build_mock_if_safe(key, package)
 
         scenario_packages = self.acr.get(self.scenario) or {}
         scenario_packages = self.process_packages(scenario_packages)
@@ -279,7 +301,7 @@ class ApiRecorderController(object):
 
         recording = package.get('recording', None) if package else None
 
-        if recording:
-            self.build_mock(key, copy.deepcopy(package))
+        # if recording:
+        #     self.build_mock_if_safe(key, package)
 
         return recording
