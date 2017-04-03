@@ -75,7 +75,7 @@ def api_recorder(func):
 
     def func_wrapper(*args, **kwargs):
 
-        if acr_remote.power == ApiRecorderController.POWER_OFF:
+        if acr_remote.power == ApiRecorderController.POWER_OFF and acr_remote.mocks == ApiRecorderController.MOCKING_OFF:
             """Recording mode off: return it."""
             return func(*args, **kwargs)
             """Run the function as normal"""
@@ -216,7 +216,7 @@ def api_recorder(func):
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
 
             # acr_remote.build_mock_if_safe(call_signature_key, package)
-            
+
             _recording = acr_remote.get(call_signature_key)
 
         else:

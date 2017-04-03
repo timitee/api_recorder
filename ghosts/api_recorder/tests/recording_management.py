@@ -1,69 +1,121 @@
 # -*- encoding: utf-8 -*-
 from ghosts.api_recorder.api_controller import ApiRecorderController
 
+class TheMC():
+    """The Master control."""
+
+    master_site = 'pyghosts'
+    master_name = 'root'
+
+    def rec(self):
+        start_recording_scenario(self.master_site, self.master_name)
+    def heal(self):
+        pause_recording_scenario(self.master_site, self.master_name)
+    def pause(self):
+        pause_recording_scenario(self.master_site, self.master_name)
+    def unpause(self):
+        unpause_recording_scenario(self.master_site, self.master_name)
+    def save(self):
+        end_and_save_scenario(self.master_site, self.master_name)
+
+    def play(self):
+        play_scenario(self.master_site, self.master_name)
+    def suspend(self):
+        suspend_playback_scenario(self.master_site, self.master_name)
+    def resume(self):
+        resume_playback_scenario(self.master_site, self.master_name)
+    def eject(self):
+        eject_scenario(self.master_site, self.master_name)
+
+    def mock(self):
+        start_mocking(self.master_site, self.master_name)
+    def kind(self):
+        stop_mocking(self.master_site, self.master_name)
+
+    def sample(self, key):
+        arc = ApiRecorderController(self.master_site, self.master_name)
+        return arc.master_get_mock(key)
+
+    def off(self):
+        """Undestructive."""
+        arc = ApiRecorderController(self.master_site, self.master_name)
+        arc.recorder_off()
+        arc.stop_mocking()
+    def shutdown(self):
+        """Destructive. Hard reboot."""
+        arc = ApiRecorderController(self.master_site, self.master_name)
+        arc.recorder_off()
+        arc.stop_mocking()
+        arc.acr.flushdb()
+        arc.acr_settings.flushdb()
+        arc.acr_counter.flushdb()
+
+
 
 def start_recording_scenario(site_name, scenario_name, pretty_print=False):
     """Flush old recording for the scenario. Start a new recording session."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.acr.flushdb()
-    acr_remote.start_recording()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.acr.flushdb()
+    arc.start_recording()
 
 def start_healing_scenario(site_name, scenario_name, pretty_print=False):
     pause_recording_scenario(site_name, scenario_name, pretty_print=False)
 
 def pause_recording_scenario(site_name, scenario_name, pretty_print=False):
     """Stop doing anything, but leave the current scenario in session."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.recorder_off()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.recorder_off()
 
-def restart_recording_scenario(site_name, scenario_name, pretty_print=False):
+def unpause_recording_scenario(site_name, scenario_name, pretty_print=False):
     """Pickup a Recording."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.start_recording()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.start_recording()
 
 def end_and_save_scenario(site_name, scenario_name, pretty_print=False):
     """Recorder off. Build the "loader" or backup file."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.recorder_off()
-    acr_remote.save_scenario()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.recorder_off()
+    arc.save_scenario()
     # if input('Good. {}:{} saved. Continue with next scenario? [*/n]'.format(site_name, scenario_name)) == 'n':
     #     return
-    acr_remote.acr.flushdb()
+    arc.acr.flushdb()
 
-def load_scenario(site_name, scenario_name, pretty_print=False):
+def play_scenario(site_name, scenario_name, pretty_print=False):
     """Load a previously recorded data for this scenario. Start playback."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.acr.flushdb()
-    acr_remote.load_scenario()
-    acr_remote.start_playingback()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.acr.flushdb()
+    arc.play_scenario()
+    arc.start_playingback()
 
-def pause_playback_scenario(site_name, scenario_name, pretty_print=False):
+def suspend_playback_scenario(site_name, scenario_name, pretty_print=False):
     pause_recording_scenario(site_name, scenario_name, pretty_print=False)
 
-def restart_playback_scenario(site_name, scenario_name, pretty_print=False):
+def resume_playback_scenario(site_name, scenario_name, pretty_print=False):
     """Flush old recording for the scenario. Start a new recording session."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.start_playingback()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.start_playingback()
 
-def unload_scenario(site_name, scenario_name, pretty_print=False):
+def eject_scenario(site_name, scenario_name, pretty_print=False):
     """Recorder off. Flush this scenario."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    acr_remote.recorder_off()
-    acr_remote.acr.flushdb()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.recorder_off()
+    arc.acr.flushdb()
 
 
 def start_mocking(site_name, scenario_name, pretty_print=False):
-    """Check for recorded data for this scenario."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    return acr_remote.start_mocking()
+    """Starts writing mocks to a file. Call can still be recorded to the DB.
+    Playbacks can be Mocked.
+    """
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.start_mocking()
 
 def stop_mocking(site_name, scenario_name, pretty_print=False):
-    """Check for recorded data for this scenario."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    return acr_remote.stop_mocking()
+    """Stops writing mocks to a file. Call can still be recorded to the DB."""
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.stop_mocking()
 
 
 def scenario_exists(site_name, scenario_name, pretty_print=False):
     """Check for recorded data for this scenario."""
-    acr_remote = ApiRecorderController(site_name, scenario_name, pretty_print)
-    return acr_remote.scenario_exists()
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    return arc.scenario_exists()

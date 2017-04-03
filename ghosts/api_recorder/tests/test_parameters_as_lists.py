@@ -7,13 +7,13 @@ from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
-    restart_recording_scenario,
+    unpause_recording_scenario,
     end_and_save_scenario,
     scenario_exists,
-    load_scenario,
-    pause_playback_scenario,
-    restart_playback_scenario,
-    unload_scenario,
+    play_scenario,
+    suspend_playback_scenario,
+    resume_playback_scenario,
+    eject_scenario,
 )
 from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
@@ -80,7 +80,7 @@ def test_parameters_as_lists():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     plyb1_winner1, plyb1_details1 = strongest_animal(['Cats'])
     """Testing Playback of: One in the list."""
@@ -96,7 +96,7 @@ def test_parameters_as_lists():
     assert rec_sort1_details3['report']['Mice']  == rec_sort1_details3['report']['Mice']
     """Everything was playbacked identically."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 
@@ -116,7 +116,7 @@ def test_recall_from_different_order():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     plyb_sort3_winner5, plyb_sort3_details5 = strongest_animal(['Rats', 'Dogs', 'Pigs', 'Mice', 'Cats'])
     """Testing Playback of: Same as above - different starting order 4."""
@@ -126,4 +126,4 @@ def test_recall_from_different_order():
     """Everything was played back from the signature of the original recording,
     despite the order of the list input.
     """
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)

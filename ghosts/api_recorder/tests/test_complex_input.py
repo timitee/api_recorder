@@ -7,13 +7,13 @@ from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
-    restart_recording_scenario,
+    unpause_recording_scenario,
     end_and_save_scenario,
     scenario_exists,
-    load_scenario,
-    pause_playback_scenario,
-    restart_playback_scenario,
-    unload_scenario,
+    play_scenario,
+    suspend_playback_scenario,
+    resume_playback_scenario,
+    eject_scenario,
 )
 from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
@@ -70,7 +70,7 @@ def test_dictionary_input():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     ca2 = dictionary_input(contact_a)
     cb2 = dictionary_input(contact_b)
@@ -79,7 +79,7 @@ def test_dictionary_input():
     assert dictionary_input(contact_a) != ca2
     """ca2 was not recorded."""
 
-    restart_recording_scenario(site_name, scenario_name)
+    unpause_recording_scenario(site_name, scenario_name)
 
     ca3 = dictionary_input(contact_a)
     cb3 = dictionary_input(contact_b)
@@ -88,7 +88,7 @@ def test_dictionary_input():
     assert ca3 == ca1
     """ca1 was recorded and restored."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 def test_dictionary_list_input():
@@ -102,7 +102,7 @@ def test_dictionary_list_input():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     ca2 = dictionary_list_input(contact_list, 0)
 
@@ -122,7 +122,7 @@ def test_dictionary_list_input():
     assert not ca4 == ca1
     """ca2 was recovered but it's in another index."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 @api_recorder
@@ -142,7 +142,7 @@ def test_complex_input():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     dog2 = what_can_beat(15, 4, a='Dogs', b='Dinosaurs')
     cat2 = what_can_beat(2, 7, a='Cats', b='Mice')
@@ -185,4 +185,4 @@ def test_complex_input():
     assert not cow4 == cow1
     assert not ant4 == ant1
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)

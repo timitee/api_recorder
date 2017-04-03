@@ -37,14 +37,14 @@ until the method is released from playback.
       start_recording_scenario,
       pause_recording_scenario,
       start_healing_scenario,
-      restart_recording_scenario,
+      unpause_recording_scenario,
       end_and_save_scenario,
       # load and playback
       scenario_exists,
-      load_scenario,
-      pause_playback_scenario,
-      restart_playback_scenario,
-      unload_scenario,
+      play_scenario,
+      suspend_playback_scenario,
+      resume_playback_scenario,
+      eject_scenario,
   )
 
   site_name = settings.site_name
@@ -93,7 +93,7 @@ until the method is released from playback.
       end_and_save_scenario,
       scenario_exists,
       start_healing_scenario,
-      restart_recording_scenario,
+      unpause_recording_scenario,
   )
 
   site_name = settings.site_name
@@ -139,7 +139,7 @@ until the method is released from playback.
         """Clean up. This may not always be a good idea. Especially if you
         intend to record more against this customer."""
 
-        restart_recording_scenario(site_name, scenario_name)
+        unpause_recording_scenario(site_name, scenario_name)
         """Recording will resume. We are in a loop remember :)"""
 
     end_and_save_scenario(site_name, scenario_name)
@@ -188,7 +188,7 @@ To:
 
 ::
 
-  load_scenario(site_name, scenario_name)
+  play_scenario(site_name, scenario_name)
 
 Ignore the rest for now. At the bottom of the method change:
 
@@ -200,7 +200,7 @@ To
 
 ::
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
     """Effectively: eject the cassette.
 
 Checklist:
@@ -208,9 +208,9 @@ Checklist:
   1) Change "recording_" in method name to "test_"
   2) Leave the scenario_name.
   3) Remove "overwrite" protection.
-  4) Change "start_recording_scenario" to "load_scenario".
+  4) Change "start_recording_scenario" to "play_scenario".
   5) Leave the rest for now as resources for a test.
-  6) Change "end_and_save_scenario" to "unload_scenario" as the last.
+  6) Change "end_and_save_scenario" to "eject_scenario" as the last.
 
 
 **Skeleton of a Test.**
@@ -218,8 +218,8 @@ Checklist:
 ::
 
   from ghosts.api_recorder.tests.recording_management import (
-      load_scenario,
-      unload_scenario,
+      play_scenario,
+      eject_scenario,
   )
 
   site_name = settings.site_name
@@ -227,11 +227,11 @@ Checklist:
   def test_marshall_register_users():
 
     scenario_name = 'record_marshall_change_passwords'
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     # Start writing your tests here against the recorded data.
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 **Example of Test.**
@@ -246,8 +246,8 @@ So just change "Recording:" to "Testing", run the same command, then test it.
 
   import pytest #etc
   from ghosts.api_recorder.tests.recording_management import (
-      load_scenario,
-      unload_scenario,
+      play_scenario,
+      eject_scenario,
   )
 
   site_name = settings.site_name
@@ -255,7 +255,7 @@ So just change "Recording:" to "Testing", run the same command, then test it.
   def test_marshall_register_users(can_overwrite):
 
     scenario_name = 'record_marshall_change_passwords'
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     regee = list_of_fake_db_registrees()[0]
     """Just test one customer."""
@@ -277,4 +277,4 @@ So just change "Recording:" to "Testing", run the same command, then test it.
     assert marshall.customer_id == regee['id']
     """The customer can log in."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)

@@ -6,13 +6,13 @@ from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
-    restart_recording_scenario,
+    unpause_recording_scenario,
     end_and_save_scenario,
     scenario_exists,
-    load_scenario,
-    pause_playback_scenario,
-    restart_playback_scenario,
-    unload_scenario,
+    play_scenario,
+    suspend_playback_scenario,
+    resume_playback_scenario,
+    eject_scenario,
 )
 from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
@@ -64,13 +64,13 @@ def test_start_class_decorator_playingback():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == None
     """Answers the question: When the recorder is attempting to play back
     method calls which haven't be made, does it return "none". """
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 def test_record_playback():
@@ -86,9 +86,9 @@ def test_record_playback():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Playedback: ..."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)

@@ -7,13 +7,13 @@ from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
-    restart_recording_scenario,
+    unpause_recording_scenario,
     end_and_save_scenario,
     scenario_exists,
-    load_scenario,
-    pause_playback_scenario,
-    restart_playback_scenario,
-    unload_scenario,
+    play_scenario,
+    suspend_playback_scenario,
+    resume_playback_scenario,
+    eject_scenario,
 )
 from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
@@ -37,12 +37,12 @@ def test_api_recorder_scenario_switching():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Scenario 1 playsback value."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
     scenario_name = 'test_api_recorder_scenario_switching2'
 
@@ -50,21 +50,21 @@ def test_api_recorder_scenario_switching():
     end_and_save_scenario(site_name, scenario_name)
     """Record "nothing" in this scenario."""
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
     """Load "nothing"."""
 
     assert m.decorated_super(scenario_val) == None
     """Flushed Scenario 2 has no value."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
     scenario_name = 'test_api_recorder_scenario_switching1'
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Scenario 1 continues to playsback value."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 def test_api_recorder_scenarios_saving():
@@ -121,21 +121,21 @@ def test_api_recorder_scenarios_saving_load():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Restored value."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
-    restart_playback_scenario(site_name, scenario_name)
+    resume_playback_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == None
     """Scenario is unloaded."""
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     assert m.decorated_super(scenario_val) == api_response(c.__module__, c.__name__, 'decorated_super', scenario_val)
     """Recordign restored."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)

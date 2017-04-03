@@ -129,20 +129,20 @@ class ApiRecorderController(object):
         self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_OFF)
 
     def build_mock_if_safe(self, key, package):
-        if not self.mocks == self.MOCKING_OFF:
+        if self.mocks == self.MOCKING_ON:
             self.build_mock(key, copy.deepcopy(package))
 
-    def see_mock(self, key, val):
+    def see_mock(self, key, package):
         """Returns a python Mock object of the data recorded."""
 
-        recording = val.get('recording')
+        recording = package.get('recording')
 
         method_name = 'def mock_{}__{}__{}__{}__{}():'.format(
-            val.get('module_path').replace('module_path_', ''),
-            val.get('class_name').replace('class_name_', ''),
-            val.get('method_name').replace('method_name_', ''),
-            '__'.join(val.get('vals')),
-            val.get('call_sig'),
+            package.get('module_path').replace('module_path_', ''),
+            package.get('class_name').replace('class_name_', ''),
+            package.get('method_name').replace('method_name_', ''),
+            '__'.join(package.get('vals')),
+            package.get('call_sig'),
         )
         """And informative method name HASH appended for the Mock."""
 
@@ -161,7 +161,7 @@ class ApiRecorderController(object):
         return mock_def, method_name
 
 
-    def build_mock(self, key, val):
+    def build_mock(self, key, package):
         """Save a Mock object into the <mock_site_scenario_name>.py file. It will
 overwrite any Mocks it finds with "identical" signatures. These will almost
 certainly be the for the same call in the same recording sequence, say:
@@ -179,7 +179,7 @@ Flaw?: Call order during playback the same. Test will pass. I think that's
 right. The data is simply there to support the tests.
 """
 
-        mock_def, method_name = self.see_mock(key, val)
+        mock_def, method_name = self.see_mock(key, package)
 
         mocks_path = os.path.join(project_path(), 'automocks')
         make_path_not_exists(mocks_path)
@@ -188,8 +188,11 @@ right. The data is simply there to support the tests.
         module_name = 'mock_{}.py'.format(self.scenario)
         module_path = os.path.join(mocks_path, module_name)
 
+
+
         if not os.path.exists(module_path):
-            """No cxisting mocks file. Write new."""
+            """No existing mocks file. Write new."""
+
 
             with open(module_path, "w") as mock_file:
 
@@ -198,6 +201,8 @@ right. The data is simply there to support the tests.
                 mock_file.write(mock_def)
 
         else:
+
+            print('here')
 
             with open(module_path, 'r') as mock_file:
                 mocks = mock_file.read()
@@ -243,8 +248,9 @@ right. The data is simply there to support the tests.
 
     def flush_scenario(self):
         """"""
+        pass
 
-    def load_scenario(self):
+    def play_scenario(self):
         """"""
 
         with open('automocks/redis_{}.json'.format(self.scenario), 'r') as f:
@@ -275,13 +281,38 @@ right. The data is simply there to support the tests.
 
         self.build_mock_if_safe(key, package)
 
-        scenario_packages = self.acr.get(self.scenario) or {}
-        scenario_packages = self.process_packages(scenario_packages)
+        if self.RECORDING:
+            scenario_packages = self.acr.get(self.scenario) or {}
+            scenario_packages = self.process_packages(scenario_packages)
 
-        scenario_packages[key] = package
+            scenario_packages[key] = package
 
-        return self.acr.set(self.scenario, scenario_packages)
+            return self.acr.set(self.scenario, scenario_packages)
 
+        return None
+
+
+    def master_get_mock(self, key):
+        """Returns the entire package we saved which contains metadata
+        plus the recording."""
+
+        package = self.master_get_package(key)
+
+        return self.see_mock(key, package) if package else None
+
+
+    def master_get_package(self, key):
+        """Returns the entire package we saved which contains metadata
+        plus the recording."""
+
+        for scenario in self.acr.keys():
+            scenario_packages = self.acr.get(scenario)
+            scenario_packages = self.process_packages(scenario_packages)
+            package = scenario_packages.get(key, None)
+            if package:
+                return package
+
+        return None
 
     def get_package(self, key):
         """Returns the entire package we saved which contains metadata

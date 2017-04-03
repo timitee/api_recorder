@@ -7,13 +7,13 @@ from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
-    restart_recording_scenario,
+    unpause_recording_scenario,
     end_and_save_scenario,
     scenario_exists,
-    load_scenario,
-    pause_playback_scenario,
-    restart_playback_scenario,
-    unload_scenario,
+    play_scenario,
+    suspend_playback_scenario,
+    resume_playback_scenario,
+    eject_scenario,
 )
 
 site_name = 'pyghosts'
@@ -106,7 +106,7 @@ def test_start_playingback_on():
     end_and_save_scenario(site_name, scenario_name)
 
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
 
@@ -117,7 +117,7 @@ def test_start_playingback_on():
         """Answers the question: When the recorder is attempting to play back
         method calls which haven't be made, does it return "none". """
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
 
 def test_uniqueness_of_very_similar_classes():
@@ -142,7 +142,7 @@ def test_uniqueness_of_very_similar_classes():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
@@ -162,7 +162,7 @@ def test_uniqueness_of_very_similar_classes():
         """Passing means the decorator has spotted the difference between the
         two "decorated_m" methods in different apps - not playedback decorated."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
 
     start_recording_scenario(site_name, scenario_name)
 
@@ -176,7 +176,7 @@ def test_uniqueness_of_very_similar_classes():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()
@@ -191,4 +191,4 @@ def test_uniqueness_of_very_similar_classes():
         assert m.undecorated_m('something different') == api_response(c.__module__, c.__name__, 'undecorated_m', 'something different')
         """Passing means the decorator returned something different after all."""
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)

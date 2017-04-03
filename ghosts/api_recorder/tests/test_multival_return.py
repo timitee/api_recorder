@@ -7,13 +7,13 @@ from ghosts.api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
-    restart_recording_scenario,
+    unpause_recording_scenario,
     end_and_save_scenario,
     scenario_exists,
-    load_scenario,
-    pause_playback_scenario,
-    restart_playback_scenario,
-    unload_scenario,
+    play_scenario,
+    suspend_playback_scenario,
+    resume_playback_scenario,
+    eject_scenario,
 )
 from ghosts.api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
@@ -66,7 +66,7 @@ def test_multival_return():
 
     end_and_save_scenario(site_name, scenario_name)
 
-    load_scenario(site_name, scenario_name)
+    play_scenario(site_name, scenario_name)
 
     winner1, loser1, details1 = winner_between(8, 3, a='Dogs', b='Dinosaurs')
     winner2, loser2, details2 = winner_between(1, 13, a='Cats', b='Rats')
@@ -78,4 +78,4 @@ def test_multival_return():
     assert details3['winner_combined_strength'] > details3['loser_combined_strength']
     assert details3['loser_strength'] > details3['winner_strength']
 
-    unload_scenario(site_name, scenario_name)
+    eject_scenario(site_name, scenario_name)
