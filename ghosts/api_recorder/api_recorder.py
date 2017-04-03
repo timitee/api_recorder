@@ -5,10 +5,14 @@ TODO: Make @api_automock decorator separate.
 """
 import collections
 import hashlib
+import logging
 from slugify import slugify
 from ghosts.api_recorder.api_controller import ApiRecorderController
 
 acr_remote = ApiRecorderController('pyghosts', 'root', False)
+
+logger = logging.getLogger(__name__)
+logging.error('check')
 
 def dlistyfy(this_list):
     """Return a list as a settable list of strings."""
@@ -197,8 +201,6 @@ def api_recorder(func):
 
         call_signature_key = _call_md5.hexdigest()
 
-        print(method_name_, ':', call_signature_key)
-
         package = {
             'recording': None,
             'call_sig': call_sig,
@@ -211,6 +213,8 @@ def api_recorder(func):
             'method_class': method_class_,
             'method_name': method_name_,
         }
+
+        logging.error(method_name_, call_signature_key, package)
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""
