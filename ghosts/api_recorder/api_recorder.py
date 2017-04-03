@@ -214,7 +214,7 @@ def api_recorder(func):
             'method_name': method_name_,
         }
 
-        logging.error(method_name_, call_signature_key, package)
+        logging.error('{} {}: {}'.format(method_name_, call_signature_key, pp.pprint(package)))
 
         if acr_remote.run_mode == ApiRecorderController.PLAYBACK:
             """PlayBack mode: try to get the last known value for module.class.func(*args**kwargs)."""

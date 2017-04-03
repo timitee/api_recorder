@@ -7,10 +7,6 @@ from ghosts.api_recorder.tests.recording_management import TheMC
 from ghosts.api_recorder.api_recorder import api_recorder
 from ghosts.api_recorder.api_controller import ApiRecorderController
 
-@api_recorder
-def addit(x, y):
-    return x + y
-
 
 mc = TheMC()
 arc = ApiRecorderController('', '')
@@ -19,6 +15,11 @@ mc.off()
 mc.mock()
 mc.rec()
 mc.mock()
+
+
+@api_recorder
+def addit(x, y):
+    return x + y
 
 
 def test_the_mc():
