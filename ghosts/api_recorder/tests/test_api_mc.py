@@ -53,7 +53,7 @@ def test_the_mc_sample():
     addit(3, 4)
 
     mocks_path = os.path.join(project_path(), 'automocks')
-    module_name = 'mock_{}__{}.py'.format(mc.master_name, mc.master_name)
+    module_name = 'mock_{}__{}.py'.format(mc.master_site, mc.master_name)
     mock_file = os.path.join(mocks_path, module_name)
 
     assert not os.path.exists(mock_file)

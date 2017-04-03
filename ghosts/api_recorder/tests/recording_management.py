@@ -7,43 +7,59 @@ class TheMC():
     master_site = 'pyghosts'
     master_name = 'root'
 
+    site = 'pyghosts'
+    scenario = 'root'
+
+    def __init__(self, site=None, scenario=None):
+        if site:
+            self.site = site
+        if scenario:
+            self.scenario = scenario
+
+    def load(self, site, scenario):
+        self.site = site
+        self.scenario = scenario
+
+    def master(self):
+        self.load(self.master_site, self.master_name)
+
     def rec(self):
-        start_recording_scenario(self.master_site, self.master_name)
+        start_recording_scenario(self.site, self.scenario)
     def heal(self):
-        pause_recording_scenario(self.master_site, self.master_name)
+        pause_recording_scenario(self.site, self.scenario)
     def pause(self):
-        pause_recording_scenario(self.master_site, self.master_name)
+        pause_recording_scenario(self.site, self.scenario)
     def unpause(self):
-        unpause_recording_scenario(self.master_site, self.master_name)
+        unpause_recording_scenario(self.site, self.scenario)
     def save(self):
-        end_and_save_scenario(self.master_site, self.master_name)
+        end_and_save_scenario(self.site, self.scenario)
 
     def play(self):
-        play_scenario(self.master_site, self.master_name)
+        play_scenario(self.site, self.scenario)
     def suspend(self):
-        suspend_playback_scenario(self.master_site, self.master_name)
+        suspend_playback_scenario(self.site, self.scenario)
     def resume(self):
-        resume_playback_scenario(self.master_site, self.master_name)
+        resume_playback_scenario(self.site, self.scenario)
     def eject(self):
-        eject_scenario(self.master_site, self.master_name)
+        eject_scenario(self.site, self.scenario)
 
     def mock(self):
-        start_mocking(self.master_site, self.master_name)
+        start_mocking(self.site, self.scenario)
     def kind(self):
-        stop_mocking(self.master_site, self.master_name)
+        stop_mocking(self.site, self.scenario)
 
     def sample(self, key):
-        arc = ApiRecorderController(self.master_site, self.master_name)
+        arc = ApiRecorderController(self.site, self.scenario)
         return arc.master_get_mock(key)
 
     def off(self):
         """Undestructive."""
-        arc = ApiRecorderController(self.master_site, self.master_name)
+        arc = ApiRecorderController(self.site, self.scenario)
         arc.recorder_off()
         arc.stop_mocking()
     def shutdown(self):
         """Destructive. Hard reboot."""
-        arc = ApiRecorderController(self.master_site, self.master_name)
+        arc = ApiRecorderController(self.site, self.scenario)
         arc.recorder_off()
         arc.stop_mocking()
         arc.acr.flushdb()
