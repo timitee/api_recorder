@@ -6,8 +6,11 @@ TODO: Make @api_automock decorator separate.
 import collections
 import hashlib
 import logging
+import pprint
 from slugify import slugify
 from ghosts.api_recorder.api_controller import ApiRecorderController
+
+pp = pprint.PrettyPrinter(indent=2)
 
 acr_remote = ApiRecorderController('pyghosts', 'root', False)
 
