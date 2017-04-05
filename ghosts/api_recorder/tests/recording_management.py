@@ -67,7 +67,6 @@ class TheMC():
         arc.acr_counter.flushdb()
 
 
-
 def start_recording_scenario(site_name, scenario_name, pretty_print=False):
     """Flush old recording for the scenario. Start a new recording session."""
     arc = ApiRecorderController(site_name, scenario_name, pretty_print)
@@ -95,6 +94,13 @@ def end_and_save_scenario(site_name, scenario_name, pretty_print=False):
     # if input('Good. {}:{} saved. Continue with next scenario? [*/n]'.format(site_name, scenario_name)) == 'n':
     #     return
     arc.acr.flushdb()
+
+def play_mocking(site_name, scenario_name):
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.acr.flushdb()
+    arc.play_scenario()
+    arc.start_playingback()
+    arc.start_mocking()
 
 def play_scenario(site_name, scenario_name, pretty_print=False):
     """Load a previously recorded data for this scenario. Start playback."""
