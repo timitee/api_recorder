@@ -129,7 +129,7 @@ class ApiRecorderController(object):
         self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_OFF)
 
     def build_mock_if_safe(self, key, package):
-        if self.mocks == self.MOCKING_ON:
+        if self.mocks == self.MOCKING_ON and package:
             self.build_mock(key, copy.deepcopy(package))
 
     def see_mock(self, key, package):
@@ -163,21 +163,21 @@ class ApiRecorderController(object):
 
     def build_mock(self, key, package):
         """Save a Mock object into the <mock_site_scenario_name>.py file. It will
-overwrite any Mocks it finds with "identical" signatures. These will almost
-certainly be the for the same call in the same recording sequence, say:
+        overwrite any Mocks it finds with "identical" signatures. These will almost
+        certainly be the for the same call in the same recording sequence, say:
 
-during recording:
-    callorder(callX1, call_A1, callX3)
+        during recording:
+            callorder(callX1, call_A1, callX3)
 
-during playback:
-    callorder(replay_A1, replayX1, replayX3)
+        during playback:
+            callorder(replay_A1, replayX1, replayX3)
 
-replayX1 will get callX1's data
-replayX3 will get callX3's data
+        replayX1 will get callX1's data
+        replayX3 will get callX3's data
 
-Flaw?: Call order during playback the same. Test will pass. I think that's
-right. The data is simply there to support the tests.
-"""
+        Flaw?: Call order during playback the same. Test will pass. I think that's
+        right. The data is simply there to support the tests.
+        """
 
         mock_def, method_name = self.see_mock(key, package)
 
@@ -201,8 +201,6 @@ right. The data is simply there to support the tests.
                 mock_file.write(mock_def)
 
         else:
-
-            print('here')
 
             with open(module_path, 'r') as mock_file:
                 mocks = mock_file.read()
@@ -249,6 +247,15 @@ right. The data is simply there to support the tests.
     def flush_scenario(self):
         """"""
         pass
+
+    def mock_scenario(self):
+
+        for scenario in self.acr.keys():
+            scenario_packages = self.acr.get(scenario)
+            scenario_packages = self.process_packages(scenario_packages)
+            for key, package in scenario_packages.items():
+                self.build_mock_if_safe(key, package)
+
 
     def play_scenario(self):
         """"""
@@ -329,7 +336,7 @@ right. The data is simply there to support the tests.
         recorded data from the saved package."""
 
         package = self.get_package(key)
-        
+
         self.build_mock_if_safe(key, package)
 
         recording = package.get('recording', None) if package else None

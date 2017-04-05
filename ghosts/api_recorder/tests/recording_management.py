@@ -135,3 +135,12 @@ def scenario_exists(site_name, scenario_name, pretty_print=False):
     """Check for recorded data for this scenario."""
     arc = ApiRecorderController(site_name, scenario_name, pretty_print)
     return arc.scenario_exists()
+
+
+
+def power_down():
+    """Check for recorded data for this scenario."""
+    arc = ApiRecorderController(site_name, scenario_name, pretty_print)
+    arc.recorder_off()
+    arc.stop_mocking()
+    arc.acr.flushdb()

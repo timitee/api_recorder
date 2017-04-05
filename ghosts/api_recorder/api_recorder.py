@@ -120,6 +120,7 @@ def api_recorder(func):
                 class_name_ = set_ident('class_name', arg.__class__.__name__)
                 class_class_ = set_ident('class_class', arg.__class__.__class__)
 
+
             else:
 
                 """Use any other parameter in the key."""
