@@ -329,6 +329,8 @@ right. The data is simply there to support the tests.
         recorded data from the saved package."""
 
         package = self.get_package(key)
+        
+        self.build_mock_if_safe(key, package)
 
         recording = package.get('recording', None) if package else None
 

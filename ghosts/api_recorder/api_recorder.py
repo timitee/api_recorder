@@ -62,19 +62,11 @@ def ddiction(this_dictionary, arg_name):
 def set_ident(val_type, val):
 
     ident = '{}_{}'.format(val_type, val)
-    ident = ident.replace('>', '')
-    ident = ident.replace('<', '')
-    ident = ident.replace(')', '')
-    ident = ident.replace('(', '')
-    ident = ident.replace('\,', '')
-    ident = ident.replace('\'', '')
-    ident = ident.replace('\"', '')
-    ident = ident.replace(' ', '_')
-    ident = ident.replace('.', '_')
+    ident = slugify(ident)
     ident = ident.replace('-', '_')
     ident = ident.replace('__', '_')
     ident = ident.replace('__', '_')
-    return str(ident) #[:80] # not too big - hashing... big as you like.
+    return str(ident)
 
 
 def api_recorder(func):
@@ -111,16 +103,13 @@ def api_recorder(func):
                 _vals = _vals.union(list_set)
                 """Keep in handy as val."""
 
-
             elif isinstance(arg, dict):
-
 
                 dict_set = ddiction(arg, 'dict')
                 clues = clues.union(dict_set)
 
                 _vals = _vals.union(dict_set)
                 """Keep in handy as val."""
-
 
             elif 'object at ' in str(arg):
                 """Important: Playback should return the same value for any

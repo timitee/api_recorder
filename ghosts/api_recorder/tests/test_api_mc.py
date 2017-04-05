@@ -16,10 +16,21 @@ mc.mock()
 mc.rec()
 mc.mock()
 
+site_name = 'pyghosts'
 
 @api_recorder
 def addit(x, y):
     return x + y
+
+
+def mock_file_init(scenario_name):
+    mocks_path = os.path.join(project_path(), 'automocks')
+    module_name = 'mock_{}__{}.py'.format(site_name, scenario_name)
+    mock_file = os.path.join(mocks_path, module_name)
+    if os.path.exists(mock_file):
+        os.remove(mock_file)
+    return mock_file
+
 
 
 def test_the_mc():
@@ -42,7 +53,6 @@ def test_the_mc():
     mc.shutdown()
 
 
-
 def test_the_mc_sample():
 
     mc = TheMC()
@@ -52,9 +62,7 @@ def test_the_mc_sample():
 
     addit(3, 4)
 
-    mocks_path = os.path.join(project_path(), 'automocks')
-    module_name = 'mock_{}__{}.py'.format(mc.master_site, mc.master_name)
-    mock_file = os.path.join(mocks_path, module_name)
+    mock_file = mock_file_init(mc.master_name)
 
     assert not os.path.exists(mock_file)
     """Has our mock file been created?"""
