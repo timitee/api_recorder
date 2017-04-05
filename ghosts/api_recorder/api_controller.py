@@ -146,7 +146,7 @@ class ApiRecorderController(object):
         )
         """And informative method name HASH appended for the Mock."""
 
-        if self.pretty_print:
+        if True:
             pp_recording = pp.pformat(recording)
             """Pretty printed Mock def."""
         else:

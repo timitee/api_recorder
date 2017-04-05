@@ -95,7 +95,7 @@ def end_and_save_scenario(site_name, scenario_name, pretty_print=False):
     #     return
     arc.acr.flushdb()
 
-def play_mocking(site_name, scenario_name):
+def play_mocking(site_name, scenario_name, pretty_print=False):
     arc = ApiRecorderController(site_name, scenario_name, pretty_print)
     arc.acr.flushdb()
     arc.play_scenario()
