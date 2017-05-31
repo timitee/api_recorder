@@ -1,6 +1,14 @@
 # -*- encoding: utf-8 -*-
+"""
+Usage:
+
+from ghosts.api_recorder.controllers import SimpleController
+g = SimpleController()
+g.off()
+"""
+
 from ghosts.api_recorder.api_controller import ApiRecorderController
-from ghosts.api_recorder.controllers import *
+
 
 
 class BaseController():
@@ -97,8 +105,14 @@ class TestController(BaseController):
 
 class SimpleController(TestController):
     """The Test controller simplified. By default: Stops and starts things on a
-    "root" scenario."""
+    "root" scenario.
 
+    Usage:
+
+from ghosts.api_recorder.controllers import SimpleController
+g = SimpleController()
+g.off()
+    """
     def dj(self, site, scenario):
         self.switch_recording_scenario()
 

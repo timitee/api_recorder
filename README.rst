@@ -11,7 +11,7 @@ There are currently 3 ghosts:
 
 - api_recorder: contains api_recorder, api_remote_controller and api_automock.
 - ioioio: contains pinpoint with useful os path tricks.
-- stringy: contains btweex to find strings between strings.
+- stringy: contains btwix to find strings between strings.
 
 
 Install
@@ -41,12 +41,12 @@ Usage
 
 ::
 
-  from pyghosts.ghosts.stringy.btweex import btweex
+  from pyghosts.ghosts.stringy.btwix import btwix
 
-  stweex = btweex('<p>I am btweex. Where are you?</p>', '<p>', '</p>')
-  print(stweex)
+  stwix = stwix('<p>I am btwix. Where are you?</p>', '<p>', '</p>')
+  print(stwix)
 
-  >> 'I am btweex. Where are you?'
+  >> 'I am btwix. Where are you?'
 
 Release
 =======

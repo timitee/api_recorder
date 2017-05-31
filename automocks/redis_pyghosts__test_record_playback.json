@@ -1,0 +1,6 @@
+{
+  "pyghosts__test_record_playback": {
+    "type": "string",
+    "value": "{'c91fa19030525b6f31382a3124d9ccb6': {'method_name': 'method_name_decorated_sub', 'module_path': 'module_path_ghosts_api_recorder_tests_scenario', 'call_incre': 1, 'class_class': 'class_class_class_type', 'recording': {'cls': 'ApiSubClassDecorated', 'mod': 'ghosts.api_recorder.tests.scenario', 'mtd': 'decorated_sub', 'val': 'ISeeYouGhost!'}, 'class_name': 'class_name_apisubclassdecorated', 'call_sig': 'c91fa19030525b6f31382a3124d9ccb6', 'vals': ['2valsset2', 'str_iseeyoughost'], 'method_class': 'method_class_function'}, 'ffcb1ed86e3c0bda42ec7ef5b74af6ec': {'method_name': 'method_name_decorated_super', 'module_path': 'module_path_ghosts_api_recorder_tests_scenario', 'call_incre': 1, 'class_class': 'class_class_class_type', 'recording': {'cls': 'ApiSuperClassDecorated', 'mod': 'ghosts.api_recorder.tests.scenario', 'mtd': 'decorated_super', 'val': 'ISeeYouGhost!'}, 'class_name': 'class_name_apisuperclassdecorated', 'call_sig': 'ffcb1ed86e3c0bda42ec7ef5b74af6ec', 'vals': ['2valsset2', 'str_iseeyoughost'], 'method_class': 'method_class_function'}}"
+  }
+}

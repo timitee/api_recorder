@@ -11,7 +11,7 @@ import redisdl
 
 from slugify import slugify
 from ghosts.ioioio.pinpoint import project_path
-from ghosts.stringy.btweex import btweex
+from ghosts.stringy.btwix import btwix
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -121,11 +121,11 @@ class ApiRecorderController(object):
         self.acr_settings.set(self.scene_key(self.APR_RUNMODE), self.PLAYBACK)
 
     def start_mocking(self):
-        """Turn the fake API On and test for PlayBack mode."""
+        """Turn mocking On."""
         self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_ON)
 
     def stop_mocking(self):
-        """Turn the fake API On and test for PlayBack mode."""
+        """Turn mocking off."""
         self.acr_settings.set(self.scene_key(self.APR_MOCKING), self.MOCKING_OFF)
 
     def build_mock_if_safe(self, key, package):
@@ -213,7 +213,7 @@ class ApiRecorderController(object):
             if method_name in mocks:
                 """Check for same method name. Replace is present."""
 
-                mock_exists = btweex(mocks, method_name, '# :endmock:', True)
+                mock_exists = btwix(mocks, method_name, '# :endmock:', True)
                 mocks.replace(mock_exists, mock_def)
 
             else:

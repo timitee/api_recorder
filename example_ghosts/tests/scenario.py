@@ -23,7 +23,7 @@ class BpiMarshall(object):
     def undecorated_m(self, val):
         return api_response(self.__module__, 'BpiMarshall', 'undecorated_m', val)
 
-@api_class_recorder(api_recorder)
+#@api_class_recorder(api_recorder)
 class ApiSuperClassDecorated(object):
 
     def decorated_super(self, val):
