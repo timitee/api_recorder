@@ -3,7 +3,7 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import project_path
-from ghosts.api_recorder.tests.recording_management import (
+from api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -18,7 +18,7 @@ from ghosts.api_recorder.tests.recording_management import (
     stop_mocking,
 )
 
-site_name = 'pyghosts'
+site_name = 'api_recorder'
 
 def mock_file_init(scenario_name):
 
@@ -40,8 +40,8 @@ def test_different_classes_mock_making():
 
     start_mocking(site_name, scenario_name)
 
-    """Use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.api_recorder.tests.scenario import (
+    """Use the ApiMarshall and BpiMarshall from api_recorder."""
+    from api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -81,8 +81,8 @@ def test_not_making_mocks():
 
     start_recording_scenario(site_name, scenario_name)
 
-    """Use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.api_recorder.tests.scenario import (
+    """Use the ApiMarshall and BpiMarshall from api_recorder."""
+    from api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -115,8 +115,8 @@ def test_save_recording_to_mocks():
 
     start_mocking(site_name, scenario_name)
 
-    """Use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.api_recorder.tests.scenario import ApiMarshall
+    """Use the ApiMarshall and BpiMarshall from api_recorder."""
+    from api_recorder.tests.scenario import ApiMarshall
 
     m = ApiMarshall()
     m.decorated_m('Test1')
@@ -154,8 +154,8 @@ def test_playback_mocking():
 
     stop_mocking(site_name, scenario_name)
 
-    """Use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.api_recorder.tests.scenario import ApiMarshall
+    """Use the ApiMarshall and BpiMarshall from api_recorder."""
+    from api_recorder.tests.scenario import ApiMarshall
 
     m = ApiMarshall()
     m.decorated_m('Test1')

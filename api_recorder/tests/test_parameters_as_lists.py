@@ -2,8 +2,8 @@
 import os
 import pytest
 
-from ghosts.api_recorder.api_recorder import api_recorder
-from ghosts.api_recorder.tests.recording_management import (
+from api_recorder.api_recorder import api_recorder
+from api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -15,13 +15,13 @@ from ghosts.api_recorder.tests.recording_management import (
     resume_playback_scenario,
     eject_scenario,
 )
-from ghosts.api_recorder.tests.scenario import (
+from api_recorder.tests.scenario import (
     ApiSuperClassDecorated,
     scenario_val,
     api_response,
 )
 
-site_name = 'pyghosts'
+site_name = 'api_recorder'
 
 
 @api_recorder

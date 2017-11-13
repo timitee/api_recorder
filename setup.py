@@ -19,24 +19,20 @@ def get_readme():
 
 
 setup(
-    name='pyghosts',
+    name='api_recorder',
     packages=[
-                'example_ghosts',
-                'example_ghosts.tests',
-                'ghosts',
-                'ghosts.api_recorder',
-                'ghosts.api_recorder.tests',
-                'ghosts.ioioio',
-                'ghosts.ioioio.tests',
-                'ghosts.stringy',
-                'ghosts.stringy.tests',
+                'example_api_recorder',
+                'example_api_recorder.tests',
+                'api_recorder',
+                'api_recorder.api_recorder',
+                'api_recorder.api_recorder.tests',
                 ],
     package_data={},
     version='0.0.1',
-    description='pyghosts',
+    description='api_recorder',
     author='Tim Bushell',
     author_email='tcbushell@gmail.com',
-    url='git@github.com:timitee/pyghosts.git',
+    url='git@github.com:timitee/api_recorder.git',
     classifiers=[
         'Development Status :: 1 - Planning',
         'Environment :: Console',

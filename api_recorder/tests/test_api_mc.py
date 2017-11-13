@@ -3,9 +3,9 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import project_path
-from ghosts.api_recorder.tests.recording_management import TheMC
-from ghosts.api_recorder.api_recorder import api_recorder
-from ghosts.api_recorder.api_controller import ApiRecorderController
+from api_recorder.tests.recording_management import TheMC
+from api_recorder.api_recorder import api_recorder
+from api_recorder.api_controller import ApiRecorderController
 
 
 mc = TheMC()
@@ -16,7 +16,7 @@ mc.mock()
 mc.rec()
 mc.mock()
 
-site_name = 'pyghosts'
+site_name = 'api_recorder'
 
 @api_recorder
 def addit(x, y):

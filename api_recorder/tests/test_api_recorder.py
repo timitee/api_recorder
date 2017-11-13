@@ -3,7 +3,7 @@ import os
 import pytest
 
 from ghosts.ioioio.pinpoint import projectfile_folder
-from ghosts.api_recorder.tests.recording_management import (
+from api_recorder.tests.recording_management import (
     start_recording_scenario,
     pause_recording_scenario,
     start_healing_scenario,
@@ -16,7 +16,7 @@ from ghosts.api_recorder.tests.recording_management import (
     eject_scenario,
 )
 
-site_name = 'pyghosts'
+site_name = 'api_recorder'
 
 
 def test_service_when_off():
@@ -24,7 +24,7 @@ def test_service_when_off():
     scenario_name = 'test_service_when_off'
     end_and_save_scenario(site_name, scenario_name)
 
-    from ghosts.api_recorder.tests.scenario import (
+    from api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -68,7 +68,7 @@ def test_start_recording():
     scenario_name = 'test_start_recording'
     start_recording_scenario(site_name, scenario_name)
 
-    from ghosts.api_recorder.tests.scenario import (
+    from api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -96,7 +96,7 @@ def test_start_playingback_on():
     scenario_name = 'test_start_playingback_on'
     start_recording_scenario(site_name, scenario_name)
 
-    from ghosts.api_recorder.tests.scenario import (
+    from api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -125,8 +125,8 @@ def test_uniqueness_of_very_similar_classes():
     scenario_name = 'test_uniqueness_of_very_similar_classes'
     start_recording_scenario(site_name, scenario_name)
 
-    """First we use the ApiMarshall and BpiMarshall from ghosts."""
-    from ghosts.api_recorder.tests.scenario import (
+    """First we use the ApiMarshall and BpiMarshall from api_recorder."""
+    from api_recorder.tests.scenario import (
                                                     ApiMarshall,
                                                     BpiMarshall,
                                                     api_response,
@@ -151,9 +151,9 @@ def test_uniqueness_of_very_similar_classes():
         """This is the first time we've tested playing back a value."""
 
 
-    from example_ghosts.tests.scenario import ApiMarshall, BpiMarshall
+    from example_api_recorder.tests.scenario import ApiMarshall, BpiMarshall
     """Now we switch to ApiMarshall and BpiMarshall from a module in the
-    example_ghosts project app."""
+    example_api_recorder project app."""
 
     for c in [ApiMarshall, BpiMarshall]:
         m = c()

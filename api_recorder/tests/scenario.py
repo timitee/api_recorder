@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from ghosts.api_recorder.api_recorder import api_recorder, api_class_recorder
+from api_recorder.api_recorder import api_recorder, api_class_recorder
 
 scenario_val = 'ISeeYouGhost!'
 

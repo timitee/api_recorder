@@ -1,6 +1,6 @@
 {
-  "pyghosts__test_recall_from_different_order": {
+  "api_recorder__test_recall_from_different_order": {
     "type": "string",
-    "value": "{'064f65fa42566f6cb067715e7f2246c1': {'method_name': 'method_name_strongest_animal', 'module_path': 'module_path_ghosts_api_recorder_tests_test_parameters_as_lists', 'call_incre': 1, 'class_class': '', 'recording': ('Pigs', {'winner': 'Pigs', 'winner_strength': 25, 'report': {'Rats': 4, 'Dogs': 16, 'Mice': 1, 'Cats': 9, 'Pigs': 25}}), 'class_name': '', 'call_sig': '064f65fa42566f6cb067715e7f2246c1', 'vals': ['2valsset2', 'dlistyfy_list_cats_dogs_mice_pigs_rats'], 'method_class': 'method_class_function'}}"
+    "value": "{'064f65fa42566f6cb067715e7f2246c1': {'method_name': 'method_name_strongest_animal', 'module_path': 'module_path_api_recorder_api_recorder_tests_test_parameters_as_lists', 'call_incre': 1, 'class_class': '', 'recording': ('Pigs', {'winner': 'Pigs', 'winner_strength': 25, 'report': {'Rats': 4, 'Dogs': 16, 'Mice': 1, 'Cats': 9, 'Pigs': 25}}), 'class_name': '', 'call_sig': '064f65fa42566f6cb067715e7f2246c1', 'vals': ['2valsset2', 'dlistyfy_list_cats_dogs_mice_pigs_rats'], 'method_class': 'method_class_function'}}"
   }
 }

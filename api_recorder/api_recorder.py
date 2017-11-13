@@ -7,11 +7,11 @@ import collections
 import hashlib
 import pprint
 from slugify import slugify
-from ghosts.api_recorder.api_controller import ApiRecorderController
+from api_recorder.api_controller import ApiRecorderController
 
 pp = pprint.PrettyPrinter(indent=2)
 
-acr_remote = ApiRecorderController('pyghosts', 'root', False)
+acr_remote = ApiRecorderController('api_recorder', 'root', False)
 
 def dlistyfy(this_list):
     """Return a list as a settable list of strings."""
@@ -236,7 +236,7 @@ def api_class_recorder(decorator):
 
     ::
 
-        from ghosts.api_recorder.api_recorder import api_recorder, api_class_recorder
+        from api_recorder.api_recorder import api_recorder, api_class_recorder
 
         @api_class_offline(api_recorder)
         class ApiMarshall(object):

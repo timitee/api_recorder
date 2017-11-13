@@ -1,6 +1,6 @@
 {
-  "pyghosts__test_dictionary_list_input": {
+  "api_recorder__test_dictionary_list_input": {
     "type": "string",
-    "value": "{'440e7d2db56372d22d15594626a8ceb2': {'method_name': 'method_name_dictionary_list_input', 'module_path': 'module_path_ghosts_api_recorder_tests_test_complex_input', 'call_incre': 1, 'class_class': '', 'recording': 1, 'class_name': '', 'call_sig': '440e7d2db56372d22d15594626a8ceb2', 'vals': ['2valsset2', 'ddiction', 'int_0'], 'method_class': 'method_class_function'}}"
+    "value": "{'440e7d2db56372d22d15594626a8ceb2': {'method_name': 'method_name_dictionary_list_input', 'module_path': 'module_path_api_recorder_api_recorder_tests_test_complex_input', 'call_incre': 1, 'class_class': '', 'recording': 1, 'class_name': '', 'call_sig': '440e7d2db56372d22d15594626a8ceb2', 'vals': ['2valsset2', 'ddiction', 'int_0'], 'method_class': 'method_class_function'}}"
   }
 }

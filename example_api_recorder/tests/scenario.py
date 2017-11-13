@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-from ghosts.api_recorder.api_recorder import api_recorder, api_class_recorder
-from ghosts.api_recorder.tests.scenario import api_response
+from api_recorder.api_recorder import api_recorder, api_class_recorder
+from api_recorder.tests.scenario import api_response
 
 class ApiMarshall(object):
 

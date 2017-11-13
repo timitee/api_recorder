@@ -3,4 +3,4 @@ include README
 include requirements/*.txt
 include *.txt
 
-prune example_ghosts/
+prune example_api_recorder/

@@ -1,17 +1,11 @@
-pyghosts
+api_recorder
 ****
 
-In remembrance of "12ghosts" (a handy utility suite of Windows shortcuts - which
-I loved), pyghost similarly collects my python shortcuts to common tasks.
-
-pyghosts is both a convenient collection of useful functions which aren't worth
-their own repo. pyghosts is a working notebook of python techniques.
-
-There are currently 3 ghosts:
+Function decorator to record and playback json/other api calls. Useful for
+preparing mocks from live data for testing, or for monitoring the activity
+of a 3rd party api during developing.
 
 - api_recorder: contains api_recorder, api_remote_controller and api_automock.
-- ioioio: contains pinpoint with useful os path tricks.
-- stringy: contains btwix to find strings between strings.
 
 
 Install
@@ -22,8 +16,8 @@ Virtual Environment
 
 ::
 
-  virtualenv --python=python3.5 venv-pyghosts
-  source venv-pyghosts/bin/activate
+  virtualenv --python=python3.5 venv-api_recorder
+  source venv-api_recorder/bin/activate
 
   pip install -r requirements/local.txt
 
@@ -39,14 +33,8 @@ Testing
 Usage
 =====
 
-::
+See docs
 
-  from pyghosts.ghosts.stringy.btwix import btwix
-
-  stwix = stwix('<p>I am btwix. Where are you?</p>', '<p>', '</p>')
-  print(stwix)
-
-  >> 'I am btwix. Where are you?'
 
 Release
 =======

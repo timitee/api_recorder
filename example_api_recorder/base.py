@@ -4,8 +4,6 @@ Settings for app project.
 """
 
 INSTALLED_APPS = (
-    'example_ghosts',
+    'example_api_recorder',
     'fake_api',
 )
-
-ghosts_api_recorder_PLAYBACK = False

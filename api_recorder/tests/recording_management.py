@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
-from ghosts.api_recorder.api_controller import ApiRecorderController
+from api_recorder.api_controller import ApiRecorderController
 
 class TheMC():
     """The Master control."""
 
-    master_site = 'pyghosts'
+    master_site = 'api_recorder'
     master_name = 'root'
 
-    site = 'pyghosts'
+    site = 'api_recorder'
     scenario = 'root'
 
     def __init__(self, site=None, scenario=None):

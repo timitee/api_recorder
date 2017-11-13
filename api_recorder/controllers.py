@@ -2,21 +2,21 @@
 """
 Usage:
 
-from ghosts.api_recorder.controllers import SimpleController
+from api_recorder.controllers import SimpleController
 g = SimpleController()
 g.off()
 """
 
-from ghosts.api_recorder.api_controller import ApiRecorderController
+from api_recorder.api_controller import ApiRecorderController
 
 
 
 class BaseController():
 
-    _master_site = 'pyghosts'
+    _master_site = 'api_recorder'
     _master_scenario = 'root'
 
-    _site = 'pyghosts'
+    _site = 'api_recorder'
     _scenario = 'anonymous'
 
     def __init__(self, site=None, scenario=None):
@@ -109,7 +109,7 @@ class SimpleController(TestController):
 
     Usage:
 
-from ghosts.api_recorder.controllers import SimpleController
+from api_recorder.controllers import SimpleController
 g = SimpleController()
 g.off()
     """

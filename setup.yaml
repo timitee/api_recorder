@@ -1,4 +1,3 @@
-description: pyghosts
-name: pyghosts
-version: 0.0.3
-# need 0.0.12 for 12 ghosts!
+description: api_recorder
+name: api_recorder
+version: 0.0.1

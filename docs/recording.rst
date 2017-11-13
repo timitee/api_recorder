@@ -32,7 +32,7 @@ until the method is released from playback.
 ::
 
 
-  from ghosts.api_recorder.tests.recording_management import (
+  from api_recorder.tests.recording_management import (
       # recording
       start_recording_scenario,
       pause_recording_scenario,
@@ -88,7 +88,7 @@ until the method is released from playback.
 
 ::
 
-  from ghosts.api_recorder.tests.recording_management import (
+  from api_recorder.tests.recording_management import (
       start_recording_scenario,
       end_and_save_scenario,
       scenario_exists,
@@ -217,7 +217,7 @@ Checklist:
 
 ::
 
-  from ghosts.api_recorder.tests.recording_management import (
+  from api_recorder.tests.recording_management import (
       play_scenario,
       eject_scenario,
   )
@@ -245,7 +245,7 @@ So just change "Recording:" to "Testing", run the same command, then test it.
 ::
 
   import pytest #etc
-  from ghosts.api_recorder.tests.recording_management import (
+  from api_recorder.tests.recording_management import (
       play_scenario,
       eject_scenario,
   )
